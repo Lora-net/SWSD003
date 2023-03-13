@@ -1,0 +1,44 @@
+# Apps common Radio Configuration
+
+Several parameters can be updated in `./apps_configuration.h` header file:
+
+| Constant                | Comments                                                                                                   | Possible Values                                            | Default values                                   |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- | ------------------------------------------------ |
+| `PACKET_TYPE`           | Packet type, will be LoRa or GFSK                                                                          | Any value from the enum `sx126x_pkt_type_t`                | `SX126X_PKT_TYPE_LORA`                           |
+| `RF_FREQ_IN_HZ`         | Frequency on which packets will be sent or received                                                        |  Depends on shield capabilities                            | 490000000                                        |
+| `TX_OUTPUT_POWER_DBM`   | Power level of packets sent                                                                                | [-17,22]                                                   | 14                                               |
+| `FALLBACK_MODE`         | Fallback mode setting                                                                                      | Any value from the enum `sx126x_fallback_modes_t`          | `SX126X_FALLBACK_STDBY_RC`                       |
+| `ENABLE_RX_BOOST_MODE`  | RX boost mode setting                                                                                      | true/false                                                 | false                                            |
+| `PAYLOAD_LENGTH`        | Packet payload length of both LoRa and GFSK modem                                                          | [0-255]                                                    | 7                                                |
+| `LORA_BANDWIDTH`        | Bandwidth of LoRa packets                                                                                  | Any value from the enum `sx126x_lora_bw_t`                 | `SX126X_LORA_BW_125`                             |
+| `LORA_SPREADING_FACTOR` | Spreading factor of LoRa packets                                                                           | Any value from the enum  `sx126x_lora_sf_t`                | `SX126X_LORA_SF7`                                |
+| `LORA_CODING_RATE`      | Code rate of LoRa packets                                                                                  | Any value from the enum `sx126x_lora_cr_t`                 | `SX126X_LORA_CR_4_5`                             |
+| `LORA_PREAMBLE_LENGTH`  | Preamble length in LoRa packets                                                                            | [10-65535]                                                 | 8                                                |
+| `LORA_PKT_LEN_MODE`     | Header type, explicit (default) or implict header                                                          | Any value from the enum `sx126x_lora_pkt_len_modes_t`      | `SX126X_LORA_PKT_EXPLICIT`                       |
+| `LORA_IQ`               | I and Q inverted or not                                                                                    | true/false                                                 | false                                            |
+| `LORA_CRC`              | CRC on or off                                                                                              | true/false                                                 | false                                            |
+| `LORA_SYNCWORD`         | Syncword used of LoRa packets in Hz                                                                        | `LORA_SYNCWORD_PRIVATE_NTW` or `LORA_SYNCWORD_PUBLIC_NTW`  | `LORA_SYNCWORD_PRIVATE_NTW`                      |
+| `FSK_FDEV`              | Frequency deviation for GFSK modulation in bps                                                             |                                                            | 25e3                                             |
+| `FSK_BITRATE`           | BitRate for GFSK packets                                                                                   |                                                            | 50e3                                             |
+| `FSK_BANDWIDTH`         | Bandwidth for GFSK packets                                                                                 | Any value from the enum `sx126x_gfsk_bw_t`                 | `SX126X_GFSK_BW_117300`                          |
+| `FSK_PULSE_SHAPE`       | Defines the filtering applied to GFSK packets                                                              | Any value from the enum `sx126x_gfsk_pulse_shape_t`        | `SX126X_GFSK_PULSE_SHAPE_OFF`                    |
+| `FSK_PREAMBLE_LENGTH`   | Length of preamble in GFSK packets in bits                                                                 | [0x0001-0xFFFF]                                            | 32                                               |
+| `FSK_PREAMBLE_DETECTOR` | Length of preamble detector of GFSK packets                                                                | Any value from the enum  `sx126x_gfsk_preamble_detector_t` | `SX126X_GFSK_PREAMBLE_DETECTOR_MIN_16BITS`       |
+| `FSK_SYNCWORD_LENGTH`   | Syncword length for GFSK packets in bits                                                                   | [0-64]                                                     | 40                                               |
+| `FSK_ADDRESS_FILTERING` | Option for address filtering                                                                               | Any value from the enum `sx126x_gfsk_address_filtering_t`  | `SX126X_GFSK_ADDRESS_FILTERING_DISABLE`          |
+| `FSK_HEADER_TYPE`       | GFSK packet type, fixed payload length or variable                                                         | Any value from the enum  `sx126x_gfsk_pkt_len_modes_t`     | `SX126X_GFSK_PKT_VAR_LEN`                        |
+| `FSK_CRC_TYPE`          | Option for GFSK packet CRC                                                                                 | Any value from the enum `sx126x_gfsk_crc_types_t`          | `SX126X_GFSK_CRC_1_BYTE_INV`                     |
+| `FSK_DC_FREE`           | Option to enable whitening on GFSK packets                                                                 | Any value from the enum `sx126x_gfsk_dc_free_t`            | `SX126X_GFSK_DC_FREE_OFF`                        |
+| `gfsk_sync_word`        | Syncword for GFSK packets                                                                                  | Any 8 bytes table                                          | {0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF} |
+| `FSK_WHITENING_SEED`    | Whitening seed for GFSK packets, needs `FSK_DC_FREE` enabled to be effective                               | Any `uint16_t`                                             | 0x0123                                           |
+| `FSK_CRC_SEED`          | CRC seed for GFSK packets, needs `FSK_CRC_TYPE` to be different from `SX126X_GFSK_CRC_OFF`                 | Any `uint32_t`                                             | 0x01234567                                       |
+| `FSK_CRC_POLYNOMIAL`    | CRC polynomial for GFSK packets, needs `FSK_CRC_TYPE` to be different from `SX126X_GFSK_CRC_OFF`           | Any `uint32_t`                                             | 0x01234567                                       |
+| `FSK_NODE_ADDRESS`      | Node address for GFSK packets filtering, needs `FSK_ADDRESS_FILTERING` to set to corresponding mode        | Any `uint8_t`                                              | 0x05                                             |
+| `FSK_BROADCAST_ADDRESS` | Broadcast address for GFSK packets filtering, , needs `FSK_ADDRESS_FILTERING` to set to corresponding mode | Any `uint8_t`                                              | 0xAB                                             |
+
+When compiling with arm-none-eabi-gcc toolchain, all these constant are configurable through command line with the EXTRAFLAGS.
+See main [README](../../README.md).
+
+| Constant           | Comments                                                | Possible Values | Default |
+| ------------------ | ------------------------------------------------------- | --------------- | ------- |
+| `CUSTOM_XTAL_TRIM` | Enable the custom crystal foot trimming capacitor value | (yes / no)      | no      |

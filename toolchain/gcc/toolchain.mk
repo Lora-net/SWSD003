@@ -55,7 +55,7 @@ BIN = $(CP) -O binary -S
 # compile gcc flags
 ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
 
-CFLAGS = $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections -std=c11
+CFLAGS = $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections -std=c17
 
 ifeq ($(DEBUG), 1)
 CFLAGS += -g -gdwarf-2
@@ -64,6 +64,10 @@ endif
 # Generate dependency information
 CFLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
 
+# Add extra flags from command line to configure constants
+EXTRAFLAGS ?=
+CFLAGS += $(EXTRAFLAGS)
+
 #######################################
 # LDFLAGS
 #######################################
@@ -71,6 +75,6 @@ CFLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
 # libraries
 LIBS = -lc -lm -lnosys 
 LIBDIR = 
-LDFLAGS = $(MCU) --specs=nosys.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(APP).map,--cref -Wl,--gc-sections
+LDFLAGS = $(MCU) --specs=nosys.specs  --specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(APP).map,--cref -Wl,--gc-sections
 
 # *** EOF ***
