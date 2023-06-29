@@ -63,6 +63,8 @@
 #include "smtc_shield_lr1121mb1dis.h"
 #include "smtc_shield_lr1121mb1gis.h"
 
+#include "smtc_dbpsk.h"
+
 /*
  * -----------------------------------------------------------------------------
  * --- PRIVATE MACROS-----------------------------------------------------------
@@ -135,6 +137,18 @@ static const lr11xx_radio_pkt_params_gfsk_t gfsk_pkt_params = {
     .pld_len_in_bytes      = PAYLOAD_LENGTH,
     .crc_type              = FSK_CRC_TYPE,
     .dc_free               = FSK_DC_FREE,
+};
+
+static const lr11xx_radio_mod_params_bpsk_t bpsk_mod_params = {
+    .br_in_bps   = BPSK_BITRATE_IN_BPS,
+    .pulse_shape = LR11XX_RADIO_DBPSK_PULSE_SHAPE,
+};
+
+static lr11xx_radio_pkt_params_bpsk_t bpsk_pkt_params = {
+    .pld_len_in_bytes = 0,  // Will be initialized in radio init
+    .ramp_up_delay    = 0,
+    .ramp_down_delay  = 0,
+    .pld_len_in_bits  = 0,  // Will be initialized in radio init
 };
 
 /*
@@ -217,6 +231,7 @@ void on_fsk_len_error( void ) __attribute__( ( weak ) );
 void on_rx_crc_error( void ) __attribute__( ( weak ) );
 void on_cad_done_undetected( void ) __attribute__( ( weak ) );
 void on_cad_done_detected( void ) __attribute__( ( weak ) );
+void on_lora_rx_timestamp( void ) __attribute__( ( weak ) );
 void on_wifi_scan_done( void ) __attribute__( ( weak ) );
 void on_gnss_scan_done( void ) __attribute__( ( weak ) );
 
@@ -354,6 +369,23 @@ void apps_common_lr11xx_print_version( const lr11xx_system_version_t* version )
     HAL_DBG_TRACE_INFO( "  - Firmware = 0x%04X\n", version->fw );
     HAL_DBG_TRACE_INFO( "  - Hardware = 0x%02X\n", version->hw );
     HAL_DBG_TRACE_INFO( "  - Type     = 0x%02X (0x01 for LR1110, 0x02 for LR1120, 0x03 for LR1121)\n", version->type );
+
+    if( ( version->type == LR11XX_SYSTEM_VERSION_TYPE_LR1110 ) && ( version->fw != LR1110_LATEST_FW_VERSION ) )
+    {
+        HAL_DBG_TRACE_WARNING( "LR1110 is on version 0x%02x, but latest firmware version is 0x%02X\n",
+                               version->fw, LR1110_LATEST_FW_VERSION );
+    }
+    if( ( version->type == LR11XX_SYSTEM_VERSION_TYPE_LR1120 ) && ( version->fw != LR1120_LATEST_FW_VERSION ) )
+    {
+        HAL_DBG_TRACE_WARNING( "LR1120 doesn't use latest firmware version which is 0x%02X\n",
+                               LR1120_LATEST_FW_VERSION );
+    }
+    if( ( version->type == LR11XX_SYSTEM_VERSION_TYPE_LR1121 ) && ( version->fw != LR1121_LATEST_FW_VERSION ) )
+    {
+        HAL_DBG_TRACE_WARNING( "LR1121 doesn't use latest firmware version which is 0x%02X\n",
+                               LR1121_LATEST_FW_VERSION );
+    }
+
     HAL_DBG_TRACE_PRINTF( "\n" );
 }
 
@@ -420,6 +452,79 @@ void apps_common_lr11xx_radio_init( const void* context )
             ASSERT_LR11XX_RC( lr11xx_radio_set_pkt_address( context, FSK_NODE_ADDRESS, FSK_BROADCAST_ADDRESS ) );
         }
     }
+    else if( PACKET_TYPE == LR11XX_RADIO_PKT_TYPE_BPSK )
+    {
+        ASSERT_LR11XX_RC( lr11xx_radio_set_bpsk_mod_params( context, &bpsk_mod_params ) );
+
+        bpsk_pkt_params.pld_len_in_bytes = smtc_dbpsk_get_pld_len_in_bytes( PAYLOAD_LENGTH << 3 );
+        bpsk_pkt_params.pld_len_in_bits  = smtc_dbpsk_get_pld_len_in_bits( PAYLOAD_LENGTH << 3 );
+
+        if( BPSK_BITRATE_IN_BPS == 100 )
+        {
+            bpsk_pkt_params.ramp_up_delay   = LR11XX_RADIO_SIGFOX_DBPSK_RAMP_UP_TIME_100_BPS;
+            bpsk_pkt_params.ramp_down_delay = LR11XX_RADIO_SIGFOX_DBPSK_RAMP_DOWN_TIME_100_BPS;
+        }
+        else if( BPSK_BITRATE_IN_BPS == 600 )
+        {
+            bpsk_pkt_params.ramp_up_delay   = LR11XX_RADIO_SIGFOX_DBPSK_RAMP_UP_TIME_600_BPS;
+            bpsk_pkt_params.ramp_down_delay = LR11XX_RADIO_SIGFOX_DBPSK_RAMP_DOWN_TIME_600_BPS;
+        }
+        else
+        {
+            bpsk_pkt_params.ramp_up_delay   = LR11XX_RADIO_SIGFOX_DBPSK_RAMP_UP_TIME_DEFAULT;
+            bpsk_pkt_params.ramp_down_delay = LR11XX_RADIO_SIGFOX_DBPSK_RAMP_DOWN_TIME_DEFAULT;
+        }
+
+        ASSERT_LR11XX_RC( lr11xx_radio_set_bpsk_pkt_params( context, &bpsk_pkt_params ) );
+    }
+}
+
+void apps_common_lr11xx_radio_dbpsk_init( const void* context, const uint8_t payload_len )
+{
+    const smtc_shield_lr11xx_pa_pwr_cfg_t* pa_pwr_cfg =
+        smtc_shield_lr11xx_get_pa_pwr_cfg( &shield, SIGFOX_UPLINK_RF_FREQ_IN_HZ, SIGFOX_TX_OUTPUT_POWER_DBM );
+
+    if( pa_pwr_cfg == NULL )
+    {
+        HAL_DBG_TRACE_ERROR( "Invalid target frequency or power level\n" );
+        while( true )
+        {
+        }
+    }
+
+    HAL_DBG_TRACE_INFO( "Sigfox parameters:\n" );
+    HAL_DBG_TRACE_INFO( "   Packet type   = %s\n", lr11xx_radio_pkt_type_to_str( LR11XX_RADIO_PKT_TYPE_BPSK ) );
+    HAL_DBG_TRACE_INFO( "   RF frequency  = %u Hz\n", SIGFOX_UPLINK_RF_FREQ_IN_HZ );
+    HAL_DBG_TRACE_INFO( "   Output power  = %i dBm\n", SIGFOX_TX_OUTPUT_POWER_DBM );
+
+    ASSERT_LR11XX_RC( lr11xx_radio_set_pkt_type( context, LR11XX_RADIO_PKT_TYPE_BPSK ) );
+    ASSERT_LR11XX_RC( lr11xx_radio_set_rf_freq( context, SIGFOX_UPLINK_RF_FREQ_IN_HZ ) );
+    ASSERT_LR11XX_RC( lr11xx_radio_set_rssi_calibration(
+        context, smtc_shield_lr11xx_get_rssi_calibration_table( &shield, SIGFOX_UPLINK_RF_FREQ_IN_HZ ) ) );
+    ASSERT_LR11XX_RC( lr11xx_radio_set_pa_cfg( context, &( pa_pwr_cfg->pa_config ) ) );
+
+    ASSERT_LR11XX_RC( lr11xx_radio_set_bpsk_mod_params( context, &bpsk_mod_params ) );
+
+    bpsk_pkt_params.pld_len_in_bytes = smtc_dbpsk_get_pld_len_in_bytes( payload_len << 3 );
+    bpsk_pkt_params.pld_len_in_bits  = smtc_dbpsk_get_pld_len_in_bits( payload_len << 3 );
+
+    if( BPSK_BITRATE_IN_BPS == 100 )
+    {
+        bpsk_pkt_params.ramp_up_delay   = LR11XX_RADIO_SIGFOX_DBPSK_RAMP_UP_TIME_100_BPS;
+        bpsk_pkt_params.ramp_down_delay = LR11XX_RADIO_SIGFOX_DBPSK_RAMP_DOWN_TIME_100_BPS;
+    }
+    else if( BPSK_BITRATE_IN_BPS == 600 )
+    {
+        bpsk_pkt_params.ramp_up_delay   = LR11XX_RADIO_SIGFOX_DBPSK_RAMP_UP_TIME_600_BPS;
+        bpsk_pkt_params.ramp_down_delay = LR11XX_RADIO_SIGFOX_DBPSK_RAMP_DOWN_TIME_600_BPS;
+    }
+    else
+    {
+        bpsk_pkt_params.ramp_up_delay   = LR11XX_RADIO_SIGFOX_DBPSK_RAMP_UP_TIME_DEFAULT;
+        bpsk_pkt_params.ramp_down_delay = LR11XX_RADIO_SIGFOX_DBPSK_RAMP_DOWN_TIME_DEFAULT;
+    }
+
+    ASSERT_LR11XX_RC( lr11xx_radio_set_bpsk_pkt_params( context, &bpsk_pkt_params ) );
 }
 
 void apps_common_lr11xx_receive( const void* context, uint8_t* buffer, uint8_t buffer_length, uint8_t* size )
@@ -534,6 +639,12 @@ void apps_common_lr11xx_irq_process( const void* context, lr11xx_system_irq_mask
         {
             HAL_DBG_TRACE_WARNING( "Rx timeout\n" );
             on_rx_timeout( );
+        }
+
+        if( ( irq_regs & LR11XX_SYSTEM_IRQ_LORA_RX_TIMESTAMP ) == LR11XX_SYSTEM_IRQ_LORA_RX_TIMESTAMP )
+        {
+            HAL_DBG_TRACE_INFO( "LoRa Rx timestamp\n" );
+            on_lora_rx_timestamp( );
         }
 
         if( ( irq_regs & LR11XX_SYSTEM_IRQ_WIFI_SCAN_DONE ) == LR11XX_SYSTEM_IRQ_WIFI_SCAN_DONE )
@@ -767,6 +878,10 @@ void on_cad_done_undetected( void )
     HAL_DBG_TRACE_INFO( "No IRQ routine defined\n" );
 }
 void on_cad_done_detected( void )
+{
+    HAL_DBG_TRACE_INFO( "No IRQ routine defined\n" );
+}
+void on_lora_rx_timestamp( void )
 {
     HAL_DBG_TRACE_INFO( "No IRQ routine defined\n" );
 }

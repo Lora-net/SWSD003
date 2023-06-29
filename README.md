@@ -53,10 +53,10 @@ The output files of the build process are stored in the `build` folder with firm
 
 Here are the parameters available at compile time:
 
-| Parameter    | Description                              | Default value |
-| ------------ | ---------------------------------------- | ------------- |
-| TARGET_BOARD | Board for which the example is compiled  | NUCLEO_L476RG |
-| RADIO_SHIELD | Shield for which the example is compiled | **lr11xx**: LR1120MB1DIS, **sx126x**: SX1262MB1CAS  |
+| Parameter    | Description                              | Default value                                      |
+| ------------ | ---------------------------------------- | -------------------------------------------------- |
+| TARGET_BOARD | Board for which the example is compiled  | NUCLEO_L476RG                                      |
+| RADIO_SHIELD | Shield for which the example is compiled | **lr11xx**: LR1120MB1DIS, **sx126x**: SX1262MB1CAS |
 
 For instance, to build the project `per` with LR1110MB1GJS shield simply run make as follows
 

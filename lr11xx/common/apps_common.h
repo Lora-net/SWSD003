@@ -64,6 +64,10 @@ extern "C" {
  * --- PUBLIC CONSTANTS --------------------------------------------------------
  */
 
+#define LR1110_LATEST_FW_VERSION 0x0308
+#define LR1120_LATEST_FW_VERSION 0x0102
+#define LR1121_LATEST_FW_VERSION 0x0102
+
 /*
  * -----------------------------------------------------------------------------
  * --- PUBLIC TYPES ------------------------------------------------------------
@@ -102,6 +106,14 @@ void apps_common_lr11xx_system_init( const lr11xx_hal_context_t* context );
  * @param [in] context  Pointer to the radio context
  */
 void apps_common_lr11xx_radio_init( const void* context );
+
+/*!
+ * @brief Initialize the radio configuration of the transceiver for dbpsk only
+ *
+ * @param [in] context  Pointer to the radio context
+ * @param [in] context  Length of the payload
+ */
+void apps_common_lr11xx_radio_dbpsk_init( const void* context, const uint8_t payload_len );
 
 /**
  * @brief Fetch the version from the LR11xx and print it on the log interface

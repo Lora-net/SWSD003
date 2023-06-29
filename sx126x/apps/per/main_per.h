@@ -1,7 +1,7 @@
 /*!
  * @file      main_per.h
  *
- * @brief     Packet Error Rate (PER) example for SX126 chip
+ * @brief     Packet Error Rate (PER) example for SX126x chip
  *
  * The Clear BSD License
  * Copyright Semtech Corporation 2022. All rights reserved.

@@ -30,6 +30,7 @@ TARGET_BOARD ?= NUCLEO_L476RG
 RADIO_SHIELD ?= LR1110MB1DIS
 
 C_DEFS += -DLR11XX_DISABLE_WARNINGS
+C_DEFS += -DLR11XX_DISABLE_HIGH_ACP_WORKAROUND
 
 ifeq ($(RADIO_SHIELD), LR1110MB1DIS)
 C_DEFS += -DLR1110MB1DIS
@@ -127,3 +128,4 @@ $(TOP_DIR)/lr11xx/lr11xx_driver/src/lr11xx_driver_version.c \
 
 C_INCLUDES +=  \
 -I$(TOP_DIR)/lr11xx/lr11xx_driver/src \
+-I$(TOP_DIR)/libs/smtc_dbpsk_driver/src/ \

@@ -600,6 +600,11 @@ const char* lr11xx_radio_pkt_type_to_str( const lr11xx_radio_pkt_type_t value )
         return ( const char* ) "LR11XX_RADIO_PKT_TYPE_LORA";
     }
 
+    case LR11XX_RADIO_PKT_TYPE_BPSK:
+    {
+        return ( const char* ) "LR11XX_RADIO_PKT_TYPE_BPSK";
+    }
+
     default:
     {
         return ( const char* ) "Unknown";

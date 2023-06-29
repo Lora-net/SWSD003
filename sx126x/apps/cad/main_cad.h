@@ -1,7 +1,7 @@
 /*!
  * @file      main_cad.h
  *
- * @brief     Channel Activity Detection (CAD) example for LR11xx chip
+ * @brief     Channel Activity Detection (CAD) example for SX126x chip
  *
  * The Clear BSD License
  * Copyright Semtech Corporation 2021. All rights reserved.
