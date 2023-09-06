@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>STM32L476xx,NUCLEO_L476RG,USE_FULL_LL_DRIVER,SX1261MB1BAS</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\..\common\inc;..\..\..\..\libs\smtc-hal-mcu\inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\CMSIS\Core\Include;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\CMSIS\Device\ST\STM32L4xx\Include;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\STM32L4xx_HAL_Driver\Inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Projects\STM32L476G-EVAL\Templates\Inc;..\..\..\..\libs\smtc-shields\common\inc;..\..\..\..\libs\smtc-shields\sx126x\inc;..\..\..\common;..\..\..\common\printers\;..\..\..\sx126x_driver\src;..\..\..\sx126x_driver\src\lr_fhss_driver\src;</IncludePath>
+              <IncludePath>..\..\..\..\common\inc;..\..\..\..\libs\smtc-hal-mcu\inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\CMSIS\Core\Include;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\CMSIS\Device\ST\STM32L4xx\Include;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\STM32L4xx_HAL_Driver\Inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Projects\STM32L476G-EVAL\Templates\Inc;..\..\..\..\libs\smtc-shields\common\inc;..\..\..\..\libs\smtc-shields\sx126x\inc;..\..\..\..\libs\smtc_dbpsk_driver\src;..\..\..\common;..\..\..\common\printers\;..\..\..\sx126x_driver\src;</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -493,16 +493,6 @@
               <FileName>sx126x.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\sx126x_driver\src\sx126x.c</FilePath>
-            </File>
-            <File>
-              <FileName>sx126x_lr_fhss.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\sx126x_driver\src\sx126x_lr_fhss.c</FilePath>
-            </File>
-            <File>
-              <FileName>lr_fhss_mac.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\sx126x_driver\src\lr_fhss_driver\src\lr_fhss_mac.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -750,6 +740,29 @@
                 </CommonProperty>
 
               </FileOption>
+            </File>
+            <File>
+              <FileName>smtc_dbpsk.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\libs\smtc_dbpsk_driver\src\smtc_dbpsk.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+              </FileOption>>
             </File>
           </Files>
         </Group>
@@ -1101,7 +1114,7 @@
               <MiscControls></MiscControls>
               <Define>STM32L476xx,NUCLEO_L476RG,USE_FULL_LL_DRIVER,SX1261MB1CAS</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\..\common\inc;..\..\..\..\libs\smtc-hal-mcu\inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\CMSIS\Core\Include;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\CMSIS\Device\ST\STM32L4xx\Include;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\STM32L4xx_HAL_Driver\Inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Projects\STM32L476G-EVAL\Templates\Inc;..\..\..\..\libs\smtc-shields\common\inc;..\..\..\..\libs\smtc-shields\sx126x\inc;..\..\..\common;..\..\..\common\printers\;..\..\..\sx126x_driver\src;..\..\..\sx126x_driver\src\lr_fhss_driver\src;</IncludePath>
+              <IncludePath>..\..\..\..\common\inc;..\..\..\..\libs\smtc-hal-mcu\inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\CMSIS\Core\Include;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\CMSIS\Device\ST\STM32L4xx\Include;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\STM32L4xx_HAL_Driver\Inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Projects\STM32L476G-EVAL\Templates\Inc;..\..\..\..\libs\smtc-shields\common\inc;..\..\..\..\libs\smtc-shields\sx126x\inc;..\..\..\..\libs\smtc_dbpsk_driver\src;..\..\..\common;..\..\..\common\printers\;..\..\..\sx126x_driver\src;</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -1255,16 +1268,6 @@
               <FileName>sx126x.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\sx126x_driver\src\sx126x.c</FilePath>
-            </File>
-            <File>
-              <FileName>sx126x_lr_fhss.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\sx126x_driver\src\sx126x_lr_fhss.c</FilePath>
-            </File>
-            <File>
-              <FileName>lr_fhss_mac.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\sx126x_driver\src\lr_fhss_driver\src\lr_fhss_mac.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1512,6 +1515,29 @@
                 </CommonProperty>
 
               </FileOption>
+            </File>
+            <File>
+              <FileName>smtc_dbpsk.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\libs\smtc_dbpsk_driver\src\smtc_dbpsk.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+              </FileOption>>
             </File>
           </Files>
         </Group>
@@ -1863,7 +1889,7 @@
               <MiscControls></MiscControls>
               <Define>STM32L476xx,NUCLEO_L476RG,USE_FULL_LL_DRIVER,SX1261MB2BAS</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\..\common\inc;..\..\..\..\libs\smtc-hal-mcu\inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\CMSIS\Core\Include;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\CMSIS\Device\ST\STM32L4xx\Include;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\STM32L4xx_HAL_Driver\Inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Projects\STM32L476G-EVAL\Templates\Inc;..\..\..\..\libs\smtc-shields\common\inc;..\..\..\..\libs\smtc-shields\sx126x\inc;..\..\..\common;..\..\..\common\printers\;..\..\..\sx126x_driver\src;..\..\..\sx126x_driver\src\lr_fhss_driver\src;</IncludePath>
+              <IncludePath>..\..\..\..\common\inc;..\..\..\..\libs\smtc-hal-mcu\inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\CMSIS\Core\Include;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\CMSIS\Device\ST\STM32L4xx\Include;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\STM32L4xx_HAL_Driver\Inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Projects\STM32L476G-EVAL\Templates\Inc;..\..\..\..\libs\smtc-shields\common\inc;..\..\..\..\libs\smtc-shields\sx126x\inc;..\..\..\..\libs\smtc_dbpsk_driver\src;..\..\..\common;..\..\..\common\printers\;..\..\..\sx126x_driver\src;</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -2017,16 +2043,6 @@
               <FileName>sx126x.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\sx126x_driver\src\sx126x.c</FilePath>
-            </File>
-            <File>
-              <FileName>sx126x_lr_fhss.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\sx126x_driver\src\sx126x_lr_fhss.c</FilePath>
-            </File>
-            <File>
-              <FileName>lr_fhss_mac.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\sx126x_driver\src\lr_fhss_driver\src\lr_fhss_mac.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2274,6 +2290,29 @@
                 </CommonProperty>
 
               </FileOption>
+            </File>
+            <File>
+              <FileName>smtc_dbpsk.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\libs\smtc_dbpsk_driver\src\smtc_dbpsk.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+              </FileOption>>
             </File>
           </Files>
         </Group>
@@ -2694,7 +2733,7 @@
               <MiscControls></MiscControls>
               <Define>STM32L476xx,NUCLEO_L476RG,USE_FULL_LL_DRIVER,SX1268MB1GAS</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\..\common\inc;..\..\..\..\libs\smtc-hal-mcu\inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\CMSIS\Core\Include;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\CMSIS\Device\ST\STM32L4xx\Include;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\STM32L4xx_HAL_Driver\Inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Projects\STM32L476G-EVAL\Templates\Inc;..\..\..\..\libs\smtc-shields\common\inc;..\..\..\..\libs\smtc-shields\sx126x\inc;..\..\..\common;..\..\..\common\printers\;..\..\..\sx126x_driver\src;..\..\..\sx126x_driver\src\lr_fhss_driver\src;</IncludePath>
+              <IncludePath>..\..\..\..\common\inc;..\..\..\..\libs\smtc-hal-mcu\inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\CMSIS\Core\Include;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\CMSIS\Device\ST\STM32L4xx\Include;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\STM32L4xx_HAL_Driver\Inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Projects\STM32L476G-EVAL\Templates\Inc;..\..\..\..\libs\smtc-shields\common\inc;..\..\..\..\libs\smtc-shields\sx126x\inc;..\..\..\..\libs\smtc_dbpsk_driver\src;..\..\..\common;..\..\..\common\printers\;..\..\..\sx126x_driver\src;</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -2848,16 +2887,6 @@
               <FileName>sx126x.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\sx126x_driver\src\sx126x.c</FilePath>
-            </File>
-            <File>
-              <FileName>sx126x_lr_fhss.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\sx126x_driver\src\sx126x_lr_fhss.c</FilePath>
-            </File>
-            <File>
-              <FileName>lr_fhss_mac.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\sx126x_driver\src\lr_fhss_driver\src\lr_fhss_mac.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -3105,6 +3134,29 @@
                 </CommonProperty>
 
               </FileOption>
+            </File>
+            <File>
+              <FileName>smtc_dbpsk.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\libs\smtc_dbpsk_driver\src\smtc_dbpsk.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+              </FileOption>>
             </File>
           </Files>
         </Group>
@@ -3456,7 +3508,7 @@
               <MiscControls></MiscControls>
               <Define>STM32L476xx,NUCLEO_L476RG,USE_FULL_LL_DRIVER,SX1262MB1CAS</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\..\common\inc;..\..\..\..\libs\smtc-hal-mcu\inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\CMSIS\Core\Include;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\CMSIS\Device\ST\STM32L4xx\Include;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\STM32L4xx_HAL_Driver\Inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Projects\STM32L476G-EVAL\Templates\Inc;..\..\..\..\libs\smtc-shields\common\inc;..\..\..\..\libs\smtc-shields\sx126x\inc;..\..\..\common;..\..\..\common\printers\;..\..\..\sx126x_driver\src;..\..\..\sx126x_driver\src\lr_fhss_driver\src;</IncludePath>
+              <IncludePath>..\..\..\..\common\inc;..\..\..\..\libs\smtc-hal-mcu\inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\CMSIS\Core\Include;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\CMSIS\Device\ST\STM32L4xx\Include;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\STM32L4xx_HAL_Driver\Inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Projects\STM32L476G-EVAL\Templates\Inc;..\..\..\..\libs\smtc-shields\common\inc;..\..\..\..\libs\smtc-shields\sx126x\inc;..\..\..\..\libs\smtc_dbpsk_driver\src;..\..\..\common;..\..\..\common\printers\;..\..\..\sx126x_driver\src;</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -3610,16 +3662,6 @@
               <FileName>sx126x.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\sx126x_driver\src\sx126x.c</FilePath>
-            </File>
-            <File>
-              <FileName>sx126x_lr_fhss.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\sx126x_driver\src\sx126x_lr_fhss.c</FilePath>
-            </File>
-            <File>
-              <FileName>lr_fhss_mac.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\sx126x_driver\src\lr_fhss_driver\src\lr_fhss_mac.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -3867,6 +3909,29 @@
                 </CommonProperty>
 
               </FileOption>
+            </File>
+            <File>
+              <FileName>smtc_dbpsk.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\libs\smtc_dbpsk_driver\src\smtc_dbpsk.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+              </FileOption>>
             </File>
           </Files>
         </Group>
@@ -4287,7 +4352,7 @@
               <MiscControls></MiscControls>
               <Define>STM32L476xx,NUCLEO_L476RG,USE_FULL_LL_DRIVER,SX1262MB1CBS</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\..\common\inc;..\..\..\..\libs\smtc-hal-mcu\inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\CMSIS\Core\Include;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\CMSIS\Device\ST\STM32L4xx\Include;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\STM32L4xx_HAL_Driver\Inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Projects\STM32L476G-EVAL\Templates\Inc;..\..\..\..\libs\smtc-shields\common\inc;..\..\..\..\libs\smtc-shields\sx126x\inc;..\..\..\common;..\..\..\common\printers\;..\..\..\sx126x_driver\src;..\..\..\sx126x_driver\src\lr_fhss_driver\src;</IncludePath>
+              <IncludePath>..\..\..\..\common\inc;..\..\..\..\libs\smtc-hal-mcu\inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\CMSIS\Core\Include;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\CMSIS\Device\ST\STM32L4xx\Include;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\STM32L4xx_HAL_Driver\Inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Projects\STM32L476G-EVAL\Templates\Inc;..\..\..\..\libs\smtc-shields\common\inc;..\..\..\..\libs\smtc-shields\sx126x\inc;..\..\..\..\libs\smtc_dbpsk_driver\src;..\..\..\common;..\..\..\common\printers\;..\..\..\sx126x_driver\src;</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -4441,16 +4506,6 @@
               <FileName>sx126x.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\sx126x_driver\src\sx126x.c</FilePath>
-            </File>
-            <File>
-              <FileName>sx126x_lr_fhss.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\sx126x_driver\src\sx126x_lr_fhss.c</FilePath>
-            </File>
-            <File>
-              <FileName>lr_fhss_mac.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\sx126x_driver\src\lr_fhss_driver\src\lr_fhss_mac.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -4698,6 +4753,29 @@
                 </CommonProperty>
 
               </FileOption>
+            </File>
+            <File>
+              <FileName>smtc_dbpsk.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\libs\smtc_dbpsk_driver\src\smtc_dbpsk.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+              </FileOption>>
             </File>
           </Files>
         </Group>
@@ -5118,7 +5196,7 @@
               <MiscControls></MiscControls>
               <Define>STM32L476xx,NUCLEO_L476RG,USE_FULL_LL_DRIVER,SX1262MB1DAS</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\..\common\inc;..\..\..\..\libs\smtc-hal-mcu\inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\CMSIS\Core\Include;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\CMSIS\Device\ST\STM32L4xx\Include;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\STM32L4xx_HAL_Driver\Inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Projects\STM32L476G-EVAL\Templates\Inc;..\..\..\..\libs\smtc-shields\common\inc;..\..\..\..\libs\smtc-shields\sx126x\inc;..\..\..\common;..\..\..\common\printers\;..\..\..\sx126x_driver\src;..\..\..\sx126x_driver\src\lr_fhss_driver\src;</IncludePath>
+              <IncludePath>..\..\..\..\common\inc;..\..\..\..\libs\smtc-hal-mcu\inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\CMSIS\Core\Include;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\CMSIS\Device\ST\STM32L4xx\Include;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\STM32L4xx_HAL_Driver\Inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Projects\STM32L476G-EVAL\Templates\Inc;..\..\..\..\libs\smtc-shields\common\inc;..\..\..\..\libs\smtc-shields\sx126x\inc;..\..\..\..\libs\smtc_dbpsk_driver\src;..\..\..\common;..\..\..\common\printers\;..\..\..\sx126x_driver\src;</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -5272,16 +5350,6 @@
               <FileName>sx126x.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\sx126x_driver\src\sx126x.c</FilePath>
-            </File>
-            <File>
-              <FileName>sx126x_lr_fhss.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\sx126x_driver\src\sx126x_lr_fhss.c</FilePath>
-            </File>
-            <File>
-              <FileName>lr_fhss_mac.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\sx126x_driver\src\lr_fhss_driver\src\lr_fhss_mac.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -5529,6 +5597,29 @@
                 </CommonProperty>
 
               </FileOption>
+            </File>
+            <File>
+              <FileName>smtc_dbpsk.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\libs\smtc_dbpsk_driver\src\smtc_dbpsk.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+              </FileOption>>
             </File>
           </Files>
         </Group>
@@ -5949,7 +6040,7 @@
               <MiscControls></MiscControls>
               <Define>STM32L476xx,NUCLEO_L476RG,USE_FULL_LL_DRIVER,SX1262MB1PAS</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\..\common\inc;..\..\..\..\libs\smtc-hal-mcu\inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\CMSIS\Core\Include;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\CMSIS\Device\ST\STM32L4xx\Include;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\STM32L4xx_HAL_Driver\Inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Projects\STM32L476G-EVAL\Templates\Inc;..\..\..\..\libs\smtc-shields\common\inc;..\..\..\..\libs\smtc-shields\sx126x\inc;..\..\..\common;..\..\..\common\printers\;..\..\..\sx126x_driver\src;..\..\..\sx126x_driver\src\lr_fhss_driver\src;</IncludePath>
+              <IncludePath>..\..\..\..\common\inc;..\..\..\..\libs\smtc-hal-mcu\inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\CMSIS\Core\Include;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\CMSIS\Device\ST\STM32L4xx\Include;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\STM32L4xx_HAL_Driver\Inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Projects\STM32L476G-EVAL\Templates\Inc;..\..\..\..\libs\smtc-shields\common\inc;..\..\..\..\libs\smtc-shields\sx126x\inc;..\..\..\..\libs\smtc_dbpsk_driver\src;..\..\..\common;..\..\..\common\printers\;..\..\..\sx126x_driver\src;</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -6103,16 +6194,6 @@
               <FileName>sx126x.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\sx126x_driver\src\sx126x.c</FilePath>
-            </File>
-            <File>
-              <FileName>sx126x_lr_fhss.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\sx126x_driver\src\sx126x_lr_fhss.c</FilePath>
-            </File>
-            <File>
-              <FileName>lr_fhss_mac.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\sx126x_driver\src\lr_fhss_driver\src\lr_fhss_mac.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -6360,6 +6441,29 @@
                 </CommonProperty>
 
               </FileOption>
+            </File>
+            <File>
+              <FileName>smtc_dbpsk.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\libs\smtc_dbpsk_driver\src\smtc_dbpsk.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+              </FileOption>>
             </File>
           </Files>
         </Group>
@@ -6780,7 +6884,7 @@
               <MiscControls></MiscControls>
               <Define>STM32L476xx,NUCLEO_L476RG,USE_FULL_LL_DRIVER,SX1262MB2CAS</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\..\common\inc;..\..\..\..\libs\smtc-hal-mcu\inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\CMSIS\Core\Include;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\CMSIS\Device\ST\STM32L4xx\Include;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\STM32L4xx_HAL_Driver\Inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Projects\STM32L476G-EVAL\Templates\Inc;..\..\..\..\libs\smtc-shields\common\inc;..\..\..\..\libs\smtc-shields\sx126x\inc;..\..\..\common;..\..\..\common\printers\;..\..\..\sx126x_driver\src;..\..\..\sx126x_driver\src\lr_fhss_driver\src;</IncludePath>
+              <IncludePath>..\..\..\..\common\inc;..\..\..\..\libs\smtc-hal-mcu\inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\CMSIS\Core\Include;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\CMSIS\Device\ST\STM32L4xx\Include;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Drivers\STM32L4xx_HAL_Driver\Inc;..\..\..\..\libs\smtc-hal-mcu-stm32l4\third_party\STM32CubeL4\Projects\STM32L476G-EVAL\Templates\Inc;..\..\..\..\libs\smtc-shields\common\inc;..\..\..\..\libs\smtc-shields\sx126x\inc;..\..\..\..\libs\smtc_dbpsk_driver\src;..\..\..\common;..\..\..\common\printers\;..\..\..\sx126x_driver\src;</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -6934,16 +7038,6 @@
               <FileName>sx126x.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\sx126x_driver\src\sx126x.c</FilePath>
-            </File>
-            <File>
-              <FileName>sx126x_lr_fhss.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\sx126x_driver\src\sx126x_lr_fhss.c</FilePath>
-            </File>
-            <File>
-              <FileName>lr_fhss_mac.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\sx126x_driver\src\lr_fhss_driver\src\lr_fhss_mac.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -7191,6 +7285,29 @@
               <FileName>smtc_shield_sx1262mb2cas.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\libs\smtc-shields\sx126x\src\smtc_shield_sx1262mb2cas.c</FilePath>
+            </File>
+            <File>
+              <FileName>smtc_dbpsk.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\libs\smtc_dbpsk_driver\src\smtc_dbpsk.c</FilePath>
+              <FileOption>
+                <CommonProperty>
+                  <UseCPPCompiler>2</UseCPPCompiler>
+                  <RVCTCodeConst>0</RVCTCodeConst>
+                  <RVCTZI>0</RVCTZI>
+                  <RVCTOtherData>0</RVCTOtherData>
+                  <ModuleSelection>0</ModuleSelection>
+                  <IncludeInBuild>1</IncludeInBuild>
+                  <AlwaysBuild>2</AlwaysBuild>
+                  <GenerateAssemblyFile>2</GenerateAssemblyFile>
+                  <AssembleAssemblyFile>2</AssembleAssemblyFile>
+                  <PublicsOnly>2</PublicsOnly>
+                  <StopOnExitCode>11</StopOnExitCode>
+                  <CustomArgument></CustomArgument>
+                  <IncludeLibraryModules></IncludeLibraryModules>
+                  <ComprImg>1</ComprImg>
+                </CommonProperty>
+              </FileOption>>
             </File>
           </Files>
         </Group>

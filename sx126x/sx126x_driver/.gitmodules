@@ -1,3 +1,0 @@
-[submodule "src/lr_fhss_driver"]
-	path = src/lr_fhss_driver
-	url = ../../lr_fhss/lr_fhss_driver_develop.git

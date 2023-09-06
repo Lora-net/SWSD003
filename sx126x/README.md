@@ -6,13 +6,13 @@ The SX126x SDK contains several simple examples for SX126x transceivers.
 
 | Name                 | Description                                                     | Documentation                                 |
 | -------------------- | --------------------------------------------------------------- | --------------------------------------------- |
-| CAD                  | Perform a Channel Activity Detection (CAD) - LoRa only          | [README](sx126x/apps/cad/README.md)                  |
-| PER                  | Perform a Packet Error Rate (PER) test - both Tx and Rx roles   | [README](sx126x/apps/per/README.md)                  |
-| Ping pong            | Launch an exchange between two devices                          | [README](sx126x/apps/ping_pong/README.md)            |
-| Sprectral scan       | Get inst-RSSI values in RX mode to form a heat map              | [README](sx126x/apps/spectral_scan/README.md)        |
-| Spectrum display     | Get inst-RSSI values in RX mode to form a dyamic spectrum curve | [README](sx126x/apps/spectrum_display/README.md)     |
-| Tx continuous wave   | Configure the chip to transmit a single tone                    | [README](sx126x/apps/tx_cw/README.md)                |
-| Tx infinite preamble | Configure the chip to transmit an infinite preamble             | [README](sx126x/apps/tx_infinite_preamble/README.md) |
+| CAD                  | Perform a Channel Activity Detection (CAD) - LoRa only          | [README](apps/cad/README.md)                  |
+| PER                  | Perform a Packet Error Rate (PER) test - both Tx and Rx roles   | [README](apps/per/README.md)                  |
+| Ping pong            | Launch an exchange between two devices                          | [README](apps/ping_pong/README.md)            |
+| Sprectral scan       | Get inst-RSSI values in RX mode to form a heat map              | [README](apps/spectral_scan/README.md)        |
+| Spectrum display     | Get inst-RSSI values in RX mode to form a dyamic spectrum curve | [README](apps/spectrum_display/README.md)     |
+| Tx continuous wave   | Configure the chip to transmit a single tone                    | [README](apps/tx_cw/README.md)                |
+| Tx infinite preamble | Configure the chip to transmit an infinite preamble             | [README](apps/tx_infinite_preamble/README.md) |
 
 A demonstration of the LR-FHSS capability of the chip can be found [here](https://github.com/Lora-net/SWDM001).
 
