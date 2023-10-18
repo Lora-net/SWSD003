@@ -49,7 +49,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\build\LR1120MB1DIS\</OutputDirectory>
-          <OutputName>per</OutputName>
+          <OutputName>ranging</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
@@ -424,9 +424,9 @@
               <FilePath>..\..\..\..\common\src\uart_init.c</FilePath>
             </File>
             <File>
-              <FileName>main_per.c</FileName>
+              <FileName>main_ranging.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\main_per.c</FilePath>
+              <FilePath>..\main_ranging.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1030,7 +1030,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\build\LR1120MB1GIS\</OutputDirectory>
-          <OutputName>per</OutputName>
+          <OutputName>ranging</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
@@ -1405,9 +1405,9 @@
               <FilePath>..\..\..\..\common\src\uart_init.c</FilePath>
             </File>
             <File>
-              <FileName>main_per.c</FileName>
+              <FileName>main_ranging.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\main_per.c</FilePath>
+              <FilePath>..\main_ranging.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -2011,7 +2011,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\build\LR1120MB1DJS\</OutputDirectory>
-          <OutputName>per</OutputName>
+          <OutputName>ranging</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
@@ -2386,9 +2386,9 @@
               <FilePath>..\..\..\..\common\src\uart_init.c</FilePath>
             </File>
             <File>
-              <FileName>main_per.c</FileName>
+              <FileName>main_ranging.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\main_per.c</FilePath>
+              <FilePath>..\main_ranging.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -3061,7 +3061,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\build\LR1120MB1GJS\</OutputDirectory>
-          <OutputName>per</OutputName>
+          <OutputName>ranging</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
@@ -3436,9 +3436,9 @@
               <FilePath>..\..\..\..\common\src\uart_init.c</FilePath>
             </File>
             <File>
-              <FileName>main_per.c</FileName>
+              <FileName>main_ranging.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\main_per.c</FilePath>
+              <FilePath>..\main_ranging.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -4042,7 +4042,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\build\LR1110MB1DIS\</OutputDirectory>
-          <OutputName>per</OutputName>
+          <OutputName>ranging</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
@@ -4417,9 +4417,9 @@
               <FilePath>..\..\..\..\common\src\uart_init.c</FilePath>
             </File>
             <File>
-              <FileName>main_per.c</FileName>
+              <FileName>main_ranging.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\main_per.c</FilePath>
+              <FilePath>..\main_ranging.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -5092,7 +5092,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\build\LR1110MB1GIS\</OutputDirectory>
-          <OutputName>per</OutputName>
+          <OutputName>ranging</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
@@ -5467,9 +5467,9 @@
               <FilePath>..\..\..\..\common\src\uart_init.c</FilePath>
             </File>
             <File>
-              <FileName>main_per.c</FileName>
+              <FileName>main_ranging.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\main_per.c</FilePath>
+              <FilePath>..\main_ranging.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -6142,7 +6142,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\build\LR1110MB1DJS\</OutputDirectory>
-          <OutputName>per</OutputName>
+          <OutputName>ranging</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
@@ -6517,9 +6517,9 @@
               <FilePath>..\..\..\..\common\src\uart_init.c</FilePath>
             </File>
             <File>
-              <FileName>main_per.c</FileName>
+              <FileName>main_ranging.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\main_per.c</FilePath>
+              <FilePath>..\main_ranging.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -7192,7 +7192,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\build\LR1110MB1GJS\</OutputDirectory>
-          <OutputName>per</OutputName>
+          <OutputName>ranging</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
@@ -7567,9 +7567,9 @@
               <FilePath>..\..\..\..\common\src\uart_init.c</FilePath>
             </File>
             <File>
-              <FileName>main_per.c</FileName>
+              <FileName>main_ranging.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\main_per.c</FilePath>
+              <FilePath>..\main_ranging.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -8242,7 +8242,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\build\LR1121MB1DIS\</OutputDirectory>
-          <OutputName>per</OutputName>
+          <OutputName>ranging</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
@@ -8617,9 +8617,9 @@
               <FilePath>..\..\..\..\common\src\uart_init.c</FilePath>
             </File>
             <File>
-              <FileName>main_per.c</FileName>
+              <FileName>main_ranging.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\main_per.c</FilePath>
+              <FilePath>..\main_ranging.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -9310,7 +9310,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\build\LR1121MB1GIS\</OutputDirectory>
-          <OutputName>per</OutputName>
+          <OutputName>ranging</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
@@ -9685,9 +9685,9 @@
               <FilePath>..\..\..\..\common\src\uart_init.c</FilePath>
             </File>
             <File>
-              <FileName>main_per.c</FileName>
+              <FileName>main_ranging.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\main_per.c</FilePath>
+              <FilePath>..\main_ranging.c</FilePath>
             </File>
           </Files>
         </Group>

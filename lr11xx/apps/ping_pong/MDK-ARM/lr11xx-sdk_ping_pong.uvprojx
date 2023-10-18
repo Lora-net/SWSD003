@@ -524,6 +524,11 @@
               <FilePath>..\..\..\..\lr11xx\lr11xx_driver\src\lr11xx_radio.c</FilePath>
             </File>
             <File>
+              <FileName>lr11xx_ranging.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\lr11xx\lr11xx_driver\src\lr11xx_ranging.c</FilePath>
+            </File>
+            <File>
               <FileName>lr11xx_radio_timings.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\lr11xx\lr11xx_driver\src\lr11xx_radio_timings.c</FilePath>
@@ -1500,6 +1505,11 @@
               <FilePath>..\..\..\..\lr11xx\lr11xx_driver\src\lr11xx_radio.c</FilePath>
             </File>
             <File>
+              <FileName>lr11xx_ranging.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\lr11xx\lr11xx_driver\src\lr11xx_ranging.c</FilePath>
+            </File>
+            <File>
               <FileName>lr11xx_radio_timings.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\lr11xx\lr11xx_driver\src\lr11xx_radio_timings.c</FilePath>
@@ -2474,6 +2484,11 @@
               <FileName>lr11xx_radio.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\lr11xx\lr11xx_driver\src\lr11xx_radio.c</FilePath>
+            </File>
+            <File>
+              <FileName>lr11xx_ranging.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\lr11xx\lr11xx_driver\src\lr11xx_ranging.c</FilePath>
             </File>
             <File>
               <FileName>lr11xx_radio_timings.c</FileName>
@@ -3521,6 +3536,11 @@
               <FilePath>..\..\..\..\lr11xx\lr11xx_driver\src\lr11xx_radio.c</FilePath>
             </File>
             <File>
+              <FileName>lr11xx_ranging.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\lr11xx\lr11xx_driver\src\lr11xx_ranging.c</FilePath>
+            </File>
+            <File>
               <FileName>lr11xx_radio_timings.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\lr11xx\lr11xx_driver\src\lr11xx_radio_timings.c</FilePath>
@@ -4495,6 +4515,11 @@
               <FileName>lr11xx_radio.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\lr11xx\lr11xx_driver\src\lr11xx_radio.c</FilePath>
+            </File>
+            <File>
+              <FileName>lr11xx_ranging.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\lr11xx\lr11xx_driver\src\lr11xx_ranging.c</FilePath>
             </File>
             <File>
               <FileName>lr11xx_radio_timings.c</FileName>
@@ -5542,6 +5567,11 @@
               <FilePath>..\..\..\..\lr11xx\lr11xx_driver\src\lr11xx_radio.c</FilePath>
             </File>
             <File>
+              <FileName>lr11xx_ranging.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\lr11xx\lr11xx_driver\src\lr11xx_ranging.c</FilePath>
+            </File>
+            <File>
               <FileName>lr11xx_radio_timings.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\lr11xx\lr11xx_driver\src\lr11xx_radio_timings.c</FilePath>
@@ -6585,6 +6615,11 @@
               <FileName>lr11xx_radio.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\lr11xx\lr11xx_driver\src\lr11xx_radio.c</FilePath>
+            </File>
+            <File>
+              <FileName>lr11xx_ranging.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\lr11xx\lr11xx_driver\src\lr11xx_ranging.c</FilePath>
             </File>
             <File>
               <FileName>lr11xx_radio_timings.c</FileName>
@@ -7632,6 +7667,11 @@
               <FilePath>..\..\..\..\lr11xx\lr11xx_driver\src\lr11xx_radio.c</FilePath>
             </File>
             <File>
+              <FileName>lr11xx_ranging.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\lr11xx\lr11xx_driver\src\lr11xx_ranging.c</FilePath>
+            </File>
+            <File>
               <FileName>lr11xx_radio_timings.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\lr11xx\lr11xx_driver\src\lr11xx_radio_timings.c</FilePath>
@@ -8675,6 +8715,11 @@
               <FileName>lr11xx_radio.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\lr11xx\lr11xx_driver\src\lr11xx_radio.c</FilePath>
+            </File>
+            <File>
+              <FileName>lr11xx_ranging.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\lr11xx\lr11xx_driver\src\lr11xx_ranging.c</FilePath>
             </File>
             <File>
               <FileName>lr11xx_radio_timings.c</FileName>
@@ -9738,6 +9783,11 @@
               <FileName>lr11xx_radio.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\..\lr11xx\lr11xx_driver\src\lr11xx_radio.c</FilePath>
+            </File>
+            <File>
+              <FileName>lr11xx_ranging.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\..\lr11xx\lr11xx_driver\src\lr11xx_ranging.c</FilePath>
             </File>
             <File>
               <FileName>lr11xx_radio_timings.c</FileName>

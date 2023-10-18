@@ -232,6 +232,12 @@ void on_rx_crc_error( void ) __attribute__( ( weak ) );
 void on_cad_done_undetected( void ) __attribute__( ( weak ) );
 void on_cad_done_detected( void ) __attribute__( ( weak ) );
 void on_lora_rx_timestamp( void ) __attribute__( ( weak ) );
+void on_ranging_request_valid( void ) __attribute__( ( weak ) );
+void on_ranging_request_discarded( void ) __attribute__( ( weak ) );
+void on_ranging_response_done( void ) __attribute__( ( weak ) );
+void on_ranging_exchange_valid( void ) __attribute__( ( weak ) );
+void on_ranging_timeout( void ) __attribute__( ( weak ) );
+
 void on_wifi_scan_done( void ) __attribute__( ( weak ) );
 void on_gnss_scan_done( void ) __attribute__( ( weak ) );
 
@@ -372,8 +378,8 @@ void apps_common_lr11xx_print_version( const lr11xx_system_version_t* version )
 
     if( ( version->type == LR11XX_SYSTEM_VERSION_TYPE_LR1110 ) && ( version->fw != LR1110_LATEST_FW_VERSION ) )
     {
-        HAL_DBG_TRACE_WARNING( "LR1110 is on version 0x%02x, but latest firmware version is 0x%02X\n",
-                               version->fw, LR1110_LATEST_FW_VERSION );
+        HAL_DBG_TRACE_WARNING( "LR1110 is on version 0x%02x, but latest firmware version is 0x%02X\n", version->fw,
+                               LR1110_LATEST_FW_VERSION );
     }
     if( ( version->type == LR11XX_SYSTEM_VERSION_TYPE_LR1120 ) && ( version->fw != LR1120_LATEST_FW_VERSION ) )
     {
@@ -527,6 +533,38 @@ void apps_common_lr11xx_radio_dbpsk_init( const void* context, const uint8_t pay
     ASSERT_LR11XX_RC( lr11xx_radio_set_bpsk_pkt_params( context, &bpsk_pkt_params ) );
 }
 
+void apps_common_lr11xx_radio_ranging_init( const void* context )
+{
+    const smtc_shield_lr11xx_pa_pwr_cfg_t* pa_pwr_cfg =
+        smtc_shield_lr11xx_get_pa_pwr_cfg( &shield, RF_FREQ_IN_HZ, TX_OUTPUT_POWER_DBM );
+
+    if( pa_pwr_cfg == NULL )
+    {
+        HAL_DBG_TRACE_ERROR( "Invalid target frequency or power level\n" );
+        while( true )
+        {
+        }
+    }
+
+    print_common_configuration( );
+
+    ASSERT_LR11XX_RC( lr11xx_radio_set_pkt_type( context, LR11XX_RADIO_PKT_TYPE_RANGING ) );
+    ASSERT_LR11XX_RC( lr11xx_radio_set_rf_freq( context, RF_FREQ_IN_HZ ) );
+    ASSERT_LR11XX_RC( lr11xx_radio_set_rssi_calibration(
+        context, smtc_shield_lr11xx_get_rssi_calibration_table( &shield, RF_FREQ_IN_HZ ) ) );
+    ASSERT_LR11XX_RC( lr11xx_radio_set_pa_cfg( context, &( pa_pwr_cfg->pa_config ) ) );
+    ASSERT_LR11XX_RC( lr11xx_radio_set_tx_params( context, pa_pwr_cfg->power, PA_RAMP_TIME ) );
+    ASSERT_LR11XX_RC( lr11xx_radio_set_rx_tx_fallback_mode( context, FALLBACK_MODE ) );
+    ASSERT_LR11XX_RC( lr11xx_radio_cfg_rx_boosted( context, ENABLE_RX_BOOST_MODE ) );
+
+    print_lora_configuration( );
+
+    lora_mod_params.ldro = apps_common_compute_lora_ldro( LORA_SPREADING_FACTOR, LORA_BANDWIDTH );
+    ASSERT_LR11XX_RC( lr11xx_radio_set_lora_mod_params( context, &lora_mod_params ) );
+    ASSERT_LR11XX_RC( lr11xx_radio_set_lora_pkt_params( context, &lora_pkt_params ) );
+    ASSERT_LR11XX_RC( lr11xx_radio_set_lora_sync_word( context, LORA_SYNCWORD ) );
+}
+
 void apps_common_lr11xx_receive( const void* context, uint8_t* buffer, uint8_t buffer_length, uint8_t* size )
 {
     lr11xx_radio_rx_buffer_status_t rx_buffer_status;
@@ -645,6 +683,36 @@ void apps_common_lr11xx_irq_process( const void* context, lr11xx_system_irq_mask
         {
             HAL_DBG_TRACE_INFO( "LoRa Rx timestamp\n" );
             on_lora_rx_timestamp( );
+        }
+
+        if( ( irq_regs & LR11XX_SYSTEM_IRQ_RANGING_REQ_VALID ) == LR11XX_SYSTEM_IRQ_RANGING_REQ_VALID )
+        {
+            HAL_DBG_TRACE_INFO( "Ranging request valid\n" );
+            on_ranging_request_valid( );
+        }
+
+        if( ( irq_regs & LR11XX_SYSTEM_IRQ_RANGING_REQ_DISCARDED ) == LR11XX_SYSTEM_IRQ_RANGING_REQ_DISCARDED )
+        {
+            HAL_DBG_TRACE_INFO( "Ranging request discarded\n" );
+            on_ranging_request_discarded( );
+        }
+
+        if( ( irq_regs & LR11XX_SYSTEM_IRQ_RANGING_RESP_DONE ) == LR11XX_SYSTEM_IRQ_RANGING_RESP_DONE )
+        {
+            HAL_DBG_TRACE_INFO( "Ranging response done\n" );
+            on_ranging_response_done( );
+        }
+
+        if( ( irq_regs & LR11XX_SYSTEM_IRQ_RANGING_EXCH_VALID ) == LR11XX_SYSTEM_IRQ_RANGING_EXCH_VALID )
+        {
+            HAL_DBG_TRACE_INFO( "Ranging exchange valid\n" );
+            on_ranging_exchange_valid( );
+        }
+
+        if( ( irq_regs & LR11XX_SYSTEM_IRQ_RANGING_TIMEOUT ) == LR11XX_SYSTEM_IRQ_RANGING_TIMEOUT )
+        {
+            HAL_DBG_TRACE_INFO( "Ranging timeout\n" );
+            on_ranging_timeout( );
         }
 
         if( ( irq_regs & LR11XX_SYSTEM_IRQ_WIFI_SCAN_DONE ) == LR11XX_SYSTEM_IRQ_WIFI_SCAN_DONE )

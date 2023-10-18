@@ -113,10 +113,10 @@ Each example can be compiled with the following toolchains:
 * [Keil MDK ARM](https://www2.keil.com/mdk5) - Keil project file available in `<chip_family>/apps/<example>/MDK-ARM/`
 * [GNU Arm Embedded toolchain](https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm) - makefile available in `<chip_family>/apps/<example>/makefile/`
 
-## Known limitations
+## Remarks
 
 ### Channel Activity Detection accuracy
 
 The Channel Activity Detection (CAD) may expose false negative or false positive detection.
 The parameters for CAD configuration needs adaptation relative to context usage.
-Refer to the application notes available on [LoRa Developer Portal](https://lora-developers.semtech.com/documentation/product-documents/) and [Semtech website](https://www.semtech.com/) relative to CAD performances.
+Refer to the application notes available on [Semtech website](https://www.semtech.com/) relative to CAD performances.

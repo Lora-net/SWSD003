@@ -4,15 +4,16 @@ The LR11xx SDK contains several simple examples for LR11xx transceivers.
 
 ## Examples
 
-| Name                 | Description                                                     | Documentation                                 |
-| -------------------- | --------------------------------------------------------------- | --------------------------------------------- |
-| CAD                  | Perform a Channel Activity Detection (CAD) - LoRa only          | [README](apps/cad/README.md)                  |
-| PER                  | Perform a Packet Error Rate (PER) test - both Tx and Rx roles   | [README](apps/per/README.md)                  |
-| Ping pong            | Launch an exchange between two devices                          | [README](apps/ping_pong/README.md)            |
-| Sprectral scan       | Get inst-RSSI values in RX mode to form a heat map              | [README](apps/spectral_scan/README.md)        |
-| Spectrum display     | Get inst-RSSI values in RX mode to form a dyamic spectrum curve | [README](apps/spectrum_display/README.md)     |
-| Tx continuous wave   | Configure the chip to transmit a single tone                    | [README](apps/tx_cw/README.md)                |
-| Tx infinite preamble | Configure the chip to transmit an infinite preamble             | [README](apps/tx_infinite_preamble/README.md) |
+| Name                 | Description                                                                             | Documentation                                 |
+| -------------------- | --------------------------------------------------------------------------------------- | --------------------------------------------- |
+| CAD                  | Perform a Channel Activity Detection (CAD) - LoRa only                                  | [README](apps/cad/README.md)                  |
+| PER                  | Perform a Packet Error Rate (PER) test - both Tx and Rx roles                           | [README](apps/per/README.md)                  |
+| Ping pong            | Launch an exchange between two devices                                                  | [README](apps/ping_pong/README.md)            |
+| RTToF (Ranging)      | Perform Round-Trip Time of Flight (ranging) exchanges. Only valid for LR1110 and LR1120 | [README](apps/ranging/README.md)              |
+| Sprectral scan       | Get inst-RSSI values in RX mode to form a heat map                                      | [README](apps/spectral_scan/README.md)        |
+| Spectrum display     | Get inst-RSSI values in RX mode to form a dyamic spectrum curve                         | [README](apps/spectrum_display/README.md)     |
+| Tx continuous wave   | Configure the chip to transmit a single tone                                            | [README](apps/tx_cw/README.md)                |
+| Tx infinite preamble | Configure the chip to transmit an infinite preamble                                     | [README](apps/tx_infinite_preamble/README.md) |
 
 A demonstration of the LR-FHSS capability of the chip can be found [here](https://github.com/Lora-net/SWDM001).
 
@@ -64,9 +65,9 @@ The list of compatible Semtech LR1121 shields is:
 
 This SDK requires the transceiver to run the following version
 
-* LR1110: firmware version ([0x0307](https://github.com/Lora-net/radio_firmware_images/tree/master/lr1110/transceiver))
-* LR1120: firmware version ([0x0101](https://github.com/Lora-net/radio_firmware_images/tree/master/lr1120/transceiver))
-* LR1121: firmware version ([0x0101](https://github.com/Lora-net/radio_firmware_images/tree/master/lr1121/transceiver))
+* LR1110: firmware version ([0x0308](https://github.com/Lora-net/radio_firmware_images/tree/master/lr1110/transceiver))
+* LR1120: firmware version ([0x0102](https://github.com/Lora-net/radio_firmware_images/tree/master/lr1120/transceiver))
+* LR1121: firmware version ([0x0102](https://github.com/Lora-net/radio_firmware_images/tree/master/lr1121/transceiver))
 
 To update the transceiver with the desired firmware version, please use [the updater tool application](https://github.com/Lora-net/SWTL001).
 

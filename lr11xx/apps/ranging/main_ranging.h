@@ -1,9 +1,8 @@
-/*!
- * @file      common_version.h
+/**
+ * @file      main_ranging.h
  *
- * @brief     Version header file of the SDK
+ * @brief     Ranging example for LR11xx chip
  *
- * @copyright
  * The Clear BSD License
  * Copyright Semtech Corporation 2023. All rights reserved.
  *
@@ -33,8 +32,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef COMMON_VERSION_H
-#define COMMON_VERSION_H
+#ifndef MAIN_RANGING_H
+#define MAIN_RANGING_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -44,13 +43,66 @@ extern "C" {
  * -----------------------------------------------------------------------------
  * --- DEPENDENCIES ------------------------------------------------------------
  */
+#include "apps_common.h"
+#include <stdint.h>
 
 /*
  * -----------------------------------------------------------------------------
  * --- PUBLIC MACROS -----------------------------------------------------------
  */
 
-#define COMMON_SDK_VERSION "v2.1.0"
+/**
+ * @brief Ranging device slave (subordinate) mode
+ */
+#define RANGING_DEVICE_MODE_SUBORDINATE 0
+
+/**
+ * @brief Ranging device manager (master) mode
+ */
+#define RANGING_DEVICE_MODE_MANAGER 1
+
+/**
+ * @brief Mode of operation
+ */
+#ifndef RANGING_DEVICE_MODE
+#define RANGING_DEVICE_MODE RANGING_DEVICE_MODE_MANAGER
+#endif
+
+/**
+ * @brief Subordinate ranging address
+ *
+ * Address used to identify the ranging subordinate device.
+ * This address is configured as address of the subordinate device
+ * and used as request address in the manager device.
+ */
+#ifndef RANGING_ADDRESS
+#define RANGING_ADDRESS UINT32_C( 0x00000019 )
+#endif
+
+/**
+ * @brief Number of symbols in ranging response
+ */
+#ifndef RESPONSE_SYMBOLS_COUNT
+#define RESPONSE_SYMBOLS_COUNT UINT8_C( 15 )
+#endif
+
+/**
+ * @brief Manager-side ranging timeout [ms]
+ *
+ * Timeout for receiving a response after sending
+ * a ranging request.
+ */
+#ifndef MANAGER_TX_RX_TIMEOUT_MS
+#define MANAGER_TX_RX_TIMEOUT_MS UINT32_C( 3276 )
+#endif
+
+/**
+ * @brief Manager-side sleep period after ranging [ms]
+ *
+ */
+#ifndef MANAGER_RANGING_SLEEP_PERIOD
+#define MANAGER_RANGING_SLEEP_PERIOD UINT32_C( 1000 )
+#endif
 
 /*
  * -----------------------------------------------------------------------------
@@ -67,16 +119,10 @@ extern "C" {
  * --- PUBLIC FUNCTIONS PROTOTYPES ---------------------------------------------
  */
 
- /**
- * @brief Print SDK version
- *
- */
-void common_version_print( void );
-
 #ifdef __cplusplus
 }
 #endif
 
-#endif  // COMMON_VERSION_H
+#endif  // MAIN_RANGING_H
 
 /* --- EOF ------------------------------------------------------------------ */

@@ -115,6 +115,13 @@ void apps_common_lr11xx_radio_init( const void* context );
  */
 void apps_common_lr11xx_radio_dbpsk_init( const void* context, const uint8_t payload_len );
 
+/*!
+ * @brief Initialize the radio configuration of the transceiver for ranging only
+ *
+ * @param [in] context  Pointer to the radio context
+ */
+void apps_common_lr11xx_radio_ranging_init( const void* context );
+
 /**
  * @brief Fetch the version from the LR11xx and print it on the log interface
  *

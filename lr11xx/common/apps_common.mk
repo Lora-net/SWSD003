@@ -124,6 +124,7 @@ $(TOP_DIR)/lr11xx/lr11xx_driver/src/lr11xx_radio.c \
 $(TOP_DIR)/lr11xx/lr11xx_driver/src/lr11xx_regmem.c \
 $(TOP_DIR)/lr11xx/lr11xx_driver/src/lr11xx_wifi.c \
 $(TOP_DIR)/lr11xx/lr11xx_driver/src/lr11xx_gnss.c \
+$(TOP_DIR)/lr11xx/lr11xx_driver/src/lr11xx_ranging.c \
 $(TOP_DIR)/lr11xx/lr11xx_driver/src/lr11xx_driver_version.c \
 
 C_INCLUDES +=  \
