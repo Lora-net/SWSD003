@@ -99,8 +99,8 @@
 #define LR11XX_RADIO_SET_RSSI_CALIBRATION_LENGTH ( 2 + 11 )
 #define LR11XX_RADIO_SET_LORA_SYNC_WORD_CMD_LENGTH ( 2 + 1 )
 #define LR11XX_RADIO_GET_LORA_RX_INFO_CMD_LENGTH ( 2 )
-#define LR11XX_RADIO_CFG_BLE_BEACON_CMD_LENGTH ( 2 + 1 )
-#define LR11XX_RADIO_BLE_BEACON_SEND_CMD_LENGTH ( 2 + 1 )
+#define LR11XX_RADIO_CFG_BLUETOOTH_LOW_ENERGY_BEACONNING_COMPATIBILITY_CMD_LENGTH ( 2 + 1 )
+#define LR11XX_RADIO_BLUETOOTH_LOW_ENERGY_BEACONNING_COMPATIBILITY_SEND_CMD_LENGTH ( 2 + 1 )
 
 /**
  * @brief Internal RTC frequency
@@ -117,41 +117,41 @@
  */
 enum
 {
-    LR11XX_RADIO_RESET_STATS_OC               = 0x0200,
-    LR11XX_RADIO_GET_STATS_OC                 = 0x0201,
-    LR11XX_RADIO_GET_PKT_TYPE_OC              = 0x0202,
-    LR11XX_RADIO_GET_RXBUFFER_STATUS_OC       = 0x0203,
-    LR11XX_RADIO_GET_PKT_STATUS_OC            = 0x0204,
-    LR11XX_RADIO_GET_RSSI_INST_OC             = 0x0205,
-    LR11XX_RADIO_SET_GFSK_SYNC_WORD_OC        = 0x0206,
-    LR11XX_RADIO_SET_LORA_PUBLIC_NETWORK_OC   = 0x0208,
-    LR11XX_RADIO_SET_RX_OC                    = 0x0209,
-    LR11XX_RADIO_SET_TX_OC                    = 0x020A,
-    LR11XX_RADIO_SET_RF_FREQUENCY_OC          = 0x020B,
-    LR11XX_RADIO_AUTOTXRX_OC                  = 0x020C,
-    LR11XX_RADIO_SET_CAD_PARAMS_OC            = 0x020D,
-    LR11XX_RADIO_SET_PKT_TYPE_OC              = 0x020E,
-    LR11XX_RADIO_SET_MODULATION_PARAM_OC      = 0x020F,
-    LR11XX_RADIO_SET_PKT_PARAM_OC             = 0x0210,
-    LR11XX_RADIO_SET_TX_PARAMS_OC             = 0x0211,
-    LR11XX_RADIO_SET_PKT_ADRS_OC              = 0x0212,
-    LR11XX_RADIO_SET_RX_TX_FALLBACK_MODE_OC   = 0x0213,
-    LR11XX_RADIO_SET_RX_DUTY_CYCLE_OC         = 0x0214,
-    LR11XX_RADIO_SET_PA_CFG_OC                = 0x0215,
-    LR11XX_RADIO_STOP_TIMEOUT_ON_PREAMBLE_OC  = 0x0217,
-    LR11XX_RADIO_SET_CAD_OC                   = 0x0218,
-    LR11XX_RADIO_SET_TX_CW_OC                 = 0x0219,
-    LR11XX_RADIO_SET_TX_INFINITE_PREAMBLE_OC  = 0x021A,
-    LR11XX_RADIO_SET_LORA_SYNC_TIMEOUT_OC     = 0x021B,
-    LR11XX_RADIO_SET_GFSK_CRC_PARAMS_OC       = 0x0224,
-    LR11XX_RADIO_SET_GFSK_WHITENING_PARAMS_OC = 0x0225,
-    LR11XX_RADIO_SET_RX_BOOSTED_OC            = 0x0227,
-    LR11XX_RADIO_SET_RSSI_CALIBRATION_OC      = 0x0229,
-    LR11XX_RADIO_SET_LORA_SYNC_WORD_OC        = 0x022B,
-    LR11XX_RADIO_SET_LR_FHSS_SYNC_WORD_OC     = 0x022D,
-    LR11XX_RADIO_CFG_BLE_BEACON_OC            = 0x022E,
-    LR11XX_RADIO_GET_LORA_RX_INFO_OC          = 0x0230,
-    LR11XX_RADIO_BLE_BEACON_SEND_OC           = 0x0231,
+    LR11XX_RADIO_RESET_STATS_OC                                        = 0x0200,
+    LR11XX_RADIO_GET_STATS_OC                                          = 0x0201,
+    LR11XX_RADIO_GET_PKT_TYPE_OC                                       = 0x0202,
+    LR11XX_RADIO_GET_RXBUFFER_STATUS_OC                                = 0x0203,
+    LR11XX_RADIO_GET_PKT_STATUS_OC                                     = 0x0204,
+    LR11XX_RADIO_GET_RSSI_INST_OC                                      = 0x0205,
+    LR11XX_RADIO_SET_GFSK_SYNC_WORD_OC                                 = 0x0206,
+    LR11XX_RADIO_SET_LORA_PUBLIC_NETWORK_OC                            = 0x0208,
+    LR11XX_RADIO_SET_RX_OC                                             = 0x0209,
+    LR11XX_RADIO_SET_TX_OC                                             = 0x020A,
+    LR11XX_RADIO_SET_RF_FREQUENCY_OC                                   = 0x020B,
+    LR11XX_RADIO_AUTOTXRX_OC                                           = 0x020C,
+    LR11XX_RADIO_SET_CAD_PARAMS_OC                                     = 0x020D,
+    LR11XX_RADIO_SET_PKT_TYPE_OC                                       = 0x020E,
+    LR11XX_RADIO_SET_MODULATION_PARAM_OC                               = 0x020F,
+    LR11XX_RADIO_SET_PKT_PARAM_OC                                      = 0x0210,
+    LR11XX_RADIO_SET_TX_PARAMS_OC                                      = 0x0211,
+    LR11XX_RADIO_SET_PKT_ADRS_OC                                       = 0x0212,
+    LR11XX_RADIO_SET_RX_TX_FALLBACK_MODE_OC                            = 0x0213,
+    LR11XX_RADIO_SET_RX_DUTY_CYCLE_OC                                  = 0x0214,
+    LR11XX_RADIO_SET_PA_CFG_OC                                         = 0x0215,
+    LR11XX_RADIO_STOP_TIMEOUT_ON_PREAMBLE_OC                           = 0x0217,
+    LR11XX_RADIO_SET_CAD_OC                                            = 0x0218,
+    LR11XX_RADIO_SET_TX_CW_OC                                          = 0x0219,
+    LR11XX_RADIO_SET_TX_INFINITE_PREAMBLE_OC                           = 0x021A,
+    LR11XX_RADIO_SET_LORA_SYNC_TIMEOUT_OC                              = 0x021B,
+    LR11XX_RADIO_SET_GFSK_CRC_PARAMS_OC                                = 0x0224,
+    LR11XX_RADIO_SET_GFSK_WHITENING_PARAMS_OC                          = 0x0225,
+    LR11XX_RADIO_SET_RX_BOOSTED_OC                                     = 0x0227,
+    LR11XX_RADIO_SET_RSSI_CALIBRATION_OC                               = 0x0229,
+    LR11XX_RADIO_SET_LORA_SYNC_WORD_OC                                 = 0x022B,
+    LR11XX_RADIO_SET_LR_FHSS_SYNC_WORD_OC                              = 0x022D,
+    LR11XX_RADIO_CFG_BLUETOOTH_LOW_ENERGY_BEACONNING_COMPATIBILITY_OC  = 0x022E,
+    LR11XX_RADIO_GET_LORA_RX_INFO_OC                                   = 0x0230,
+    LR11XX_RADIO_BLUETOOTH_LOW_ENERGY_BEACONNING_COMPATIBILITY_SEND_OC = 0x0231,
 };
 
 /*
@@ -1220,17 +1220,19 @@ uint32_t lr11xx_radio_convert_time_in_ms_to_rtc_step( uint32_t time_in_ms )
     return ( uint32_t ) ( time_in_ms * LR11XX_RTC_FREQ_IN_HZ / 1000 );
 }
 
-lr11xx_status_t lr11xx_radio_cfg_ble_beacon( const void* context, const uint8_t channel_id, const uint8_t* buffer,
-                                             const uint8_t length )
+lr11xx_status_t lr11xx_radio_cfg_bluetooth_low_energy_beaconning_compatibility( const void*    context,
+                                                                                const uint8_t  channel_id,
+                                                                                const uint8_t* buffer,
+                                                                                const uint8_t  length )
 {
-    const uint8_t command[LR11XX_RADIO_CFG_BLE_BEACON_CMD_LENGTH] = {
-        ( uint8_t ) ( LR11XX_RADIO_CFG_BLE_BEACON_OC >> 8 ),
-        ( uint8_t ) ( LR11XX_RADIO_CFG_BLE_BEACON_OC >> 0 ),
+    const uint8_t command[LR11XX_RADIO_CFG_BLUETOOTH_LOW_ENERGY_BEACONNING_COMPATIBILITY_CMD_LENGTH] = {
+        ( uint8_t ) ( LR11XX_RADIO_CFG_BLUETOOTH_LOW_ENERGY_BEACONNING_COMPATIBILITY_OC >> 8 ),
+        ( uint8_t ) ( LR11XX_RADIO_CFG_BLUETOOTH_LOW_ENERGY_BEACONNING_COMPATIBILITY_OC >> 0 ),
         channel_id,
     };
 
-    return ( lr11xx_status_t ) lr11xx_hal_write( context, command, LR11XX_RADIO_CFG_BLE_BEACON_CMD_LENGTH, buffer,
-                                                 length );
+    return ( lr11xx_status_t ) lr11xx_hal_write(
+        context, command, LR11XX_RADIO_CFG_BLUETOOTH_LOW_ENERGY_BEACONNING_COMPATIBILITY_CMD_LENGTH, buffer, length );
 }
 
 lr11xx_status_t lr11xx_radio_get_lora_rx_info( const void* context, bool* is_crc_present, lr11xx_radio_lora_cr_t* cr )
@@ -1239,7 +1241,7 @@ lr11xx_status_t lr11xx_radio_get_lora_rx_info( const void* context, bool* is_crc
         ( uint8_t ) ( LR11XX_RADIO_GET_LORA_RX_INFO_OC >> 8 ),
         ( uint8_t ) ( LR11XX_RADIO_GET_LORA_RX_INFO_OC >> 0 ),
     };
-    uint8_t rbuffer;
+    uint8_t rbuffer = 0;
 
     const lr11xx_status_t status =
         ( lr11xx_status_t ) lr11xx_hal_read( context, cbuffer, LR11XX_RADIO_GET_LORA_RX_INFO_CMD_LENGTH, &rbuffer, 1 );
@@ -1253,17 +1255,19 @@ lr11xx_status_t lr11xx_radio_get_lora_rx_info( const void* context, bool* is_crc
     return status;
 }
 
-lr11xx_status_t lr11xx_radio_cfg_and_send_ble_beacon( const void* context, const uint8_t channel_id, const uint8_t* buffer,
-                                              const uint8_t length )
+lr11xx_status_t lr11xx_radio_cfg_and_send_bluetooth_low_energy_beaconning_compatibility( const void*    context,
+                                                                                         const uint8_t  channel_id,
+                                                                                         const uint8_t* buffer,
+                                                                                         const uint8_t  length )
 {
-    const uint8_t command[LR11XX_RADIO_BLE_BEACON_SEND_CMD_LENGTH] = {
-        ( uint8_t ) ( LR11XX_RADIO_BLE_BEACON_SEND_OC >> 8 ),
-        ( uint8_t ) ( LR11XX_RADIO_BLE_BEACON_SEND_OC >> 0 ),
+    const uint8_t command[LR11XX_RADIO_BLUETOOTH_LOW_ENERGY_BEACONNING_COMPATIBILITY_SEND_CMD_LENGTH] = {
+        ( uint8_t ) ( LR11XX_RADIO_BLUETOOTH_LOW_ENERGY_BEACONNING_COMPATIBILITY_SEND_OC >> 8 ),
+        ( uint8_t ) ( LR11XX_RADIO_BLUETOOTH_LOW_ENERGY_BEACONNING_COMPATIBILITY_SEND_OC >> 0 ),
         channel_id,
     };
 
-    return ( lr11xx_status_t ) lr11xx_hal_write( context, command, LR11XX_RADIO_BLE_BEACON_SEND_CMD_LENGTH, buffer,
-                                                 length );
+    return ( lr11xx_status_t ) lr11xx_hal_write(
+        context, command, LR11XX_RADIO_BLUETOOTH_LOW_ENERGY_BEACONNING_COMPATIBILITY_SEND_CMD_LENGTH, buffer, length );
 }
 
 lr11xx_status_t lr11xx_radio_apply_high_acp_workaround( const void* context )

@@ -850,10 +850,10 @@ uint32_t lr11xx_radio_get_gfsk_time_on_air_in_ms( const lr11xx_radio_pkt_params_
 uint32_t lr11xx_radio_convert_time_in_ms_to_rtc_step( uint32_t time_in_ms );
 
 /*!
- * @brief Configure the radio for BLE beaconing.
+ * @brief Configure the radio for Bluetooth® Low Energy Beaconing Compatibility.
  *
- * The caller shall ensure that the payload, if provided, follows the format of the Advertising physical channel PDU as defined in the
- * Bluetooth core specification.
+ * The caller shall ensure that the payload, if provided, follows the format of the Advertising physical channel PDU as
+ * defined in the Bluetooth® core specification.
  *
  * This automatically configures the syncword to 0x8e89bed6 and the 3-byte CRC (polynomial set to 0x100065b, seed set to
  * 0x555555).
@@ -865,19 +865,21 @@ uint32_t lr11xx_radio_convert_time_in_ms_to_rtc_step( uint32_t time_in_ms );
  *
  * @returns Operation status
  *
- * @note As opposed to the function @ref lr11xx_radio_cfg_and_send_ble_beacon, this function  only configures the radio
- * interface for BLE beacon advertising. To actually start the transmission, the function @ref lr11xx_radio_set_tx must
- * be called.
- * @note The previously configured payload with @ref lr11xx_radio_cfg_ble_beacon or @ref
- * lr11xx_radio_cfg_and_send_ble_beacon is sent if @p length is set to 0, except if a call to @ref
- * lr11xx_regmem_write_buffer8, @ref lr11xx_lr_fhss_build_frame is done in between or @ref lr11xx_system_set_sleep with
- * warm start disabled
+ * @note As opposed to the function @ref lr11xx_radio_cfg_and_send_bluetooth_low_energy_beaconning_compatibility, this
+ * function  only configures the radio interface for Bluetooth® Low Energy Beaconing Compatibility advertising. To
+ * actually start the transmission, the function @ref lr11xx_radio_set_tx must be called.
+ * @note The previously configured payload with @ref lr11xx_radio_cfg_bluetooth_low_energy_beaconning_compatibility or
+ * @ref lr11xx_radio_cfg_and_send_bluetooth_low_energy_beaconning_compatibility is sent if @p length is set to 0, except
+ * if a call to @ref lr11xx_regmem_write_buffer8, @ref lr11xx_lr_fhss_build_frame is done in between or @ref
+ * lr11xx_system_set_sleep with warm start disabled
  *
- * @sa lr11xx_radio_cfg_and_send_ble_beacon
+ * @sa lr11xx_radio_cfg_and_send_bluetooth_low_energy_beaconning_compatibility
  * @sa lr11xx_radio_set_tx
  */
-lr11xx_status_t lr11xx_radio_cfg_ble_beacon( const void* context, const uint8_t channel_id, const uint8_t* buffer,
-                                             const uint8_t length );
+lr11xx_status_t lr11xx_radio_cfg_bluetooth_low_energy_beaconning_compatibility( const void*    context,
+                                                                                const uint8_t  channel_id,
+                                                                                const uint8_t* buffer,
+                                                                                const uint8_t  length );
 
 /**
  * @brief Get the information from the last received LoRa packet header (if @ref LR11XX_RADIO_LORA_PKT_EXPLICIT) or the
@@ -895,10 +897,11 @@ lr11xx_status_t lr11xx_radio_cfg_ble_beacon( const void* context, const uint8_t 
 lr11xx_status_t lr11xx_radio_get_lora_rx_info( const void* context, bool* is_crc_present, lr11xx_radio_lora_cr_t* cr );
 
 /*!
- * @brief Configure the radio for BLE and send the given beacon on the desired channel.
+ * @brief Configure the radio for Bluetooth® Low Energy Beaconing Compatibility and send the given beacon on the desired
+ * channel.
  *
- * The caller shall ensure that the payload, if provided, follows the format of the Advertising physical channel PDU as defined in the
- * Bluetooth core specification.
+ * The caller shall ensure that the payload, if provided, follows the format of the Advertising physical channel PDU as
+ * defined in the Bluetooth® core specification.
  *
  * This automatically configures the syncword to 0x8e89bed6 and the 3-byte CRC (polynomial set to 0x100065b, seed set to
  * 0x555555).
@@ -910,17 +913,20 @@ lr11xx_status_t lr11xx_radio_get_lora_rx_info( const void* context, bool* is_crc
  *
  * @returns Operation status
  *
- * @note This function combines the configuration for BLE beaconing - done with @ref lr11xx_radio_cfg_ble_beacon) -
- * and the actual transmission - done with @ref lr11xx_radio_set_tx.
- * @note The previously configured payload with @ref lr11xx_radio_cfg_ble_beacon or @ref
- * lr11xx_radio_cfg_and_send_ble_beacon is sent if @p length is set to 0, except if a call to @ref
- * lr11xx_regmem_write_buffer8, @ref lr11xx_lr_fhss_build_frame is done in between or @ref lr11xx_system_set_sleep with
- * warm start disabled
+ * @note This function combines the configuration for Bluetooth® Low Energy Beaconing Compatibility - done with @ref
+ * lr11xx_radio_cfg_bluetooth_low_energy_beaconning_compatibility) - and the actual transmission - done with @ref
+ * lr11xx_radio_set_tx.
+ * @note The previously configured payload with @ref lr11xx_radio_cfg_bluetooth_low_energy_beaconning_compatibility or
+ * @ref lr11xx_radio_cfg_and_send_bluetooth_low_energy_beaconning_compatibility is sent if @p length is set to 0, except
+ * if a call to @ref lr11xx_regmem_write_buffer8, @ref lr11xx_lr_fhss_build_frame is done in between or @ref
+ * lr11xx_system_set_sleep with warm start disabled
  *
- * @sa lr11xx_radio_cfg_ble_beacon
+ * @sa lr11xx_radio_cfg_bluetooth_low_energy_beaconning_compatibility
  */
-lr11xx_status_t lr11xx_radio_cfg_and_send_ble_beacon( const void* context, const uint8_t channel_id,
-                                                      const uint8_t* buffer, const uint8_t length );
+lr11xx_status_t lr11xx_radio_cfg_and_send_bluetooth_low_energy_beaconning_compatibility( const void*    context,
+                                                                                         const uint8_t  channel_id,
+                                                                                         const uint8_t* buffer,
+                                                                                         const uint8_t  length );
 
 /*!
  * @brief Apply the workaround for the high ACP limitation

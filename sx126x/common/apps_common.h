@@ -101,6 +101,14 @@ void apps_common_sx126x_init( const sx126x_hal_context_t* context );
 void apps_common_sx126x_radio_init( const void* context );
 
 /*!
+ * @brief Initialize the radio configuration of the transceiver for dbpsk only
+ *
+ * @param [in] context  Pointer to the radio context
+ * @param [in] context  Length of the payload
+ */
+void apps_common_sx126x_radio_dbpsk_init( const void* context, const uint8_t payload_len );
+
+/*!
  * @brief Interface to read bytes from rx buffer
  *
  * @param [in] context  Pointer to the radio context

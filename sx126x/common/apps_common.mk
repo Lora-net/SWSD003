@@ -26,7 +26,6 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-TARGET_BOARD ?= NUCLEO_L476RG
 RADIO_SHIELD ?= SX1261MB2BAS
 CUSTOM_XTAL_TRIM ?= no
 
@@ -109,4 +108,5 @@ $(TOP_DIR)/sx126x/sx126x_driver/src/lr_fhss_driver/src/lr_fhss_mac.c
 
 C_INCLUDES +=  \
 -I$(TOP_DIR)/sx126x/sx126x_driver/src \
--I$(TOP_DIR)/sx126x/sx126x_driver/src/lr_fhss_driver/src
+-I$(TOP_DIR)/sx126x/sx126x_driver/src/lr_fhss_driver/src \
+-I$(TOP_DIR)/libs/smtc_dbpsk_driver/src/ \

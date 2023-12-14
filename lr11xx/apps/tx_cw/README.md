@@ -1,4 +1,4 @@
-# LR11xx Tx continuous wave example
+# LR11XX Tx continuous wave example
 
 ## Description
 

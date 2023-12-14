@@ -81,9 +81,9 @@ symbols. Threshold used to decide if there is a LoRa activity.
 #endif
 
 /*!
- *  @brief Timeout is only used when the CAD is performed with cadExitMode = CAD_RX or CAD_LBT
- *  If cadExitMode = CAD_RX, check SetRx for Timout definition.
- *  If cadExitMode = CAD_LBT, check SetTx for Timout definition.
+ *  @brief Timeout is only used when the CAD is performed with CAD_EXIT_MODE = LR11XX_RADIO_CAD_EXIT_MODE_RX or LR11XX_RADIO_CAD_EXIT_MODE_TX
+ *  If CAD_EXIT_MODE = LR11XX_RADIO_CAD_EXIT_MODE_RX, check SetRx for Timout definition.
+ *  If CAD_EXIT_MODE = LR11XX_RADIO_CAD_EXIT_MODE_TX, check SetTx for Timout definition.
  */
 #ifndef CAD_TIMEOUT_MS
 #define CAD_TIMEOUT_MS 1000

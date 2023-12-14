@@ -308,7 +308,7 @@ typedef enum
     LR11XX_RADIO_PKT_TYPE_LORA    = 0x02,  //!< LoRa modulation
     LR11XX_RADIO_PKT_TYPE_BPSK    = 0x03,  //!< BPSK modulation
     LR11XX_RADIO_PKT_TYPE_LR_FHSS = 0x04,  //!< LR-FHSS modulation
-    LR11XX_RADIO_PKT_TYPE_RANGING = 0x05,  //!< Ranging packet
+    LR11XX_RADIO_PKT_TYPE_RTTOF   = 0x05,  //!< RTToF (Ranging) packet
 } lr11xx_radio_pkt_type_t;
 
 /*!

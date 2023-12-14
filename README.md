@@ -1,6 +1,6 @@
-# SWSD003
+# SWSD003 Transceiver SDK
 
-This SDK contain several simple examples for SX126x and LR11XX chip families.
+This SDK contain several simple examples for SX126x and LR11XX chip families used in Transceiver mode.
 
 ## Examples
 
@@ -55,7 +55,6 @@ Here are the parameters available at compile time:
 
 | Parameter    | Description                              | Default value                                      |
 | ------------ | ---------------------------------------- | -------------------------------------------------- |
-| TARGET_BOARD | Board for which the example is compiled  | NUCLEO_L476RG                                      |
 | RADIO_SHIELD | Shield for which the example is compiled | **lr11xx**: LR1120MB1DIS, **sx126x**: SX1262MB1CAS |
 
 For instance, to build the project `per` with LR1110MB1GJS shield simply run make as follows

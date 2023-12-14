@@ -5,6 +5,32 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.2.0] - 2023-12-15
+
+### Added
+
+- LR-FHSS demo support for LR11XX and SX126X chips
+- SX126X Sigfox demo support
+- Bluetooth Low Energy Beaconing Compatibility example for LR1110 and LR1120
+- Support for the following shields
+  - LR1110MB1IPDDIS
+  - LR1120MB1IPDDIS
+  - LR1110MB1PIS
+  - LR1120MB1PIS
+
+### Fixed
+
+- Remove duplicated code in configuration of LR11xx DBPSK configuration
+- PA tables for LR1110MB1DxS, LR1110MB1GxS, LR1120MB1DxS, LR1120MB1GxS
+- Typos in readme files
+- SX126x Ping-Pong example: add handler for Rx CRC error
+
+### Changed
+
+- Renaming from ranging to RTToF
+- LR11xx driver upgraded to v2.4.1
+- Update latest firmware version definition
+
 ## [v2.1.0] - 2023-10-06
 
 ### Added

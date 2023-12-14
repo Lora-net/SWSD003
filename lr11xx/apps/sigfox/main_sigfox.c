@@ -84,8 +84,7 @@ static lr11xx_hal_context_t* context;
  * --- PRIVATE FUNCTIONS DECLARATION -------------------------------------------
  */
 
-void send_frame( void );
-void lr11xx_dbpsk_init( const void* context );
+static void send_frame( void );
 
 /*
  * -----------------------------------------------------------------------------

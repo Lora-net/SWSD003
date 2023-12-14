@@ -81,16 +81,16 @@ include $(PROJECTS_COMMON_MAKEFILE)
 # build the application
 #######################################
 
-.PHONY: all target cad_only cad_then_receive cad_then_transmitt
+.PHONY: all target cad_only cad_then_receive cad_then_transmit
 
 target: cad
 
-all: cad_only cad_then_receive cad_then_transmitt
+all: cad_only cad_then_receive cad_then_transmit
 
 cad: $(BUILD_DIR)/$(APP).bin
 cad_only: $(OUT_DIR)/$(APP)_only.bin
 cad_then_receive: $(OUT_DIR)/$(APP)_then_receive.bin
-cad_then_transmitt: $(OUT_DIR)/$(APP)_then_transmitt.bin
+cad_then_transmit: $(OUT_DIR)/$(APP)_then_transmit.bin
 
 .DEFAULT_GOAL:= target
 
@@ -108,11 +108,11 @@ vpath %.s $(sort $(dir $(ASM_SOURCES)))
 
 OBJECTS_cad= $(BUILD_DIR)/$(APP).o
 OBJECTS_cad_then_receive = $(BUILD_DIR)/$(APP)_then_receive.o
-OBJECTS_cad_then_transmitt = $(BUILD_DIR)/$(APP)_then_transmitt.o
+OBJECTS_cad_then_transmit = $(BUILD_DIR)/$(APP)_then_transmit.o
 OBJECTS_cad_then_only = $(BUILD_DIR)/$(APP)_only.o
 
 $(OBJECTS_cad_then_receive): CFLAGS+= -DCAD_EXIT_MODE=0x01
-$(OBJECTS_cad_then_transmitt): CFLAGS+= -DCAD_EXIT_MODE=0x10
+$(OBJECTS_cad_then_transmit): CFLAGS+= -DCAD_EXIT_MODE=0x10
 $(OBJECTS_cad_then_only): CFLAGS+= -DCAD_EXIT_MODE=0x00
 $(OBJECTS_cad): CFLAGS+=
 

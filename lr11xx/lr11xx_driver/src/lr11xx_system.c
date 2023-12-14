@@ -160,10 +160,10 @@ lr11xx_status_t lr11xx_system_reset( const void* context )
 lr11xx_status_t lr11xx_system_get_status( const void* context, lr11xx_system_stat1_t* stat1,
                                           lr11xx_system_stat2_t* stat2, lr11xx_system_irq_mask_t* irq_status )
 {
-    uint8_t         data[LR11XX_SYSTEM_GET_STATUS_DIRECT_READ_LENGTH];
-    lr11xx_status_t status;
+    uint8_t         data[LR11XX_SYSTEM_GET_STATUS_DIRECT_READ_LENGTH] = { 0 };
 
-    status = ( lr11xx_status_t ) lr11xx_hal_direct_read( context, data, LR11XX_SYSTEM_GET_STATUS_DIRECT_READ_LENGTH );
+    const lr11xx_status_t status =
+        ( lr11xx_status_t ) lr11xx_hal_direct_read( context, data, LR11XX_SYSTEM_GET_STATUS_DIRECT_READ_LENGTH );
 
     if( status == LR11XX_STATUS_OK )
     {
@@ -457,6 +457,11 @@ lr11xx_status_t lr11xx_system_set_standby( const void* context, const lr11xx_sys
 lr11xx_status_t lr11xx_system_wakeup( const void* context )
 {
     return ( lr11xx_status_t ) lr11xx_hal_wakeup( context );
+}
+
+lr11xx_status_t lr11xx_system_abort_blocking_cmd( const void* context )
+{
+    return ( lr11xx_status_t ) lr11xx_hal_abort_blocking_cmd( context );
 }
 
 lr11xx_status_t lr11xx_system_set_fs( const void* context )

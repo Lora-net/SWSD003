@@ -92,6 +92,15 @@ lr11xx_status_t lr11xx_system_reset( const void* context );
  */
 lr11xx_status_t lr11xx_system_wakeup( const void* context );
 
+/**
+ * @brief Abort a blocking command.
+ *
+ * @param [in]  context Chip implementation context.
+ *
+ * @returns Operation status
+ */
+lr11xx_status_t lr11xx_system_abort_blocking_cmd( const void* context );
+
 /*!
  * @brief Return stat1, stat2, and irq_status
  *

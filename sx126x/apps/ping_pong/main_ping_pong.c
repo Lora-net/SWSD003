@@ -120,6 +120,8 @@ static uint16_t packets_to_sync = 0;
  * --- PRIVATE FUNCTIONS DECLARATION -------------------------------------------
  */
 
+static void common_rx_error_handler( void );
+
 /*
  * -----------------------------------------------------------------------------
  * --- PUBLIC FUNCTIONS DEFINITION ---------------------------------------------
@@ -131,7 +133,7 @@ static uint16_t packets_to_sync = 0;
 int main( void )
 {
     smtc_hal_mcu_init( );
-    uart_init();
+    uart_init( );
 
     HAL_DBG_TRACE_INFO( "===== SX126x Ping Pong example =====\n\n" );
     apps_common_sx126x_print_version_info( );
@@ -238,20 +240,20 @@ void on_rx_timeout( void )
         HAL_DBG_TRACE_WARNING(
             "It looks like synchronisation is still not done, consider resetting one of the board\n" );
     }
-    apps_common_sx126x_handle_post_rx( );
-
-    is_master = true;
-    iteration = 0;
-    memcpy( buffer_tx, ping_msg, PING_PONG_PREFIX_SIZE );
-    buffer_tx[ITERATION_INDEX] = ( uint8_t ) ( iteration );
-
-    sx126x_write_buffer( context, 0, buffer_tx, PAYLOAD_LENGTH );
-
-    apps_common_sx126x_handle_pre_tx( );
-    sx126x_set_tx( context, 0 );
+    common_rx_error_handler( );
 }
 
 void on_rx_error( void )
+{
+    common_rx_error_handler( );
+}
+
+void on_crc_error( void )
+{
+    common_rx_error_handler( );
+}
+
+void common_rx_error_handler( void )
 {
     apps_common_sx126x_handle_post_rx( );
 

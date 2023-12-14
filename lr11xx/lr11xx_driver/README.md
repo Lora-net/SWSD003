@@ -10,10 +10,10 @@ The driver is split in several components:
 - Register / memory access
 - System configuration
 - Radio
-- Wi-Fi Passive Scanning
-- GNSS Scan Scanning
+- Wi-Fi Passive Scanning (LR1110/LR1120 only)
+- GNSS Scan Scanning (LR1110/LR1120 only)
 - Crypto engine
-- Ranging
+- RTToF (Ranging) (LR1110/LR1120 only)
 
 ### Bootloader
 
@@ -31,6 +31,12 @@ This component is used to interact with system-wide parameters like clock source
 
 This component is used to send / receive data through the different modems (LoRa and GFSK) or perform a LoRa CAD (Channel Activity Detection). Parameters like power amplifier selection, output power and fallback modes are also accessible through this component.
 
+This also exposes features for Sigfox. Bluetooth®-Low-Energy-Beaconing-Compatibility is also provided in this component for LR1110/LR1120.
+
+### LR-FHSS
+
+This component provides LR-FHSS related functions.
+
 ### Wi-Fi Passive Scanning
 
 This component is used to configure and initiate the passive scanning of the Wi-Fi signals that can be shared to request a geolocation.
@@ -43,9 +49,9 @@ This component is used to configure and initiate the acquisition of GNSS signals
 
 This component is used to set and derive keys in the internal keychain and perform cryptographic operations with the integrated hardware accelerator.
 
-### Ranging
+### RTToF (Ranging)
 
-This component is used to configure and operate the device's LoRa Ranging feature.
+This component is used to configure and operate the device's LoRa Round-Trip Time of Flight (RTToF) feature.
 
 ## Structure
 
@@ -131,8 +137,7 @@ This workaround is not needed when using any LR1110 firmware version. Neverthele
 
 The first implementation - enabled by default in the driver - adds an implicit call updating the parameter to each function that could set the chip in GNSS scan mode:
 
-- `lr11xx_gnss_scan_autonomous`
-- `lr11xx_gnss_scan_assisted`
+- `lr11xx_gnss_scan`
 
 This implementation can be disabled by defining the macro `LR11XX_DISABLE_MIXER_CFG_WORKAROUND`. This disabling will be useful when, in the future, a new firmware integrating a fix is released and does not require the workaround anymore.
 

@@ -1,4 +1,4 @@
-# LR11xx Spectrum Display example
+# LR11XX Spectrum Display example
 
 ## Description
 
@@ -36,8 +36,7 @@ Here is an example of the curve will be displayed on terminal screen. The bottom
 
 The plotting function is supported by `VT100` control code. So, to run this demo normally, a terminal like `Tera Term` supporting `VT100` control code is necessary.
 
-The sample code will be used to perform test under both LoRa and FSK modem tests, but there should be no difference if the band-width is the same. Define macro `PACKET_TYPE` to `LR1110_RADIO_PKT_TYPE_LORA` or `LR1110_RADIO_PKT_TYPE_GFSK` (in file [`../../common/apps_configuration.h`](../../common/apps_configuration.h)) to enable each modem in the test.
-
+The sample code will be used to perform test under both LoRa and FSK modem tests, but there should be no difference if the band-width is the same. Define macro `PACKET_TYPE` to `LR11XX_RADIO_PKT_TYPE_LORA` or `LR11XX_RADIO_PKT_TYPE_GFSK` (in file [`../../common/apps_configuration.h`](../../common/apps_configuration.h)) to enable each modem in the test.
 
 ## Configuration
 

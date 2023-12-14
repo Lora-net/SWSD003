@@ -31,8 +31,10 @@
 ######################################
 TOP_DIR = ../../../..
 
-APP = ranging
+APP = bluetooth_low_energy_beaconing_compatibility
 APP_TRACE ?= yes
+
+RADIO_SHIELD ?= LR1120MB1DIS
 
 PROJECTS_COMMON_MAKEFILE = $(TOP_DIR)/lr11xx/common/apps_common.mk
 

@@ -89,6 +89,138 @@ const smtc_shield_lr11xx_xosc_cfg_t* smtc_shield_lr11x0_common_get_xosc_cfg( voi
     return &smtc_shield_lr11x0_common_xosc_cfg;
 }
 
+bool smtc_shield_lr11x0_common_rttof_recommended_rx_tx_delay_indicator( lr11xx_radio_lora_bw_t bw,
+                                                                        lr11xx_radio_lora_sf_t sf,
+                                                                        uint32_t*              delay_indicator )
+{
+    bool found = false;
+
+    *delay_indicator = 0u;
+
+    if( bw == LR11XX_RADIO_LORA_BW_500 )
+    {
+        if( sf == LR11XX_RADIO_LORA_SF5 )
+        {
+            *delay_indicator = 20149u;
+        }
+        else if( sf == LR11XX_RADIO_LORA_SF6 )
+        {
+            *delay_indicator = 20227u;
+        }
+        else if( sf == LR11XX_RADIO_LORA_SF7 )
+        {
+            *delay_indicator = 20258u;
+        }
+        else if( sf == LR11XX_RADIO_LORA_SF8 )
+        {
+            *delay_indicator = 20277u;
+        }
+        else if( sf == LR11XX_RADIO_LORA_SF9 )
+        {
+            *delay_indicator = 20286u;
+        }
+        else if( sf == LR11XX_RADIO_LORA_SF10 )
+        {
+            *delay_indicator = 20292u;
+        }
+        else if( sf == LR11XX_RADIO_LORA_SF11 )
+        {
+            *delay_indicator = 20295u;
+        }
+        else if( sf == LR11XX_RADIO_LORA_SF12 )
+        {
+            *delay_indicator = 20298u;
+        }
+        else
+        {
+            found = LR11XX_STATUS_ERROR;
+        }
+    }
+    else if( bw == LR11XX_RADIO_LORA_BW_250 )
+    {
+        if( sf == LR11XX_RADIO_LORA_SF5 )
+        {
+            *delay_indicator = 20235u;
+        }
+        else if( sf == LR11XX_RADIO_LORA_SF6 )
+        {
+            *delay_indicator = 20239u;
+        }
+        else if( sf == LR11XX_RADIO_LORA_SF7 )
+        {
+            *delay_indicator = 20238u;
+        }
+        else if( sf == LR11XX_RADIO_LORA_SF8 )
+        {
+            *delay_indicator = 20237u;
+        }
+        else if( sf == LR11XX_RADIO_LORA_SF9 )
+        {
+            *delay_indicator = 20236u;
+        }
+        else if( sf == LR11XX_RADIO_LORA_SF10 )
+        {
+            *delay_indicator = 20235u;
+        }
+        else if( sf == LR11XX_RADIO_LORA_SF11 )
+        {
+            *delay_indicator = 20236u;
+        }
+        else if( sf == LR11XX_RADIO_LORA_SF12 )
+        {
+            *delay_indicator = 20232u;
+        }
+        else
+        {
+            found = LR11XX_STATUS_ERROR;
+        }
+    }
+    else if( bw == LR11XX_RADIO_LORA_BW_125 )
+    {
+        if( sf == LR11XX_RADIO_LORA_SF5 )
+        {
+            *delay_indicator = 19035u;
+        }
+        else if( sf == LR11XX_RADIO_LORA_SF6 )
+        {
+            *delay_indicator = 19040u;
+        }
+        else if( sf == LR11XX_RADIO_LORA_SF7 )
+        {
+            *delay_indicator = 19040u;
+        }
+        else if( sf == LR11XX_RADIO_LORA_SF8 )
+        {
+            *delay_indicator = 19039u;
+        }
+        else if( sf == LR11XX_RADIO_LORA_SF9 )
+        {
+            *delay_indicator = 19036u;
+        }
+        else if( sf == LR11XX_RADIO_LORA_SF10 )
+        {
+            *delay_indicator = 19038u;
+        }
+        else if( sf == LR11XX_RADIO_LORA_SF11 )
+        {
+            *delay_indicator = 19036u;
+        }
+        else if( sf == LR11XX_RADIO_LORA_SF12 )
+        {
+            *delay_indicator = 19024u;
+        }
+        else
+        {
+            found = LR11XX_STATUS_ERROR;
+        }
+    }
+    else
+    {
+        found = LR11XX_STATUS_ERROR;
+    }
+    return found;
+}
+
 /*
  * -----------------------------------------------------------------------------
  * --- PRIVATE FUNCTIONS DEFINITION --------------------------------------------

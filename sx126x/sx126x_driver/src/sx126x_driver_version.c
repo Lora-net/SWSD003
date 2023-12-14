@@ -1,10 +1,10 @@
-/**
- * @file      lr11xx_ranging_types.h
+/*!
+ * @file      sx126x_driver_version.c
  *
- * @brief     Ranging driver types for LR11XX
+ * @brief     Placeholder to keep the version of SX126x driver.
  *
  * The Clear BSD License
- * Copyright Semtech Corporation 2022. All rights reserved.
+ * Copyright Semtech Corporation 2023. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted (subject to the limitations in the disclaimer
@@ -32,51 +32,57 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef LR11XX_RANGING_TYPES_H
-#define LR11XX_RANGING_TYPES_H
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 /*
  * -----------------------------------------------------------------------------
  * --- DEPENDENCIES ------------------------------------------------------------
  */
 
+#include "sx126x_driver_version.h"
+
 /*
  * -----------------------------------------------------------------------------
- * --- PUBLIC MACROS -----------------------------------------------------------
+ * --- PRIVATE MACROS-----------------------------------------------------------
+ */
+
+#define STR_HELPER( x ) #x
+#define STR( x ) STR_HELPER( x )
+
+#define SX126X_DRIVER_VERSION_FULL \
+    "v" STR( SX126X_DRIVER_VERSION_MAJOR ) "." STR( SX126X_DRIVER_VERSION_MINOR ) "." STR( SX126X_DRIVER_VERSION_PATCH )
+
+/*
+ * -----------------------------------------------------------------------------
+ * --- PRIVATE CONSTANTS -------------------------------------------------------
  */
 
 /*
  * -----------------------------------------------------------------------------
- * --- PUBLIC CONSTANTS --------------------------------------------------------
+ * --- PRIVATE TYPES -----------------------------------------------------------
  */
 
 /*
  * -----------------------------------------------------------------------------
- * --- PUBLIC TYPES ------------------------------------------------------------
+ * --- PRIVATE VARIABLES -------------------------------------------------------
  */
 
-/**
- * @brief Ranging result types
+/*
+ * -----------------------------------------------------------------------------
+ * --- PRIVATE FUNCTIONS DECLARATION -------------------------------------------
  */
-typedef enum lr11xx_ranging_result_type_e
+
+/*
+ * -----------------------------------------------------------------------------
+ * --- PUBLIC FUNCTIONS DEFINITION ---------------------------------------------
+ */
+
+const char* sx126x_driver_version_get_version_string( void )
 {
-    LR11XX_RANGING_RESULT_TYPE_RAW = 0,  ///< Raw distance result
-    LR11XX_RANGING_RESULT_TYPE_RSSI,     ///< Ranging RSSI
-} lr11xx_ranging_result_type_t;
+    return ( const char* ) SX126X_DRIVER_VERSION_FULL;
+}
 
 /*
  * -----------------------------------------------------------------------------
- * --- PUBLIC FUNCTION PROTOTYPES ---------------------------------------------
+ * --- PRIVATE FUNCTIONS DEFINITION --------------------------------------------
  */
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif  // LR11XX_RANGING_TYPES_H
 
 /* --- EOF ------------------------------------------------------------------ */

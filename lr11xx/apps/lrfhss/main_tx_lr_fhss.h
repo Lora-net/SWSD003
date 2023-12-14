@@ -1,7 +1,7 @@
-/**
- * @file      main_ranging.h
+/*!
+ * @file      main_tx_lr_fhss.h
  *
- * @brief     Ranging example for LR11xx chip
+ * @brief     TX LR-FHSS example for LR11xx chip
  *
  * The Clear BSD License
  * Copyright Semtech Corporation 2023. All rights reserved.
@@ -32,8 +32,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef MAIN_RANGING_H
-#define MAIN_RANGING_H
+#ifndef MAIN_TX_LR_FHSS_H
+#define MAIN_TX_LR_FHSS_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -43,66 +43,23 @@ extern "C" {
  * -----------------------------------------------------------------------------
  * --- DEPENDENCIES ------------------------------------------------------------
  */
-#include "apps_common.h"
-#include <stdint.h>
 
 /*
  * -----------------------------------------------------------------------------
  * --- PUBLIC MACROS -----------------------------------------------------------
  */
 
-/**
- * @brief Ranging device slave (subordinate) mode
+/*!
+ *  @brief Delay in ms between the end of a transmission and the beginning of the next one
  */
-#define RANGING_DEVICE_MODE_SUBORDINATE 0
+#define TX_TO_TX_DELAY_IN_MS 200
 
-/**
- * @brief Ranging device manager (master) mode
- */
-#define RANGING_DEVICE_MODE_MANAGER 1
-
-/**
- * @brief Mode of operation
- */
-#ifndef RANGING_DEVICE_MODE
-#define RANGING_DEVICE_MODE RANGING_DEVICE_MODE_MANAGER
-#endif
-
-/**
- * @brief Subordinate ranging address
- *
- * Address used to identify the ranging subordinate device.
- * This address is configured as address of the subordinate device
- * and used as request address in the manager device.
- */
-#ifndef RANGING_ADDRESS
-#define RANGING_ADDRESS UINT32_C( 0x00000019 )
-#endif
-
-/**
- * @brief Number of symbols in ranging response
- */
-#ifndef RESPONSE_SYMBOLS_COUNT
-#define RESPONSE_SYMBOLS_COUNT UINT8_C( 15 )
-#endif
-
-/**
- * @brief Manager-side ranging timeout [ms]
- *
- * Timeout for receiving a response after sending
- * a ranging request.
- */
-#ifndef MANAGER_TX_RX_TIMEOUT_MS
-#define MANAGER_TX_RX_TIMEOUT_MS UINT32_C( 3276 )
-#endif
-
-/**
- * @brief Manager-side sleep period after ranging [ms]
- *
- */
-#ifndef MANAGER_RANGING_SLEEP_PERIOD
-#define MANAGER_RANGING_SLEEP_PERIOD UINT32_C( 1000 )
-#endif
+#define LR_FHSS_BANDWIDTH LR_FHSS_V1_BW_136719_HZ
+#define LR_FHSS_CODING_RATE LR_FHSS_V1_CR_5_6
+#define LR_FHSS_ENABLE_HOPPING true
+#define LR_FHSS_GRID LR_FHSS_V1_GRID_3906_HZ
+#define LR_FHSS_HEADER_COUNT 2
+#define LR_FHSS_MODULATION_TYPE LR_FHSS_V1_MODULATION_TYPE_GMSK_488
 
 /*
  * -----------------------------------------------------------------------------
@@ -123,6 +80,6 @@ extern "C" {
 }
 #endif
 
-#endif  // MAIN_RANGING_H
+#endif  // MAIN_TX_LR_FHSS_H
 
 /* --- EOF ------------------------------------------------------------------ */

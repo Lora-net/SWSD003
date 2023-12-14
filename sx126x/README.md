@@ -9,10 +9,11 @@ The SX126x SDK contains several simple examples for SX126x transceivers.
 | CAD                  | Perform a Channel Activity Detection (CAD) - LoRa only          | [README](apps/cad/README.md)                  |
 | PER                  | Perform a Packet Error Rate (PER) test - both Tx and Rx roles   | [README](apps/per/README.md)                  |
 | Ping pong            | Launch an exchange between two devices                          | [README](apps/ping_pong/README.md)            |
-| Sprectral scan       | Get inst-RSSI values in RX mode to form a heat map              | [README](apps/spectral_scan/README.md)        |
+| Spectral scan        | Get inst-RSSI values in RX mode to form a heat map              | [README](apps/spectral_scan/README.md)        |
 | Spectrum display     | Get inst-RSSI values in RX mode to form a dyamic spectrum curve | [README](apps/spectrum_display/README.md)     |
 | Tx continuous wave   | Configure the chip to transmit a single tone                    | [README](apps/tx_cw/README.md)                |
 | Tx infinite preamble | Configure the chip to transmit an infinite preamble             | [README](apps/tx_infinite_preamble/README.md) |
+| Sigfox               | Send a Sigfox-compliant uplink                                  | [README](apps/sigfox/README.md)               |
 
 A demonstration of the LR-FHSS capability of the chip can be found [here](https://github.com/Lora-net/SWDM001).
 
@@ -27,7 +28,7 @@ There is also a common configuration file `sx126x/common/apps_configuration.h` w
 * Output power
 * Packet and modulation parameters for different modulations
 
-See details in the common [README](sx126x/common/README.md)
+See details in the common [README](common/README.md)
 
 ## Requirements
 

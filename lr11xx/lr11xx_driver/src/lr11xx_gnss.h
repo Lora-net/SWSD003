@@ -45,7 +45,6 @@ extern "C" {
  */
 
 #include "lr11xx_gnss_types.h"
-#include "lr11xx_system_types.h"
 #include "lr11xx_types.h"
 
 /*
@@ -97,18 +96,6 @@ lr11xx_status_t lr11xx_gnss_get_result_size( const void* context, uint16_t* resu
  */
 lr11xx_status_t lr11xx_gnss_read_results( const void* context, uint8_t* result_buffer,
                                           const uint16_t result_buffer_size );
-
-/*!
- * @brief Get the time spent in signal acquisition and signal analysis
- *
- * These timings allow to compute the current consumption of the last GNSS scan.
- *
- * @param [in] context Chip implementation context
- * @param [out] timings GNSS timings of last GNSS scan
- *
- * @returns Operation status
- */
-lr11xx_status_t lr11xx_gnss_get_timings( const void* context, lr11xx_gnss_timings_t* timings );
 
 /*!
  * @brief Update almanacs given as parameter
@@ -300,38 +287,18 @@ lr11xx_status_t lr11xx_gnss_read_supported_constellations( const void*          
 lr11xx_status_t lr11xx_gnss_set_scan_mode( const void* context, const lr11xx_gnss_scan_mode_t scan_mode );
 
 /*!
- * @brief Gnss scan with no assisted parameters needed
+ * @brief Start the gnss scan
  *
  * @param [in] context Chip implementation context
- * @param [in] date The actual date of scan. Its format is the number of seconds elapsed since January the 6th 1980
- * 00:00:00 with leap seconds included.
  * @param [in] effort_mode Effort mode @ref lr11xx_gnss_search_mode_t
  * @param [in] gnss_input_parameters Bit mask indicating which information is added in the output payload @ref
- * lr11xx_gnss_result_fields_legacy_e
+ * lr11xx_gnss_result_fields_e
  * @param [in] nb_sat The expected number of satellite to provide. This value must be in the range [0:128]
  *
  * @returns Operation status
  */
-lr11xx_status_t lr11xx_gnss_scan_autonomous( const void* context, const lr11xx_gnss_date_t date,
-                                             const lr11xx_gnss_search_mode_t effort_mode,
-                                             const uint8_t gnss_input_parameters, const uint8_t nb_sat );
-
-/*!
- * @brief Gnss scan with assisted parameters.
- *
- * @param [in] context Chip implementation context
- * @param [in] date The actual date of scan. Its format is the number of seconds elapsed since January the 6th 1980
- * 00:00:00 with leap seconds included.
- * @param [in] effort_mode Effort mode @ref lr11xx_gnss_search_mode_t
- * @param [in] gnss_input_parameters Bit mask indicating which information is added in the output payload @ref
- * lr11xx_gnss_result_fields_legacy_e
- * @param [in] nb_sat The expected number of satellite to provide. This value must be in the range [0:128]
- *
- * @returns Operation status
- */
-lr11xx_status_t lr11xx_gnss_scan_assisted( const void* context, const lr11xx_gnss_date_t date,
-                                           const lr11xx_gnss_search_mode_t effort_mode,
-                                           const uint8_t gnss_input_parameters, const uint8_t nb_sat );
+lr11xx_status_t lr11xx_gnss_scan( const void* context, const lr11xx_gnss_search_mode_t effort_mode,
+                                  const uint8_t gnss_input_parameters, const uint8_t nb_sat );
 
 /*!
  * @brief Function to set the assistance position.
@@ -418,6 +385,22 @@ lr11xx_status_t lr11xx_gnss_get_detected_satellites(
     lr11xx_gnss_detected_satellite_t* detected_satellite_id_snr_doppler );
 
 /*!
+ * @brief Read almanacs per satellite range
+ *
+ * @note Doppler is returned with 6ppm accuracy.
+ *
+ * @param [in] context Chip implementation context
+ * @param [in] sv_id_init Index of the satellite to start reading almanac from
+ * @param [in] n_sv Number of satellite almanac to read from sv_id_init
+ * @param [out] almanacs Pointer to an array to be filled by almanac data. It is up to the caller to ensure the
+ * available length of almanacs buffer is at least (n_sv * LR11XX_GNSS_SINGLE_ALMANAC_READ_SIZE)
+ *
+ * @returns Operation status
+ */
+lr11xx_status_t lr11xx_gnss_read_almanac_per_satellites( const void* context, uint8_t sv_id_init, uint8_t n_sv,
+                                                         uint8_t* almanacs );
+
+/*!
  * @brief Read RSSI on GNSS path
  *
  * This is a test function to read RSSI on GNSS path.
@@ -482,29 +465,288 @@ uint16_t lr11xx_gnss_compute_almanac_age( uint16_t almanac_date,
                                           uint16_t nb_days_between_epoch_and_corresponding_gps_time_rollover,
                                           uint16_t nb_days_since_epoch );
 
-/**
- * @brief Compute the power consumption in uAh based on the time spent in signal acquisition and signal analysis.
+/*!
+ * @brief Start the time acquisition/domulation.
  *
- * @param [in] regulator The regulator used during last GNSS scan
- * @param [in] timings Timings allowing to compute the current consumption
- * @param [in] constellations_used Bit mask of the constellations used
+ * @param [in] context Chip implementation context
+ * @param [in] effort_mode Effort mode @ref lr11xx_gnss_search_mode_t, note that LR11XX_GNSS_OPTION_HIGH_EFFORT is not
+ * supported here
+ * @param [in] option Fetch time option @ref lr11xx_gnss_fetch_time_option_t
  *
- * @returns Current consumption in uAh
+ * @returns Operation status
  */
-uint32_t lr11xx_gnss_get_consumption( lr11xx_system_reg_mode_t regulator, lr11xx_gnss_timings_t timings,
-                                      lr11xx_gnss_constellation_mask_t constellations_used );
+lr11xx_status_t lr11xx_gnss_fetch_time( const void* context, const lr11xx_gnss_search_mode_t effort_mode,
+                                        const lr11xx_gnss_fetch_time_option_t option );
+/*!
+ * @brief Read time from LR11XX.
+ *
+ * @param [in] context Chip implementation context
+ * @param [out] time Structure containing the time \ref lr11xx_gnss_time_t
+ *
+ * @returns Operation status
+ */
+lr11xx_status_t lr11xx_gnss_read_time( const void* context, lr11xx_gnss_time_t* time );
 
 /*!
- * @brief Apply the workaround for the mixer configuration issue - only LR1120 chip is impacted
- *
- * @remark This function is always called when calling @ref lr11xx_gnss_scan_autonomous or @ref
- * lr11xx_gnss_scan_assisted unless the macro LR11XX_DISABLE_MIXER_CFG_WORKAROUND is defined.
+ * @brief Reset the internal time.
  *
  * @param [in] context Chip implementation context
  *
  * @returns Operation status
  */
-lr11xx_status_t lr11xx_gnss_apply_mixer_cfg_workaround( const void* context );
+lr11xx_status_t lr11xx_gnss_reset_time( const void* context );
+
+/*!
+ * @brief Reset the location and the history Doppler buffer.
+ *
+ * @param [in] context Chip implementation context
+ *
+ * @returns Operation status
+ */
+lr11xx_status_t lr11xx_gnss_reset_position( const void* context );
+
+/*!
+ * @brief Read the week number rollover.
+ *
+ * @param [in] context Chip implementation context
+ * @param [out] wn_rollover_status Week number rollover status \ref lr11xx_gnss_week_number_rollover_status_t
+ * @param [out] wn_number_rollover Week number rollover since 1980
+ *
+ * @returns Operation status
+ */
+lr11xx_status_t lr11xx_gnss_read_week_number_rollover( const void*                                context,
+                                                       lr11xx_gnss_week_number_rollover_status_t* wn_rollover_status,
+                                                       uint8_t*                                   wn_number_rollover );
+
+/*!
+ * @brief Read demod status.
+ *
+ * @param [in] context Chip implementation context
+ * @param [out] demod_status Demodulation status \ref lr11xx_gnss_demod_status_t
+ * @param [out] demod_info Demodulation info \ref lr11xx_gnss_demod_info_t
+ *
+ * @returns Operation status
+ */
+lr11xx_status_t lr11xx_gnss_read_demod_status( const void* context, lr11xx_gnss_demod_status_t* demod_status,
+                                               lr11xx_gnss_demod_info_t* demod_info );
+
+/*!
+ * @brief Read cumulative timing.
+ *
+ * @param [in] context Chip implementation context
+ * @param [out] cumulative_timing Cumulative timing status \ref lr11xx_gnss_cumulative_timing_t, The value of time is in
+ * counter of 32KhZ, to have it in second, the counter must be divided by 32768
+ *
+ * @returns Operation status
+ */
+lr11xx_status_t lr11xx_gnss_read_cumulative_timing( const void*                      context,
+                                                    lr11xx_gnss_cumulative_timing_t* cumulative_timing );
+
+/*!
+ * @brief Compute power consumption based on timings and instantaneous power consumption.
+ *
+ * @param [in] cumulative_timing Timings read from lr11xx_gnss_read_cumulative_timing API \ref
+ * lr11xx_gnss_cumulative_timing_t
+ * @param [in] instantaneous_power_consumption_ua Instantaneous power consumption associated to each timings \ref
+ * lr11xx_gnss_instantaneous_power_consumption_ua_t
+ * @param [out] power_consumption_nah Power consumption computed in nAh
+ * @param [out] power_consumption_nwh Power consumption computed in nWh
+ */
+void lr11xx_gnss_compute_power_consumption(
+    const lr11xx_gnss_cumulative_timing_t*                  cumulative_timing,
+    const lr11xx_gnss_instantaneous_power_consumption_ua_t* instantaneous_power_consumption_ua,
+    uint32_t* power_consumption_nah, uint32_t* power_consumption_nwh );
+
+/*!
+ * @brief Set the GPS time.
+ *
+ * This command is to be used when the 32kHz clock feeding the LR11xx is turned off.
+ * The LR11xx needs the 32kHz clock to track the absolute time. However if the clock is turned off, it will attempt to
+ * get the absolute time from GNSS SV demodulation on next GNSS scan, which is power consuming.
+ * However, if the MCU has capability to keep the absolute time when 32kHz clock is turned off, then it can use this
+ * command to configure the LR11xx, so that the LR11xx is more power efficient when fetching time from SV signal.
+ *
+ * Typical usage is:
+ *   1. MCU get absolute GPS time from any (possibly not accurate) source (like LoRaWAN network for instance)
+ *   2. On next scan, the MCU turns on the 32kHz clock, uses lr11xx_gnss_set_time to set the time, with an accuracy that
+ * depends on its crystal drift, and start the scan
+ *   3. MCU reads the time from LR11xx (lr11xx_gnss_read_time) and stores it internally
+ *   4. MCU turns off 32kHz clock of the LR11xx
+ *
+ * @param [in] context Chip implementation context
+ * @param [in] time GPS time in sec from 6 January 1980 00:00:00
+ * @param [in] time_accuracy Accuracy in millisecond of the time given. If set to 0, the accuracy of time given is
+ * considered to be unknown
+ *
+ * @returns Operation status
+ */
+lr11xx_status_t lr11xx_gnss_set_time( const void* context, const uint32_t time, const uint16_t time_accuracy );
+
+/*!
+ * @brief Configures the time delay in sec. If the time elapsed from last Assistance position update is larger than this
+ * delay and there is always no SV detected, LR11xx will reset the Assistance position and the GNSS scan switches from
+ * assisted scan to autonomous scan.
+ *
+ * @param [in] context Chip implementation context
+ * @param [in] delay Delay in second on 3 bytes
+ *
+ * @returns Operation status
+ */
+lr11xx_status_t lr11xx_gnss_config_delay_reset_assistance_position( const void* context, const uint32_t delay );
+
+/*!
+ * @brief Read the assisted position based on the internal doppler solver executed during lr11xx_gnss_scan or
+ * lr11xx_gnss_almanac_update_from_sat functions.
+ *
+ * @param [in] context Chip implementation context
+ * @param [out] results \ref lr11xx_gnss_doppler_solver_result_t
+ *
+ * @returns Operation status
+ */
+lr11xx_status_t lr11xx_gnss_read_doppler_solver_result( const void*                          context,
+                                                        lr11xx_gnss_doppler_solver_result_t* results );
+
+/*!
+ * @brief Read the time delay in sec. If the time elapsed from last Assistance position update is larger than this
+ * delay and there is always no SV detected, LR11xx will reset the Assistance position and the GNSS scan switches from
+ * assisted scan to autonomous scan.
+ *
+ * @param [in] context Chip implementation context
+ * @param [out] delay Delay in second on 3 bytes
+ *
+ * @returns Operation status
+ */
+lr11xx_status_t lr11xx_gnss_read_delay_reset_assistance_position( const void* context, uint32_t* delay );
+
+/*!
+ * @brief This command launches one scan to download from satellite almanac parameters broadcasted in one page by one
+ * constellation.
+ *
+ * @param [in] context Chip implementation context
+ * @param [in] constellation_mask Bit mask of the constellations to use. See @ref lr11xx_gnss_constellation_t for
+ * the possible values
+ * @param [in] effort_mode Effort mode @ref lr11xx_gnss_search_mode_t, note that LR11XX_GNSS_OPTION_HIGH_EFFORT is not
+ * supported here
+ *
+ * @returns Operation status
+ */
+lr11xx_status_t lr11xx_gnss_almanac_update_from_sat( const void*                            context,
+                                                     const lr11xx_gnss_constellation_mask_t constellation_mask,
+                                                     const lr11xx_gnss_search_mode_t        effort_mode );
+
+/*!
+ * @brief This command read the number of visible satellites and the time elapsed from last detected satellite list
+ * update of this constellation.
+ *
+ * @param [in] context Chip implementation context
+ * @param [in] constellation_mask Bit mask of the constellations to use. See @ref lr11xx_gnss_constellation_t for
+ * the possible values. Only one constellation shall be selected otherwise the command will return an error
+ * @param [out] nb_visible_sat number of visible satellites
+ * @param [out] time_elapsed elapsed from last sv list update in ms
+ *
+ * @returns Operation status
+ */
+lr11xx_status_t lr11xx_gnss_read_keep_sync_status( const void*                            context,
+                                                   const lr11xx_gnss_constellation_mask_t constellation_mask,
+                                                   uint8_t* nb_visible_sat, uint32_t* time_elapsed );
+
+/*!
+ * @brief This command returns the actual state of almanac GPS and Beidou.
+ *
+ * @param [in] context Chip implementation context
+ * @param [in] almanac_status almanac status for GPS and Beidou @ref lr11xx_gnss_read_almanac_status_t
+ *
+ * @returns Operation status
+ */
+lr11xx_status_t lr11xx_gnss_read_almanac_status( const void*                        context,
+                                                 lr11xx_gnss_read_almanac_status_t* almanac_status );
+
+/*!
+ * @brief Configures the almanac update period.
+ *
+ * @param [in] context Chip implementation context
+ * @param [in] constellation_mask Bit mask of the constellations to use. See @ref lr11xx_gnss_constellation_t for
+ * the possible values. Only one constellation shall be selected otherwise the command will return an error
+ * @param [in] sv_type sv type to configure. See @ref lr11xx_gnss_sv_type_t for
+ * the possible values. This parameter has no impact when constellation_mask is set to LR11XX_GNSS_GPS_MASK but is value
+ * must be a valid lr11xx_gnss_sv_type_t one
+ * @param [in] period delta in day computed between age of almanac in flash and current day and compared to this period
+ * to indicate to the application during a lr11xx_gnss_read_almanac_status if it must be downloaded
+ *
+ * @returns Operation status
+ */
+lr11xx_status_t lr11xx_gnss_config_almanac_update_period( const void*                            context,
+                                                          const lr11xx_gnss_constellation_mask_t constellation_mask,
+                                                          const lr11xx_gnss_sv_type_t sv_type, const uint16_t period );
+
+/*!
+ * @brief Read the almanac update period.
+ *
+ * @param [in] context Chip implementation context
+ * @param [in] constellation_mask Bit mask of the constellations to use. See @ref lr11xx_gnss_constellation_t for
+ * the possible values. Only one constellation shall be selected otherwise the command will return an error
+ * @param [in] sv_type sv type of satellites to read period from. See @ref lr11xx_gnss_sv_type_t for
+ * the possible values. This parameter has no impact when constellation_mask is set to LR11XX_GNSS_GPS_MASK but is value
+ * must be a valid lr11xx_gnss_sv_type_t one
+ * @param [out] period delta in day computed between age of almanac in flash and current day and compared to this period
+ * to indicate to the application during a lr11xx_gnss_read_almanac_status if it must be downloaded
+ *
+ * @returns Operation status
+ */
+lr11xx_status_t lr11xx_gnss_read_almanac_update_period( const void*                            context,
+                                                        const lr11xx_gnss_constellation_mask_t constellation_mask,
+                                                        const lr11xx_gnss_sv_type_t sv_type, uint16_t* period );
+
+/*!
+ * @brief Returns the list of satellite for the next keep sync scan.
+ *
+ * @param [in] context Chip implementation context
+ * @param [in] constellation_mask Bit mask of the constellations to use. See @ref lr11xx_gnss_constellation_t for
+ * the possible values. Only one constellation shall be selected otherwise the command will return an error
+ * @param [in] nb_sv_to_get Number of sv to read, the user must call lr11xx_gnss_read_keep_sync_status to know exactly
+ * the number of satellites in the list
+ * @param [out] sv_sync_list list of sync. It is up to the caller to ensure it is at least nb_sv_to_get byte long
+ *
+ * @returns Operation status
+ */
+lr11xx_status_t lr11xx_gnss_get_sv_sync( const void* context, const lr11xx_gnss_constellation_mask_t constellation_mask,
+                                         const uint8_t nb_sv_to_get, uint8_t* sv_sync_list );
+
+/*!
+ * @brief Configures the ability of the LR11xx to search almanac for each GPS satellites.
+ *
+ * @param [in] context Chip implementation context
+ * @param [in] gps_sat_activated_1_32 32-bit bit mask sat activated: sat 1-32 activated (default value: 0xFFFFFFFF)
+ *
+ * @returns Operation status
+ */
+lr11xx_status_t lr11xx_gnss_set_gps_bit_mask_sat_activated( const void*    context,
+                                                            const uint32_t gps_sat_activated_1_32 );
+
+/*!
+ * @brief Configures the ability of the LR11xx to search almanac for each Beidou satellites.
+ *
+ * @param [in] context Chip implementation context
+ * @param [in] beidou_sat_activated_1_32 32-bit bit mask sat activated: sat 1-32 activated (default value: 0xBFFCBFFF))
+ * @param [in] beidou_sat_activated_33_63 32-bit bit mask sat activated: sat 33-63 activated (default value: 0xC0007FF))
+ *
+ * @returns Operation status
+ */
+lr11xx_status_t lr11xx_gnss_set_beidou_bit_mask_sat_activated( const void*    context,
+                                                               const uint32_t beidou_sat_activated_1_32,
+                                                               const uint32_t beidou_sat_activated_33_63 );
+
+/*!
+ * @brief Get the type of scan launched during the last scan
+ *
+ * @param [in] context Chip implementation context
+ * @param [out] last_scan_mode last scan launched. See @ref lr11xx_gnss_scan_mode_launched_t for
+ * the possible values.
+ *
+ * @returns Operation status
+ */
+lr11xx_status_t lr11xx_gnss_read_last_scan_mode_launched( const void*                       context,
+                                                          lr11xx_gnss_scan_mode_launched_t* last_scan_mode );
 
 #ifdef __cplusplus
 }

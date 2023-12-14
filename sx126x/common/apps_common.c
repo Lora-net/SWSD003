@@ -59,6 +59,8 @@
 #include "smtc_shield_sx1262mb2cas.h"
 #include "smtc_shield_sx1268mb1gas.h"
 
+#include "smtc_dbpsk.h"
+
 /*
  * -----------------------------------------------------------------------------
  * --- PRIVATE MACROS-----------------------------------------------------------
@@ -129,6 +131,19 @@ const sx126x_pkt_params_gfsk_t gfsk_pkt_params = {
     .crc_type              = FSK_CRC_TYPE,
     .dc_free               = FSK_DC_FREE,
 };
+
+static const sx126x_mod_params_bpsk_t bpsk_mod_params = {
+    .br_in_bps   = BPSK_BITRATE_IN_BPS,
+    .pulse_shape = SX126X_DBPSK_PULSE_SHAPE,
+};
+
+static sx126x_pkt_params_bpsk_t bpsk_pkt_params = {
+    .pld_len_in_bytes = 0,  // Will be initialized in radio init
+    .ramp_up_delay    = 0,
+    .ramp_down_delay  = 0,
+    .pld_len_in_bits  = 0,  // Will be initialized in radio init
+};
+
 /*
  * -----------------------------------------------------------------------------
  * --- PRIVATE TYPES -----------------------------------------------------------
@@ -384,6 +399,80 @@ void apps_common_sx126x_radio_init( const void* context )
             ASSERT_SX126X_RC( sx126x_set_gfsk_pkt_address( context, FSK_NODE_ADDRESS, FSK_BROADCAST_ADDRESS ) );
         }
     }
+}
+
+void apps_common_sx126x_radio_dbpsk_init( const void* context, const uint8_t payload_len )
+{
+    const smtc_shield_sx126x_pa_pwr_cfg_t* pa_pwr_cfg =
+        smtc_shield_sx126x_get_pa_pwr_cfg( &shield, SIGFOX_UPLINK_RF_FREQ_IN_HZ, TX_OUTPUT_POWER_DBM );
+
+    apps_common_sx126x_print_config( );
+
+    if( pa_pwr_cfg == NULL )
+    {
+        HAL_DBG_TRACE_ERROR( "Invalid target frequency or power level\n" );
+        while( true )
+        {
+        }
+    }
+
+    HAL_DBG_TRACE_INFO( "Sigfox parameters:\n" );
+    HAL_DBG_TRACE_INFO( "   Packet type   = %s\n", sx126x_pkt_type_to_str( SX126X_PKT_TYPE_BPSK ) );
+    HAL_DBG_TRACE_INFO( "   RF frequency  = %u Hz\n", SIGFOX_UPLINK_RF_FREQ_IN_HZ );
+    HAL_DBG_TRACE_INFO( "   Output power  = %i dBm\n", SIGFOX_TX_OUTPUT_POWER_DBM );
+
+    ASSERT_SX126X_RC( sx126x_set_standby( context, SX126X_STANDBY_CFG_RC ) );
+    ASSERT_SX126X_RC( sx126x_set_pkt_type( context, SX126X_PKT_TYPE_BPSK ) );
+    ASSERT_SX126X_RC( sx126x_set_rf_freq( context, SIGFOX_UPLINK_RF_FREQ_IN_HZ ) );
+
+    ASSERT_SX126X_RC( sx126x_set_pa_cfg( context, &( pa_pwr_cfg->pa_config ) ) );
+    ASSERT_SX126X_RC( sx126x_set_tx_params( context, pa_pwr_cfg->power, PA_RAMP_TIME ) );
+
+    ASSERT_SX126X_RC( sx126x_set_rx_tx_fallback_mode( context, FALLBACK_MODE ) );
+    ASSERT_SX126X_RC( sx126x_cfg_rx_boosted( context, ENABLE_RX_BOOST_MODE ) );
+
+    ASSERT_SX126X_RC( sx126x_set_bpsk_mod_params( context, &bpsk_mod_params ) );
+
+    bpsk_pkt_params.pld_len_in_bytes = smtc_dbpsk_get_pld_len_in_bytes( payload_len << 3 );
+    bpsk_pkt_params.pld_len_in_bits  = smtc_dbpsk_get_pld_len_in_bits( payload_len << 3 );
+
+    if( BPSK_BITRATE_IN_BPS == 100 )
+    {
+        uint8_t pa_optim_buffer[6] = { 0x37,                                               // clean start-up MSB
+                                       0x0F,                                               // clean start-up LSB
+                                       0x1D,                                               // clean end of frame MSB
+                                       0x70,                                               // clean end of frame LSB
+                                       ( bpsk_pkt_params.pld_len_in_bits >> 8 & 0x00FF ),  // limit frame
+                                       ( bpsk_pkt_params.pld_len_in_bits & 0x00FF ) };     // limit frame
+
+        bpsk_pkt_params.ramp_up_delay   = SX126X_SIGFOX_DBPSK_RAMP_UP_TIME_100_BPS;
+        bpsk_pkt_params.ramp_down_delay = SX126X_SIGFOX_DBPSK_RAMP_DOWN_TIME_100_BPS;
+
+        sx126x_write_register( context, 0x00F0, pa_optim_buffer, 6 );
+    }
+
+    else if( BPSK_BITRATE_IN_BPS == 600 )
+    {
+        uint8_t pa_optim_buffer[6] = { 0x09,                                               // clean start-up MSB
+                                       0x2F,                                               // clean start-up LSB
+                                       0x04,                                               // clean end of frame MSB
+                                       0xE1,                                               // clean end of frame LSB
+                                       ( bpsk_pkt_params.pld_len_in_bits >> 8 & 0x00FF ),  // limit frame
+                                       ( bpsk_pkt_params.pld_len_in_bits & 0x00FF ) };     // limit frame
+
+        bpsk_pkt_params.ramp_up_delay   = SX126X_SIGFOX_DBPSK_RAMP_UP_TIME_600_BPS;
+        bpsk_pkt_params.ramp_down_delay = SX126X_SIGFOX_DBPSK_RAMP_DOWN_TIME_600_BPS;
+
+        /* Optimize the Start up and the Shut down PA  for 600 bps */
+        sx126x_write_register( context, 0x00F0, pa_optim_buffer, 6 );
+    }
+    else
+    {
+        bpsk_pkt_params.ramp_up_delay   = SX126X_SIGFOX_DBPSK_RAMP_UP_TIME_DEFAULT;
+        bpsk_pkt_params.ramp_down_delay = SX126X_SIGFOX_DBPSK_RAMP_DOWN_TIME_DEFAULT;
+    }
+
+    ASSERT_SX126X_RC( sx126x_set_bpsk_pkt_params( context, &bpsk_pkt_params ) );
 }
 
 void apps_common_sx126x_receive( const void* context, uint8_t* buffer, uint8_t* size, uint8_t max_size )

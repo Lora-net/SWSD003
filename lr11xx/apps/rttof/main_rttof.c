@@ -1,7 +1,7 @@
 /*!
- * @file      main_ranging.c
+ * @file      main_rttof.c
  *
- * @brief     Ranging example for LR11xx chip
+ * @brief     RTToF (Ranging) example for LR11xx chip
  *
  * The Clear BSD License
  * Copyright Semtech Corporation 2023. All rights reserved.
@@ -43,9 +43,9 @@
 #include "apps_common.h"
 #include "apps_utilities.h"
 #include "lr11xx_radio.h"
-#include "lr11xx_ranging.h"
+#include "lr11xx_rttof.h"
 #include "lr11xx_system.h"
-#include "main_ranging.h"
+#include "main_rttof.h"
 #include "smtc_hal_mcu.h"
 #include "smtc_hal_dbg_trace.h"
 #include "uart_init.h"
@@ -56,19 +56,19 @@
  */
 
 /**
- * @brief Ranging related IRQs enabled on the ranging manager device
+ * @brief RTToF related IRQs enabled on the RTToF manager device
  */
-#define RANGING_MANAGER_IRQ_MASK ( LR11XX_SYSTEM_IRQ_RANGING_EXCH_VALID | LR11XX_SYSTEM_IRQ_RANGING_TIMEOUT )
+#define RTTOF_MANAGER_IRQ_MASK ( LR11XX_SYSTEM_IRQ_RTTOF_EXCH_VALID | LR11XX_SYSTEM_IRQ_RTTOF_TIMEOUT )
 
 /**
- * @brief Ranging IRQs enabled on the ranging subordinate device
+ * @brief RTToF IRQs enabled on the RTToF subordinate device
  */
-#define RANGING_SUBORDINATE_IRQ_MASK ( LR11XX_SYSTEM_IRQ_RANGING_REQ_DISCARDED | LR11XX_SYSTEM_IRQ_RANGING_RESP_DONE )
+#define RTTOF_SUBORDINATE_IRQ_MASK ( LR11XX_SYSTEM_IRQ_RTTOF_REQ_DISCARDED | LR11XX_SYSTEM_IRQ_RTTOF_RESP_DONE )
 
 /**
- * @brief Number of ranging address bytes the subordinate has to check upon reception of a ranging request
+ * @brief Number of RTToF address bytes the subordinate has to check upon reception of a RTToF request
  */
-#define RANGING_SUBORDINATE_CHECK_LENGTH_BYTES ( 4 )
+#define RTTOF_SUBORDINATE_CHECK_LENGTH_BYTES ( 4 )
 
 /*
  * -----------------------------------------------------------------------------
@@ -81,13 +81,13 @@
  */
 
 /**
- * @brief Ranging result comprising distance and RSSI.
+ * @brief RTToF result comprising distance and RSSI.
  */
-typedef struct ranging_result_s
+typedef struct rttof_result_s
 {
-    int32_t distance_m;  ///< Distance obtained from ranging [m]
+    int32_t distance_m;  ///< Distance obtained from RTToF [m]
     int32_t rssi;        ///< RSSI corresponding to manager-side response reception [dBm]
-} ranging_result_t;
+} rttof_result_t;
 
 /*
  * -----------------------------------------------------------------------------
@@ -100,12 +100,12 @@ typedef struct ranging_result_s
 
 static lr11xx_hal_context_t* context;
 
-#if defined( RANGING_DEVICE_MODE ) && ( RANGING_DEVICE_MODE == RANGING_DEVICE_MODE_MANAGER )
+#if defined( RTTOF_DEVICE_MODE ) && ( RTTOF_DEVICE_MODE == RTTOF_DEVICE_MODE_MANAGER )
 static const bool is_manager = true;
-#elif defined( RANGING_DEVICE_MODE ) && ( RANGING_DEVICE_MODE == RANGING_DEVICE_MODE_SUBORDINATE )
+#elif defined( RTTOF_DEVICE_MODE ) && ( RTTOF_DEVICE_MODE == RTTOF_DEVICE_MODE_SUBORDINATE )
 static const bool is_manager = false;
 #else
-#error Application must define RANGING_DEVICE_MODE
+#error Application must define RTTOF_DEVICE_MODE
 #endif
 
 /*
@@ -114,28 +114,14 @@ static const bool is_manager = false;
  */
 
 /**
- * @brief Read out and process a single ranging result from the ranging manager.
+ * @brief Read out and process a single RTToF result from the RTToF manager.
  *
- * @param [in]  ranging_bw   Bandwidth used during ranging
- * @param [out] result       Ranging result
+ * @param [in]  rttof_bw   Bandwidth used during RTToF
+ * @param [out] result       RTToF result
  *
  * @return lr11xx_status_t Operation result
  */
-lr11xx_status_t get_ranging_result_single( lr11xx_radio_lora_bw_t ranging_bw, ranging_result_t* result );
-
-/**
- * @brief Obtain the most accurate ranging result for the given ranging configuration.
- *
- * This function reads out the ranging result.
- *
- * @param [in]  ranging_bw   Bandwidth used during ranging
- * @param [out] result       Ranging result
- *
- * @return lr11xx_status_t Operation result
- *
- * @sa get_ranging_result_single
- */
-lr11xx_status_t get_ranging_result( lr11xx_radio_lora_bw_t ranging_bw, ranging_result_t* result );
+lr11xx_status_t get_rttof_result( lr11xx_radio_lora_bw_t rttof_bw, rttof_result_t* result );
 
 /*
  * -----------------------------------------------------------------------------
@@ -151,45 +137,37 @@ int main( void )
     apps_common_shield_init( );
     uart_init( );
 
-    HAL_DBG_TRACE_INFO( "===== LR11xx Ranging example =====\n\n" );
+    HAL_DBG_TRACE_INFO( "===== LR11xx RTToF example =====\n\n" );
     apps_common_print_sdk_driver_version( );
 
     context = apps_common_lr11xx_get_context( );
 
     apps_common_lr11xx_system_init( ( void* ) context );
     apps_common_lr11xx_fetch_and_print_version( ( void* ) context );
-    apps_common_lr11xx_radio_ranging_init( ( void* ) context );
+    apps_common_lr11xx_radio_rttof_init( ( void* ) context );
 
-    /* Configure common LoRa ranging parameters */
+    /* Configure common LoRa RTToF parameters */
     ASSERT_LR11XX_RC( lr11xx_radio_set_lora_sync_timeout( ( void* ) context, 0u ) );
-    uint32_t   ranging_rx_tx_delay = 0u;
-    const bool get_delay_result    = lr11xx_ranging_get_recommended_rx_tx_delay_indicator(
-        LORA_BANDWIDTH, LORA_SPREADING_FACTOR, &ranging_rx_tx_delay );
-    if( get_delay_result == false )
-    {
-        HAL_DBG_TRACE_ERROR( "Failed to get ranging delay indicator\n" );
-    }
-    ASSERT_LR11XX_RC( lr11xx_ranging_set_parameters( ( void* ) context, RESPONSE_SYMBOLS_COUNT ) );
-    ASSERT_LR11XX_RC( lr11xx_ranging_set_rx_tx_delay_indicator( ( void* ) context, ranging_rx_tx_delay ) );
+    ASSERT_LR11XX_RC( lr11xx_rttof_set_parameters( ( void* ) context, RESPONSE_SYMBOLS_COUNT ) );
 
     if( is_manager == true )
     {
-        HAL_DBG_TRACE_INFO( "===== Running in ranging manager mode =====\n\n" );
+        HAL_DBG_TRACE_INFO( "===== Running in RTToF manager mode =====\n\n" );
 
-        /* Manager specific LoRa ranging parameter configuration */
-        ASSERT_LR11XX_RC( lr11xx_system_set_dio_irq_params( ( void* ) context, RANGING_MANAGER_IRQ_MASK, 0 ) );
-        ASSERT_LR11XX_RC( lr11xx_ranging_set_request_address( ( void* ) context, RANGING_ADDRESS ) );
+        /* Manager specific LoRa RTToF parameter configuration */
+        ASSERT_LR11XX_RC( lr11xx_system_set_dio_irq_params( ( void* ) context, RTTOF_MANAGER_IRQ_MASK, 0 ) );
+        ASSERT_LR11XX_RC( lr11xx_rttof_set_request_address( ( void* ) context, RTTOF_ADDRESS ) );
         ASSERT_LR11XX_RC( lr11xx_system_clear_irq_status( ( void* ) context, LR11XX_SYSTEM_IRQ_ALL_MASK ) );
         ASSERT_LR11XX_RC( lr11xx_radio_set_tx( ( void* ) context, MANAGER_TX_RX_TIMEOUT_MS ) );
     }
     else
     {
-        HAL_DBG_TRACE_INFO( "===== Running in ranging subordinate mode =====\n\n" );
+        HAL_DBG_TRACE_INFO( "===== Running in RTToF subordinate mode =====\n\n" );
 
-        /* Subordinate specific LoRa ranging parameter configuration */
-        ASSERT_LR11XX_RC( lr11xx_system_set_dio_irq_params( ( void* ) context, RANGING_SUBORDINATE_IRQ_MASK, 0 ) );
+        /* Subordinate specific LoRa RTToF parameter configuration */
+        ASSERT_LR11XX_RC( lr11xx_system_set_dio_irq_params( ( void* ) context, RTTOF_SUBORDINATE_IRQ_MASK, 0 ) );
         ASSERT_LR11XX_RC(
-            lr11xx_ranging_set_address( ( void* ) context, RANGING_ADDRESS, RANGING_SUBORDINATE_CHECK_LENGTH_BYTES ) );
+            lr11xx_rttof_set_address( ( void* ) context, RTTOF_ADDRESS, RTTOF_SUBORDINATE_CHECK_LENGTH_BYTES ) );
         ASSERT_LR11XX_RC( lr11xx_system_clear_irq_status( ( void* ) context, LR11XX_SYSTEM_IRQ_ALL_MASK ) );
         ASSERT_LR11XX_RC( lr11xx_radio_set_rx( ( void* ) context, 0u ) );
     }
@@ -198,11 +176,11 @@ int main( void )
     {
         if( is_manager == true )
         {
-            apps_common_lr11xx_irq_process( ( void* ) context, RANGING_MANAGER_IRQ_MASK );
+            apps_common_lr11xx_irq_process( ( void* ) context, RTTOF_MANAGER_IRQ_MASK );
         }
         else
         {
-            apps_common_lr11xx_irq_process( ( void* ) context, RANGING_SUBORDINATE_IRQ_MASK );
+            apps_common_lr11xx_irq_process( ( void* ) context, RTTOF_SUBORDINATE_IRQ_MASK );
         }
     }
 }
@@ -212,62 +190,59 @@ int main( void )
  * --- PRIVATE FUNCTION DEFINITIONS --------------------------------------------
  */
 
-lr11xx_status_t get_ranging_result_single( lr11xx_radio_lora_bw_t ranging_bw, ranging_result_t* result )
+lr11xx_status_t get_rttof_result( lr11xx_radio_lora_bw_t rttof_bw, rttof_result_t* result )
 {
     lr11xx_status_t rc;
-    uint8_t         buf[LR11XX_RANGING_RESULT_LENGTH];
+    uint8_t         buf[LR11XX_RTTOF_RESULT_LENGTH];
 
     /* get distance */
-    rc = lr11xx_ranging_get_raw_result( context, LR11XX_RANGING_RESULT_TYPE_RAW, buf );
+    rc = lr11xx_rttof_get_raw_result( context, LR11XX_RTTOF_RESULT_TYPE_RAW, buf );
     if( rc != LR11XX_STATUS_OK )
     {
         return rc;
     }
-    result->distance_m = lr11xx_ranging_distance_raw_to_meter( ranging_bw, buf );
+    result->distance_m = lr11xx_rttof_distance_raw_to_meter( rttof_bw, buf );
 
     /* get RSSI */
-    rc = lr11xx_ranging_get_raw_result( context, LR11XX_RANGING_RESULT_TYPE_RSSI, buf );
+    rc = lr11xx_rttof_get_raw_result( context, LR11XX_RTTOF_RESULT_TYPE_RSSI, buf );
     if( rc != LR11XX_STATUS_OK )
     {
         return rc;
     }
-    result->rssi = lr11xx_ranging_rssi_raw_to_value( buf );
+    result->rssi = lr11xx_rttof_rssi_raw_to_value( buf );
 
     return rc;
 }
 
-lr11xx_status_t get_ranging_result( lr11xx_radio_lora_bw_t ranging_bw, ranging_result_t* result )
+void on_rttof_request_discarded( void )
 {
-    return get_ranging_result_single( ranging_bw, result );
-}
-
-void on_ranging_request_discarded( void )
-{
-    /* start new ranging reception */
+    HAL_DBG_TRACE_WARNING( "RTTOF request discarded\n\n" );
+    /* start new RTToF reception */
     ASSERT_LR11XX_RC( lr11xx_radio_set_rx( ( void* ) context, 0u ) );
 }
 
-void on_ranging_response_done( void )
+void on_rttof_response_done( void )
 {
-    /* start new ranging reception */
+    /* start new RTToF reception */
     ASSERT_LR11XX_RC( lr11xx_radio_set_rx( ( void* ) context, 0u ) );
 }
 
-void on_ranging_exchange_valid( void )
+void on_rttof_exchange_valid( void )
 {
-    ranging_result_t result = { 0 };
-    ASSERT_LR11XX_RC( get_ranging_result( LORA_BANDWIDTH, &result ) );
-    HAL_DBG_TRACE_INFO( "Ranging result: Distance: %dm, RSSI: %d \n", result.distance_m, result.rssi );
+    rttof_result_t result = { 0 };
+    ASSERT_LR11XX_RC( get_rttof_result( LORA_BANDWIDTH, &result ) );
+    HAL_DBG_TRACE_INFO( "RTToF result: Distance: %dm, RSSI: %d \n", result.distance_m, result.rssi );
 
-    /* start new ranging transmission */
-    LL_mDelay( MANAGER_RANGING_SLEEP_PERIOD );
+    /* start new rttof transmission */
+    LL_mDelay( MANAGER_RTTOF_SLEEP_PERIOD );
     ASSERT_LR11XX_RC( lr11xx_radio_set_tx( ( void* ) context, MANAGER_TX_RX_TIMEOUT_MS ) );
 }
 
-void on_ranging_timeout( void )
+void on_rttof_timeout( void )
 {
-    /* start new ranging transmission */
-    LL_mDelay( MANAGER_RANGING_SLEEP_PERIOD );
+    HAL_DBG_TRACE_WARNING( "RTTOF request timeout\n\n" );
+    /* start new rttof transmission */
+    LL_mDelay( MANAGER_RTTOF_SLEEP_PERIOD );
     ASSERT_LR11XX_RC( lr11xx_radio_set_tx( ( void* ) context, MANAGER_TX_RX_TIMEOUT_MS ) );
 }
 

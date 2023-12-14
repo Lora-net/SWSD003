@@ -26,7 +26,6 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
-TARGET_BOARD ?= NUCLEO_L476RG
 RADIO_SHIELD ?= LR1110MB1DIS
 
 C_DEFS += -DLR11XX_DISABLE_WARNINGS
@@ -36,6 +35,10 @@ ifeq ($(RADIO_SHIELD), LR1110MB1DIS)
 C_DEFS += -DLR1110MB1DIS
 C_SOURCES += \
 $(TOP_DIR)/libs/smtc-shields/lr11xx/src/smtc_shield_lr1110mb1dis.c
+else ifeq ($(RADIO_SHIELD), LR1110MB1IPDDIS)
+C_DEFS += -DLR1110MB1IPDDIS
+C_SOURCES += \
+$(TOP_DIR)/libs/smtc-shields/lr11xx/src/smtc_shield_lr1110mb1ipddis.c
 else ifeq ($(RADIO_SHIELD), LR1110MB1DJS)
 C_DEFS += -DLR1110MB1DJS
 C_SOURCES += \
@@ -44,6 +47,10 @@ else ifeq ($(RADIO_SHIELD), LR1110MB1GIS)
 C_DEFS += -DLR1110MB1GIS
 C_SOURCES += \
 $(TOP_DIR)/libs/smtc-shields/lr11xx/src/smtc_shield_lr1110mb1gis.c
+else ifeq ($(RADIO_SHIELD), LR1110MB1PIS)
+C_DEFS += -DLR1110MB1PIS
+C_SOURCES += \
+$(TOP_DIR)/libs/smtc-shields/lr11xx/src/smtc_shield_lr1110mb1pis.c
 else ifeq ($(RADIO_SHIELD), LR1110MB1GJS)
 C_DEFS += -DLR1110MB1GJS
 C_SOURCES += \
@@ -52,6 +59,10 @@ else ifeq ($(RADIO_SHIELD), LR1120MB1DIS)
 C_DEFS += -DLR1120MB1DIS
 C_SOURCES += \
 $(TOP_DIR)/libs/smtc-shields/lr11xx/src/smtc_shield_lr1120mb1dis.c
+else ifeq ($(RADIO_SHIELD), LR1120MB1IPDDIS)
+C_DEFS += -DLR1120MB1IPDDIS
+C_SOURCES += \
+$(TOP_DIR)/libs/smtc-shields/lr11xx/src/smtc_shield_lr1120mb1ipddis.c
 else ifeq ($(RADIO_SHIELD), LR1120MB1DJS)
 C_DEFS += -DLR1120MB1DJS
 C_SOURCES += \
@@ -60,6 +71,10 @@ else ifeq ($(RADIO_SHIELD), LR1120MB1GIS)
 C_DEFS += -DLR1120MB1GIS
 C_SOURCES += \
 $(TOP_DIR)/libs/smtc-shields/lr11xx/src/smtc_shield_lr1120mb1gis.c
+else ifeq ($(RADIO_SHIELD), LR1120MB1PIS)
+C_DEFS += -DLR1120MB1PIS
+C_SOURCES += \
+$(TOP_DIR)/libs/smtc-shields/lr11xx/src/smtc_shield_lr1120mb1pis.c
 else ifeq ($(RADIO_SHIELD), LR1120MB1GJS)
 C_DEFS += -DLR1120MB1GJS
 C_SOURCES += \
@@ -81,6 +96,8 @@ $(TOP_DIR)/libs/smtc-shields/lr11xx/src/smtc_shield_lr11xx_common.c \
 $(TOP_DIR)/libs/smtc-shields/lr11xx/src/smtc_shield_lr11x0_common.c \
 $(TOP_DIR)/libs/smtc-shields/lr11xx/src/smtc_shield_lr11x1_common.c \
 $(TOP_DIR)/libs/smtc-shields/lr11xx/src/smtc_shield_lr1110mb1dxs_common.c \
+$(TOP_DIR)/libs/smtc-shields/lr11xx/src/smtc_shield_lr11x0mb1ipddis_common.c \
+$(TOP_DIR)/libs/smtc-shields/lr11xx/src/smtc_shield_lr11x0mb1pis_common.c \
 $(TOP_DIR)/libs/smtc-shields/lr11xx/src/smtc_shield_lr1110mb1gxs_common.c \
 $(TOP_DIR)/libs/smtc-shields/lr11xx/src/smtc_shield_lr1120mb1dxs_common.c \
 $(TOP_DIR)/libs/smtc-shields/lr11xx/src/smtc_shield_lr1120mb1gxs_common.c \
@@ -124,7 +141,7 @@ $(TOP_DIR)/lr11xx/lr11xx_driver/src/lr11xx_radio.c \
 $(TOP_DIR)/lr11xx/lr11xx_driver/src/lr11xx_regmem.c \
 $(TOP_DIR)/lr11xx/lr11xx_driver/src/lr11xx_wifi.c \
 $(TOP_DIR)/lr11xx/lr11xx_driver/src/lr11xx_gnss.c \
-$(TOP_DIR)/lr11xx/lr11xx_driver/src/lr11xx_ranging.c \
+$(TOP_DIR)/lr11xx/lr11xx_driver/src/lr11xx_rttof.c \
 $(TOP_DIR)/lr11xx/lr11xx_driver/src/lr11xx_driver_version.c \
 
 C_INCLUDES +=  \

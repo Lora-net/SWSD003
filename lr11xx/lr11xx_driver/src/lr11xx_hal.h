@@ -157,6 +157,15 @@ lr11xx_hal_status_t lr11xx_hal_reset( const void* context );
 lr11xx_hal_status_t lr11xx_hal_wakeup( const void* context );
 
 /*!
+ * @brief Abort a blocking command
+ *
+ * @param [in] context Radio implementation parameters
+ *
+ * @returns Operation status
+ */
+lr11xx_hal_status_t lr11xx_hal_abort_blocking_cmd( const void* context );
+
+/*!
  * @brief Return the computed CRC
  *
  * @param [in] initial_value initial value of the CRC

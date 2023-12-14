@@ -1,4 +1,4 @@
-# LR11xx TX infinite preamble example
+# LR11XX TX infinite preamble example
 
 ## Description
 

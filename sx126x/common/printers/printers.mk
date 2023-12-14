@@ -27,7 +27,8 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 C_SOURCES +=  \
-${TOP_DIR}/sx126x/common/printers/sx126x_str.c
+${TOP_DIR}/sx126x/common/printers/sx126x_str.c \
+${TOP_DIR}/sx126x/common/printers/lr_fhss_v1_base_types_str.c \
 
 
 

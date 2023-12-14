@@ -50,10 +50,16 @@
 #define MIN( a, b ) ( ( a > b ) ? b : a )
 #endif  // MIN
 
+
+/*!
+ * @brief Check if a value is inferior to another one - included
+ */
+#define IS_INFERIOR( value, max ) ( value <= max )
+
 /*!
  * @brief Check if a value is in between min and max - included
  */
-#define IS_BETWEEN( value, min, max ) ( ( min <= value ) && ( value <= max ) )
+#define IS_BETWEEN( value, min, max ) ( IS_INFERIOR(min, value) && IS_INFERIOR(value, max) )
 
 /*!
  * @brief Check if a value is in between 0x80 and 0xBF - included
@@ -98,13 +104,13 @@
 #define LR11XX_WIFI_GET_VERSION_CMD_LENGTH ( 2 )
 
 /*!
- * @brief Wi-Fi scan power consumption
+ * @brief Wi-Fi scan power consumption in nA
  *
  * @note these numbers are given for information, it should be modified according to the used hardware.
  */
-#define LR11XX_WIFI_CORRELATION_UA ( 12000 )
-#define LR11XX_WIFI_CAPTURE_UA ( 12000 )
-#define LR11XX_WIFI_DEMODULATION_UA ( 4000 )
+#define LR11XX_WIFI_CORRELATION_NA ( 12000000ULL )
+#define LR11XX_WIFI_CAPTURE_NA ( 12000000ULL )
+#define LR11XX_WIFI_DEMODULATION_NA ( 4000000ULL )
 
 /*
  * -----------------------------------------------------------------------------
@@ -553,24 +559,24 @@ lr11xx_wifi_signal_type_result_t lr11xx_wifi_extract_signal_type_from_data_rate_
     return ( lr11xx_wifi_signal_type_result_t ) ( data_rate_info & 0x03 );
 }
 
-uint64_t lr11xx_wifi_get_consumption( lr11xx_system_reg_mode_t regulator, lr11xx_wifi_cumulative_timings_t timing )
+uint32_t lr11xx_wifi_get_consumption_nah( lr11xx_system_reg_mode_t regulator, lr11xx_wifi_cumulative_timings_t timing )
 {
-    uint64_t wifi_scan_consumption_uah = 0;
+    float wifi_scan_consumption_nah = 0;
 
-    wifi_scan_consumption_uah = ( timing.rx_capture_us * LR11XX_WIFI_CAPTURE_UA ) +
-                                ( timing.demodulation_us * LR11XX_WIFI_DEMODULATION_UA ) +
-                                ( timing.rx_correlation_us * LR11XX_WIFI_CORRELATION_UA );
+    wifi_scan_consumption_nah = ( ( float ) timing.rx_capture_us * LR11XX_WIFI_CAPTURE_NA ) +
+                                ( ( float ) timing.demodulation_us * LR11XX_WIFI_DEMODULATION_NA ) +
+                                ( ( float ) timing.rx_correlation_us * LR11XX_WIFI_CORRELATION_NA );
 
-    wifi_scan_consumption_uah =
-        wifi_scan_consumption_uah /
-        ( 3600000000 - ( timing.rx_capture_us + timing.demodulation_us + timing.rx_correlation_us ) );
+    wifi_scan_consumption_nah = wifi_scan_consumption_nah /
+                                ( 3600000000.0 - ( ( float ) timing.rx_capture_us + ( float ) timing.demodulation_us +
+                                                   ( float ) timing.rx_correlation_us ) );
 
     if( regulator == LR11XX_SYSTEM_REG_MODE_LDO )
     {
-        wifi_scan_consumption_uah *= 2;
+        wifi_scan_consumption_nah *= 2.0;
     }
 
-    return wifi_scan_consumption_uah;
+    return ( uint32_t ) wifi_scan_consumption_nah;
 }
 
 /*
@@ -795,7 +801,7 @@ void interpret_extended_full_result_from_buffer( const uint8_t nb_results, const
         {
             local_wifi_result->ssid_bytes[ssid_index] = buffer[local_index_start + ssid_index + 40];
         }
-        local_wifi_result->current_channel               = buffer[local_index_start + 72];
+        local_wifi_result->current_channel               = ( lr11xx_wifi_channel_t ) buffer[local_index_start + 72];
         local_wifi_result->country_code[0]               = buffer[local_index_start + 73];
         local_wifi_result->country_code[1]               = buffer[local_index_start + 74];
         local_wifi_result->io_regulation                 = buffer[local_index_start + 75];
@@ -811,7 +817,7 @@ bool lr11xx_wifi_is_well_formed_utf8_byte_sequence( const uint8_t* buffer, const
 
     while( index < length )
     {
-        if( IS_BETWEEN( buffer[index], 0x00, 0x7F ) )
+        if( IS_INFERIOR( buffer[index], 0x7F ) )
         {
             index += 1;
             continue;

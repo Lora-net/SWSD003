@@ -610,14 +610,14 @@ bool lr11xx_wifi_are_scan_mode_result_format_compatible( lr11xx_wifi_mode_t     
                                                          lr11xx_wifi_result_format_t result_format );
 
 /**
- * @brief Compute the power consumption in uAh based on the cumulative timing.
+ * @brief Compute the power consumption in nAh based on the cumulative timing.
  *
  * @param [in] regulator The regulator used during last Wi-Fi passive scan
  * @param [in] timing  Cumulative timing structure to use for computation
  *
- * @returns Current consumption in uAh
+ * @returns Current consumption in nAh
  */
-uint64_t lr11xx_wifi_get_consumption( lr11xx_system_reg_mode_t regulator, lr11xx_wifi_cumulative_timings_t timing );
+uint32_t lr11xx_wifi_get_consumption_nah( lr11xx_system_reg_mode_t regulator, lr11xx_wifi_cumulative_timings_t timing );
 
 #ifdef __cplusplus
 }

@@ -30,11 +30,12 @@ C_SOURCES +=  \
 $(TOP_DIR)/lr11xx/common/printers/lr11xx_bootloader_types_str.c \
 $(TOP_DIR)/lr11xx/common/printers/lr11xx_crypto_engine_types_str.c \
 $(TOP_DIR)/lr11xx/common/printers/lr11xx_gnss_types_str.c \
+$(TOP_DIR)/lr11xx/common/printers/lr11xx_lr_fhss_types_str.c \
 $(TOP_DIR)/lr11xx/common/printers/lr11xx_radio_types_str.c \
+$(TOP_DIR)/lr11xx/common/printers/lr11xx_rttof_types_str.c \
 $(TOP_DIR)/lr11xx/common/printers/lr11xx_system_types_str.c \
 $(TOP_DIR)/lr11xx/common/printers/lr11xx_types_str.c \
 $(TOP_DIR)/lr11xx/common/printers/lr11xx_wifi_types_str.c \
-$(TOP_DIR)/lr11xx/common/printers/lr_fhss_v1_base_types_str.c \
 
 
 C_INCLUDES +=  \

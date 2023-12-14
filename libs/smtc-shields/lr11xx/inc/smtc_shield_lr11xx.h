@@ -100,15 +100,23 @@ typedef const smtc_shield_lr11xx_lfclk_cfg_t* ( *smtc_shield_lr11xx_get_lfclk_cf
  */
 typedef const smtc_shield_lr11xx_pinout_t* ( *smtc_shield_lr11xx_get_pinout_f )( void );
 
+/**
+ * @brief Function pointer to abstract RTToF recommented Tx/Rx delay indicator getter
+ */
+typedef bool ( *smtc_shield_lr11xx_get_rttof_recommended_rx_tx_delay_indicator_f )( lr11xx_radio_lora_bw_t bw,
+                                                                                    lr11xx_radio_lora_sf_t sf,
+                                                                                    uint32_t* delay_indicator );
+
 typedef struct smtc_shield_lr11xx_s
 {
-    smtc_shield_lr11xx_get_pa_pwr_cfg_f             get_pa_pwr_cfg;
-    smtc_shield_lr11xx_get_rssi_calibration_table_f get_rssi_calibration_table;
-    smtc_shield_lr11xx_get_rf_switch_cfg_f          get_rf_switch_cfg;
-    smtc_shield_lr11xx_get_reg_mode_f               get_reg_mode;
-    smtc_shield_lr11xx_get_xosc_cfg_f               get_xosc_cfg;
-    smtc_shield_lr11xx_get_lfclk_cfg_f              get_lfclk_cfg;
-    smtc_shield_lr11xx_get_pinout_f                 get_pinout;
+    smtc_shield_lr11xx_get_pa_pwr_cfg_f                              get_pa_pwr_cfg;
+    smtc_shield_lr11xx_get_rssi_calibration_table_f                  get_rssi_calibration_table;
+    smtc_shield_lr11xx_get_rf_switch_cfg_f                           get_rf_switch_cfg;
+    smtc_shield_lr11xx_get_reg_mode_f                                get_reg_mode;
+    smtc_shield_lr11xx_get_xosc_cfg_f                                get_xosc_cfg;
+    smtc_shield_lr11xx_get_lfclk_cfg_f                               get_lfclk_cfg;
+    smtc_shield_lr11xx_get_pinout_f                                  get_pinout;
+    smtc_shield_lr11xx_get_rttof_recommended_rx_tx_delay_indicator_f get_rttof_recommended_rx_tx_delay_indicator;
 } smtc_shield_lr11xx_t;
 
 /*
@@ -205,6 +213,26 @@ static inline const smtc_shield_lr11xx_lfclk_cfg_t* smtc_shield_lr11xx_get_lfclk
 static inline const smtc_shield_lr11xx_pinout_t* smtc_shield_lr11xx_get_pinout( const smtc_shield_lr11xx_t* shield )
 {
     return shield->get_pinout( );
+}
+
+/**
+ * @brief Return the RTToF recommended Rx/Tx delay indicator
+ *
+ * @param [in] shield  Pointer to a shield data structure
+ * @param [in] bw Bandwidth to get the recommended delay indicator for
+ * @param [in] sf Spreading factor to get the recommended delay indicator for
+ * @param [out] delay_indicator Recommended delay indicator corresponding to sf/bw. Only valid if the call returned
+ * true
+ *
+ * @retval true The RTToF recommanded Rx/Tx delay indicator has been found and can be used
+ * @retval false The RTToF recommanded Rx/Tx delay indicator has not been found and must not be used
+ */
+static inline bool smtc_shield_lr11xx_get_rttof_recommended_rx_tx_delay_indicator( const smtc_shield_lr11xx_t* shield,
+                                                                                   lr11xx_radio_lora_bw_t      bw,
+                                                                                   lr11xx_radio_lora_sf_t      sf,
+                                                                                   uint32_t* delay_indicator )
+{
+    return shield->get_rttof_recommended_rx_tx_delay_indicator( bw, sf, delay_indicator );
 }
 
 #ifdef __cplusplus

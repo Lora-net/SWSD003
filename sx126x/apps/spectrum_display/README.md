@@ -1,4 +1,4 @@
-# LR11xx Spectrum Display example
+# SX126X Spectrum Display example
 
 ## Description
 
@@ -6,6 +6,7 @@ The application implements Spectrum-Display operation by setting the device in `
 
 Here is an example of the curve will be displayed on terminal screen. The bottom of the curve represents noise floor around the antenna in frequency band being scanned. The spikes represent which frequency channels have RF activity happening. The frequency frame displayed below x-axis is the frequency band being scanned. Y-axis indicates for RSSI level.
 
+```
     ^
    0|
   -4|
@@ -31,10 +32,11 @@ Here is an example of the curve will be displayed on terminal screen. The bottom
 -128|
 /dBmx------------------------------------------------------------>
      2400 --> 2406 MHz
+```
 
 The plotting function is supported by `VT100` control code. So, to run this demo normally, a terminal like `Tera Term` supporting `VT100` control code is necessary.
 
-The sample code will be used to perform test under both LoRa and FSK modem tests, but there should be no difference if the band-width is the same. Define macro `PACKET_TYPE` to `LR1110_RADIO_PKT_TYPE_LORA` or `LR1110_RADIO_PKT_TYPE_GFSK` (in file (`../../common/apps_configuration.h`)) to enable each modem in the test.
+The sample code will be used to perform test under both LoRa and FSK modem tests, but there should be no difference if the band-width is the same. Define macro `PACKET_TYPE` to `SX126X_PKT_TYPE_LORA` or `SX126X_PKT_TYPE_GFSK` (in file (`../../common/apps_configuration.h`)) to enable each modem in the test.
 
 
 ## Configuration

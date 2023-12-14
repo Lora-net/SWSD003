@@ -50,7 +50,7 @@ extern "C" {
  */
 
 /*!
- *  @brief Delay in ms between the end of a transmision and the beginning of the next one
+ *  @brief Delay in ms between the end of a transmission and the beginning of the next one
  */
 #ifndef TX_TO_TX_DELAY_IN_MS
 #define TX_TO_TX_DELAY_IN_MS 200

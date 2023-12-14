@@ -1,0 +1,128 @@
+/**
+ * @file      main_rttof.h
+ *
+ * @brief     RTToF (Ranging) example for LR11xx chip
+ *
+ * The Clear BSD License
+ * Copyright Semtech Corporation 2023. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted (subject to the limitations in the disclaimer
+ * below) provided that the following conditions are met:
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the Semtech corporation nor the
+ *       names of its contributors may be used to endorse or promote products
+ *       derived from this software without specific prior written permission.
+ *
+ * NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY
+ * THIS LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND
+ * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT
+ * NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+ * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL SEMTECH CORPORATION BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
+#ifndef MAIN_RTTOF_H
+#define MAIN_RTTOF_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/*
+ * -----------------------------------------------------------------------------
+ * --- DEPENDENCIES ------------------------------------------------------------
+ */
+#include "apps_common.h"
+#include <stdint.h>
+
+/*
+ * -----------------------------------------------------------------------------
+ * --- PUBLIC MACROS -----------------------------------------------------------
+ */
+
+/**
+ * @brief RTToF device slave (subordinate) mode
+ */
+#define RTTOF_DEVICE_MODE_SUBORDINATE 0
+
+/**
+ * @brief RTToF device manager (master) mode
+ */
+#define RTTOF_DEVICE_MODE_MANAGER (!(RTTOF_DEVICE_MODE_SUBORDINATE))
+
+/**
+ * @brief Mode of operation
+ */
+#ifndef RTTOF_DEVICE_MODE
+#define RTTOF_DEVICE_MODE RTTOF_DEVICE_MODE_MANAGER
+#endif
+
+/**
+ * @brief Subordinate RTToF address
+ *
+ * Address used to identify the RTToF subordinate device.
+ * This address is configured as address of the subordinate device
+ * and used as request address in the manager device.
+ */
+#ifndef RTTOF_ADDRESS
+#define RTTOF_ADDRESS UINT32_C( 0x00000019 )
+#endif
+
+/**
+ * @brief Number of symbols in RTToF response
+ */
+#ifndef RESPONSE_SYMBOLS_COUNT
+#define RESPONSE_SYMBOLS_COUNT UINT8_C( 15 )
+#endif
+
+/**
+ * @brief Manager-side RTToF timeout [ms]
+ *
+ * Timeout for receiving a response after sending
+ * a RTToF request.
+ */
+#ifndef MANAGER_TX_RX_TIMEOUT_MS
+#define MANAGER_TX_RX_TIMEOUT_MS UINT32_C( 3276 )
+#endif
+
+/**
+ * @brief Manager-side sleep period after RTToF [ms]
+ *
+ */
+#ifndef MANAGER_RTTOF_SLEEP_PERIOD
+#define MANAGER_RTTOF_SLEEP_PERIOD UINT32_C( 1000 )
+#endif
+
+/*
+ * -----------------------------------------------------------------------------
+ * --- PUBLIC CONSTANTS --------------------------------------------------------
+ */
+
+/*
+ * -----------------------------------------------------------------------------
+ * --- PUBLIC TYPES ------------------------------------------------------------
+ */
+
+/*
+ * -----------------------------------------------------------------------------
+ * --- PUBLIC FUNCTIONS PROTOTYPES ---------------------------------------------
+ */
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif  // MAIN_RTTOF_H
+
+/* --- EOF ------------------------------------------------------------------ */

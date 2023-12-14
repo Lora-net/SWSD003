@@ -48,17 +48,22 @@
 #include "lr11xx_system.h"
 #include "lr11xx_radio.h"
 #include "lr11xx_driver_version.h"
+#include "lr11xx_rttof.h"
 #include "smtc_hal_dbg_trace.h"
 #include "smtc_shield_pinout_mapping.h"
 #include "smtc_shield_lr11xx.h"
 
 #include "smtc_shield_lr1110mb1dis.h"
+#include "smtc_shield_lr1110mb1ipddis.h"
 #include "smtc_shield_lr1110mb1djs.h"
 #include "smtc_shield_lr1110mb1gis.h"
+#include "smtc_shield_lr1110mb1pis.h"
 #include "smtc_shield_lr1110mb1gjs.h"
 #include "smtc_shield_lr1120mb1dis.h"
+#include "smtc_shield_lr1120mb1ipddis.h"
 #include "smtc_shield_lr1120mb1djs.h"
 #include "smtc_shield_lr1120mb1gis.h"
+#include "smtc_shield_lr1120mb1pis.h"
 #include "smtc_shield_lr1120mb1gjs.h"
 #include "smtc_shield_lr1121mb1dis.h"
 #include "smtc_shield_lr1121mb1gis.h"
@@ -78,11 +83,17 @@
 #ifdef LR1110MB1DIS
 smtc_shield_lr11xx_t shield = SMTC_SHIELD_LR1110MB1DIS_INSTANTIATE;
 #endif
+#ifdef LR1110MB1IPDDIS
+smtc_shield_lr11xx_t shield = SMTC_SHIELD_LR1110MB1IPDDIS_INSTANTIATE;
+#endif
 #ifdef LR1110MB1DJS
 smtc_shield_lr11xx_t shield = SMTC_SHIELD_LR1110MB1DJS_INSTANTIATE;
 #endif
 #ifdef LR1110MB1GIS
 smtc_shield_lr11xx_t shield = SMTC_SHIELD_LR1110MB1GIS_INSTANTIATE;
+#endif
+#ifdef LR1110MB1PIS
+smtc_shield_lr11xx_t shield = SMTC_SHIELD_LR1110MB1PIS_INSTANTIATE;
 #endif
 #ifdef LR1110MB1GJS
 smtc_shield_lr11xx_t shield = SMTC_SHIELD_LR1110MB1GJS_INSTANTIATE;
@@ -90,11 +101,17 @@ smtc_shield_lr11xx_t shield = SMTC_SHIELD_LR1110MB1GJS_INSTANTIATE;
 #ifdef LR1120MB1DIS
 smtc_shield_lr11xx_t shield = SMTC_SHIELD_LR1120MB1DIS_INSTANTIATE;
 #endif
+#ifdef LR1120MB1IPDDIS
+smtc_shield_lr11xx_t shield = SMTC_SHIELD_LR1120MB1IPDDIS_INSTANTIATE;
+#endif
 #ifdef LR1120MB1DJS
 smtc_shield_lr11xx_t shield = SMTC_SHIELD_LR1120MB1DJS_INSTANTIATE;
 #endif
 #ifdef LR1120MB1GIS
 smtc_shield_lr11xx_t shield = SMTC_SHIELD_LR1120MB1GIS_INSTANTIATE;
+#endif
+#ifdef LR1120MB1PIS
+smtc_shield_lr11xx_t shield = SMTC_SHIELD_LR1120MB1PIS_INSTANTIATE;
 #endif
 #ifdef LR1120MB1GJS
 smtc_shield_lr11xx_t shield = SMTC_SHIELD_LR1120MB1GJS_INSTANTIATE;
@@ -232,11 +249,11 @@ void on_rx_crc_error( void ) __attribute__( ( weak ) );
 void on_cad_done_undetected( void ) __attribute__( ( weak ) );
 void on_cad_done_detected( void ) __attribute__( ( weak ) );
 void on_lora_rx_timestamp( void ) __attribute__( ( weak ) );
-void on_ranging_request_valid( void ) __attribute__( ( weak ) );
-void on_ranging_request_discarded( void ) __attribute__( ( weak ) );
-void on_ranging_response_done( void ) __attribute__( ( weak ) );
-void on_ranging_exchange_valid( void ) __attribute__( ( weak ) );
-void on_ranging_timeout( void ) __attribute__( ( weak ) );
+void on_rttof_request_valid( void ) __attribute__( ( weak ) );
+void on_rttof_request_discarded( void ) __attribute__( ( weak ) );
+void on_rttof_response_done( void ) __attribute__( ( weak ) );
+void on_rttof_exchange_valid( void ) __attribute__( ( weak ) );
+void on_rttof_timeout( void ) __attribute__( ( weak ) );
 
 void on_wifi_scan_done( void ) __attribute__( ( weak ) );
 void on_gnss_scan_done( void ) __attribute__( ( weak ) );
@@ -458,30 +475,14 @@ void apps_common_lr11xx_radio_init( const void* context )
             ASSERT_LR11XX_RC( lr11xx_radio_set_pkt_address( context, FSK_NODE_ADDRESS, FSK_BROADCAST_ADDRESS ) );
         }
     }
-    else if( PACKET_TYPE == LR11XX_RADIO_PKT_TYPE_BPSK )
+    else if( PACKET_TYPE == LR11XX_RADIO_PKT_TYPE_LR_FHSS )
     {
-        ASSERT_LR11XX_RC( lr11xx_radio_set_bpsk_mod_params( context, &bpsk_mod_params ) );
+        const lr11xx_radio_mod_params_lr_fhss_t mod_lr_fhss = {
+            .br_in_bps   = LR11XX_RADIO_LR_FHSS_BITRATE_488_BPS,
+            .pulse_shape = LR11XX_RADIO_LR_FHSS_PULSE_SHAPE_BT_1,
+        };
 
-        bpsk_pkt_params.pld_len_in_bytes = smtc_dbpsk_get_pld_len_in_bytes( PAYLOAD_LENGTH << 3 );
-        bpsk_pkt_params.pld_len_in_bits  = smtc_dbpsk_get_pld_len_in_bits( PAYLOAD_LENGTH << 3 );
-
-        if( BPSK_BITRATE_IN_BPS == 100 )
-        {
-            bpsk_pkt_params.ramp_up_delay   = LR11XX_RADIO_SIGFOX_DBPSK_RAMP_UP_TIME_100_BPS;
-            bpsk_pkt_params.ramp_down_delay = LR11XX_RADIO_SIGFOX_DBPSK_RAMP_DOWN_TIME_100_BPS;
-        }
-        else if( BPSK_BITRATE_IN_BPS == 600 )
-        {
-            bpsk_pkt_params.ramp_up_delay   = LR11XX_RADIO_SIGFOX_DBPSK_RAMP_UP_TIME_600_BPS;
-            bpsk_pkt_params.ramp_down_delay = LR11XX_RADIO_SIGFOX_DBPSK_RAMP_DOWN_TIME_600_BPS;
-        }
-        else
-        {
-            bpsk_pkt_params.ramp_up_delay   = LR11XX_RADIO_SIGFOX_DBPSK_RAMP_UP_TIME_DEFAULT;
-            bpsk_pkt_params.ramp_down_delay = LR11XX_RADIO_SIGFOX_DBPSK_RAMP_DOWN_TIME_DEFAULT;
-        }
-
-        ASSERT_LR11XX_RC( lr11xx_radio_set_bpsk_pkt_params( context, &bpsk_pkt_params ) );
+        ASSERT_LR11XX_RC( lr11xx_radio_set_lr_fhss_mod_params( context, &mod_lr_fhss ) );
     }
 }
 
@@ -533,7 +534,7 @@ void apps_common_lr11xx_radio_dbpsk_init( const void* context, const uint8_t pay
     ASSERT_LR11XX_RC( lr11xx_radio_set_bpsk_pkt_params( context, &bpsk_pkt_params ) );
 }
 
-void apps_common_lr11xx_radio_ranging_init( const void* context )
+void apps_common_lr11xx_radio_rttof_init( const void* context )
 {
     const smtc_shield_lr11xx_pa_pwr_cfg_t* pa_pwr_cfg =
         smtc_shield_lr11xx_get_pa_pwr_cfg( &shield, RF_FREQ_IN_HZ, TX_OUTPUT_POWER_DBM );
@@ -548,7 +549,7 @@ void apps_common_lr11xx_radio_ranging_init( const void* context )
 
     print_common_configuration( );
 
-    ASSERT_LR11XX_RC( lr11xx_radio_set_pkt_type( context, LR11XX_RADIO_PKT_TYPE_RANGING ) );
+    ASSERT_LR11XX_RC( lr11xx_radio_set_pkt_type( context, LR11XX_RADIO_PKT_TYPE_RTTOF ) );
     ASSERT_LR11XX_RC( lr11xx_radio_set_rf_freq( context, RF_FREQ_IN_HZ ) );
     ASSERT_LR11XX_RC( lr11xx_radio_set_rssi_calibration(
         context, smtc_shield_lr11xx_get_rssi_calibration_table( &shield, RF_FREQ_IN_HZ ) ) );
@@ -563,6 +564,15 @@ void apps_common_lr11xx_radio_ranging_init( const void* context )
     ASSERT_LR11XX_RC( lr11xx_radio_set_lora_mod_params( context, &lora_mod_params ) );
     ASSERT_LR11XX_RC( lr11xx_radio_set_lora_pkt_params( context, &lora_pkt_params ) );
     ASSERT_LR11XX_RC( lr11xx_radio_set_lora_sync_word( context, LORA_SYNCWORD ) );
+
+    uint32_t   rttof_rx_tx_delay       = 0u;
+    const bool get_rttof_delay_success = smtc_shield_lr11xx_get_rttof_recommended_rx_tx_delay_indicator(
+        &shield, lora_mod_params.bw, lora_mod_params.sf, &rttof_rx_tx_delay );
+    if( get_rttof_delay_success == false )
+    {
+        HAL_DBG_TRACE_ERROR( "Failed to get RTToF delay indicator\n" );
+    }
+    ASSERT_LR11XX_RC( lr11xx_rttof_set_rx_tx_delay_indicator( context, rttof_rx_tx_delay ) );
 }
 
 void apps_common_lr11xx_receive( const void* context, uint8_t* buffer, uint8_t buffer_length, uint8_t* size )
@@ -685,34 +695,34 @@ void apps_common_lr11xx_irq_process( const void* context, lr11xx_system_irq_mask
             on_lora_rx_timestamp( );
         }
 
-        if( ( irq_regs & LR11XX_SYSTEM_IRQ_RANGING_REQ_VALID ) == LR11XX_SYSTEM_IRQ_RANGING_REQ_VALID )
+        if( ( irq_regs & LR11XX_SYSTEM_IRQ_RTTOF_REQ_VALID ) == LR11XX_SYSTEM_IRQ_RTTOF_REQ_VALID )
         {
-            HAL_DBG_TRACE_INFO( "Ranging request valid\n" );
-            on_ranging_request_valid( );
+            HAL_DBG_TRACE_INFO( "RTToF request valid\n" );
+            on_rttof_request_valid( );
         }
 
-        if( ( irq_regs & LR11XX_SYSTEM_IRQ_RANGING_REQ_DISCARDED ) == LR11XX_SYSTEM_IRQ_RANGING_REQ_DISCARDED )
+        if( ( irq_regs & LR11XX_SYSTEM_IRQ_RTTOF_REQ_DISCARDED ) == LR11XX_SYSTEM_IRQ_RTTOF_REQ_DISCARDED )
         {
-            HAL_DBG_TRACE_INFO( "Ranging request discarded\n" );
-            on_ranging_request_discarded( );
+            HAL_DBG_TRACE_INFO( "RTToF request discarded\n" );
+            on_rttof_request_discarded( );
         }
 
-        if( ( irq_regs & LR11XX_SYSTEM_IRQ_RANGING_RESP_DONE ) == LR11XX_SYSTEM_IRQ_RANGING_RESP_DONE )
+        if( ( irq_regs & LR11XX_SYSTEM_IRQ_RTTOF_RESP_DONE ) == LR11XX_SYSTEM_IRQ_RTTOF_RESP_DONE )
         {
-            HAL_DBG_TRACE_INFO( "Ranging response done\n" );
-            on_ranging_response_done( );
+            HAL_DBG_TRACE_INFO( "RTToF response done\n" );
+            on_rttof_response_done( );
         }
 
-        if( ( irq_regs & LR11XX_SYSTEM_IRQ_RANGING_EXCH_VALID ) == LR11XX_SYSTEM_IRQ_RANGING_EXCH_VALID )
+        if( ( irq_regs & LR11XX_SYSTEM_IRQ_RTTOF_EXCH_VALID ) == LR11XX_SYSTEM_IRQ_RTTOF_EXCH_VALID )
         {
-            HAL_DBG_TRACE_INFO( "Ranging exchange valid\n" );
-            on_ranging_exchange_valid( );
+            HAL_DBG_TRACE_INFO( "RTToF exchange valid\n" );
+            on_rttof_exchange_valid( );
         }
 
-        if( ( irq_regs & LR11XX_SYSTEM_IRQ_RANGING_TIMEOUT ) == LR11XX_SYSTEM_IRQ_RANGING_TIMEOUT )
+        if( ( irq_regs & LR11XX_SYSTEM_IRQ_RTTOF_TIMEOUT ) == LR11XX_SYSTEM_IRQ_RTTOF_TIMEOUT )
         {
-            HAL_DBG_TRACE_INFO( "Ranging timeout\n" );
-            on_ranging_timeout( );
+            HAL_DBG_TRACE_INFO( "RTToF timeout\n" );
+            on_rttof_timeout( );
         }
 
         if( ( irq_regs & LR11XX_SYSTEM_IRQ_WIFI_SCAN_DONE ) == LR11XX_SYSTEM_IRQ_WIFI_SCAN_DONE )

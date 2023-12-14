@@ -104,6 +104,21 @@ lr11xx_hal_status_t lr11xx_hal_wakeup( const void* context )
     return LR11XX_HAL_STATUS_OK;
 }
 
+lr11xx_hal_status_t lr11xx_hal_abort_blocking_cmd( const void* context )
+{
+    const lr11xx_hal_context_t* lr11xx_context = ( const lr11xx_hal_context_t* ) context;
+    uint8_t                     command[4]     = { 0 };
+
+    smtc_hal_mcu_gpio_set_state( lr11xx_context->nss.inst, SMTC_HAL_MCU_GPIO_STATE_LOW );
+    smtc_hal_mcu_spi_rw_buffer( lr11xx_context->spi.inst, command, NULL, 4 );
+    smtc_hal_mcu_gpio_set_state( lr11xx_context->nss.inst, SMTC_HAL_MCU_GPIO_STATE_HIGH );
+
+    lr11xx_hal_wait_on_busy( lr11xx_context );
+
+    return LR11XX_HAL_STATUS_OK;
+}
+
+
 lr11xx_hal_status_t lr11xx_hal_write( const void* context, const uint8_t* command, const uint16_t command_length,
                                       const uint8_t* data, const uint16_t data_length )
 {

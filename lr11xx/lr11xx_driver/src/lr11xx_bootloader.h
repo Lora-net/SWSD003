@@ -126,15 +126,20 @@ lr11xx_status_t lr11xx_bootloader_erase_flash( const void* context );
  * This function shall be used when updating the encrypted flash content of the LR11XX.
  * The encrypted flash payload to transfer shall be represented as an array of words (i.e. 4-byte values).
  *
+ * Updating flash code of the chip with this function MUST respect the following constraints:
+ *   - the complete flash image MUST be splitted into chunks of 64 words each, except the last one that can be shorter
+ *   - the chunks MUST be sent to the chip in-order, starting with @p offset_in_byte = 0
+ *
  * @param [in] context Chip implementation context
- * @param [in] offset The offset from start register of flash
+ * @param [in] offset_in_byte The offset from start register of flash in byte
  * @param [in] buffer Buffer holding the encrypted content. Its size in words must be at least length
- * @param [in] length Number of words (i.e. 4 bytes) in the buffer to transfer
+ * @param [in] length_in_word Number of words (i.e. 4 bytes) in the buffer to transfer. MUST be 64 for all chunks except
+ * the last one where it can be lower.
  *
  * @returns Operation status
  */
-lr11xx_status_t lr11xx_bootloader_write_flash_encrypted( const void* context, const uint32_t offset,
-                                                         const uint32_t* buffer, const uint8_t length );
+lr11xx_status_t lr11xx_bootloader_write_flash_encrypted( const void* context, const uint32_t offset_in_byte,
+                                                         const uint32_t* buffer, const uint8_t length_in_word );
 
 /*!
  * @brief Write encrypted data in program flash memory of the chip
@@ -143,14 +148,14 @@ lr11xx_status_t lr11xx_bootloader_write_flash_encrypted( const void* context, co
  * The encrypted flash payload to transfer shall be represented as an array of words (ie 4-byte values).
  *
  * @param [in] context Chip implementation context
- * @param [in] offset The offset from start register of flash
+ * @param [in] offset_in_byte The offset from start register of flash in byte
  * @param [in] buffer Buffer holding the encrypted content. Its size in words must be at least length
- * @param [in] length Number of words (i.e. 4 bytes) in the buffer to transfer
+ * @param [in] length_in_word Number of words (i.e. 4 bytes) in the buffer to transfer
  *
  * @returns Operation status
  */
-lr11xx_status_t lr11xx_bootloader_write_flash_encrypted_full( const void* context, const uint32_t offset,
-                                                              const uint32_t* buffer, const uint32_t length );
+lr11xx_status_t lr11xx_bootloader_write_flash_encrypted_full( const void* context, const uint32_t offset_in_byte,
+                                                              const uint32_t* buffer, const uint32_t length_in_word );
 
 /*!
  * @brief Software reset of the chip.

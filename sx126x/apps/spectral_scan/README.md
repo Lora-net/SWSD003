@@ -1,4 +1,4 @@
-# SX126x Spectral Scan example
+# SX126X Spectral Scan example
 
 ## Description
 
@@ -6,6 +6,7 @@ The application implements Spectral-Scan operation by setting the device in `Rx 
 
 Here is an example. Let's say we get a line of "INFO: 915.000 MHz: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 16 76 8 0 0 0 0 0" in terminal. We can count that the length of this array is 33, so `RSSI_SCALE = (RSSI_TOP_LEVEL-RSSI_BOTTOM_LEVEL)/(33-1) = (0-(-128))/32 = 4dBm`. This would be equivalent to the histogram below.
 
+```
     0   0   0   0 ... 0   16  76  8   0   0   0   0   0
   ^
   |                            _
@@ -18,6 +19,7 @@ Here is an example. Let's say we get a line of "INFO: 915.000 MHz: 0 0 0 0 0 0 0
   | _____________._._.____| |_| |_| |__________________
   +-------------- ~~~ -------------------------------------->
    /0dBm   /-8dBm ... /-96dBm /-104dBm/-112dBm/-120dBm/-128dBm
+```
 
 The sample code will be used to perform test under both LoRa and FSK modem tests, but there should be no difference if the band-width is the same. Define macro `PACKET_TYPE` to `SX126X_PKT_TYPE_LORA` or `SX126X_PKT_TYPE_GFSK` (in file (`../../common/apps_configuration.h`)) to enable each modem in the test.
 

@@ -46,6 +46,7 @@ extern "C" {
 #include <stdbool.h>
 #include <stdint.h>
 #include "smtc_shield_lr11xx_types.h"
+#include "smtc_shield_lr11x0_common.h"
 
 /*
  * -----------------------------------------------------------------------------
@@ -59,6 +60,8 @@ extern "C" {
         .get_rf_switch_cfg          = smtc_shield_lr1120mb1djs_get_rf_switch_cfg,                                     \
         .get_reg_mode = smtc_shield_lr1120mb1djs_get_reg_mode, .get_xosc_cfg = smtc_shield_lr1120mb1djs_get_xosc_cfg, \
         .get_lfclk_cfg = smtc_shield_lr1120mb1djs_get_lfclk_cfg, .get_pinout = smtc_shield_lr1120mb1djs_get_pinout,   \
+        .get_rttof_recommended_rx_tx_delay_indicator =                                                                \
+            smtc_shield_lr11x0_common_rttof_recommended_rx_tx_delay_indicator,                                        \
     }
 
 /*

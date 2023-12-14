@@ -111,7 +111,7 @@ lr11xx_status_t lr11xx_bootloader_get_status( const void* context, lr11xx_bootlo
                                               lr11xx_bootloader_stat2_t*    stat2,
                                               lr11xx_bootloader_irq_mask_t* irq_status )
 {
-    uint8_t data[LR11XX_BL_GET_STATUS_CMD_LENGTH];
+    uint8_t data[LR11XX_BL_GET_STATUS_CMD_LENGTH] = { 0 };
 
     const lr11xx_status_t status =
         ( lr11xx_status_t ) lr11xx_hal_direct_read( context, data, LR11XX_BL_GET_STATUS_CMD_LENGTH );
@@ -174,20 +174,20 @@ lr11xx_status_t lr11xx_bootloader_erase_flash( const void* context )
     return ( lr11xx_status_t ) lr11xx_hal_write( context, cbuffer, LR11XX_BL_ERASE_FLASH_CMD_LENGTH, 0, 0 );
 }
 
-lr11xx_status_t lr11xx_bootloader_write_flash_encrypted( const void* context, const uint32_t offset,
-                                                         const uint32_t* data, uint8_t length )
+lr11xx_status_t lr11xx_bootloader_write_flash_encrypted( const void* context, const uint32_t offset_in_byte,
+                                                         const uint32_t* data, uint8_t length_in_word )
 {
     const uint8_t cbuffer[LR11XX_BL_WRITE_FLASH_ENCRYPTED_CMD_LENGTH] = {
         ( uint8_t ) ( LR11XX_BL_WRITE_FLASH_ENCRYPTED_OC >> 8 ),
         ( uint8_t ) ( LR11XX_BL_WRITE_FLASH_ENCRYPTED_OC >> 0 ),
-        ( uint8_t ) ( offset >> 24 ),
-        ( uint8_t ) ( offset >> 16 ),
-        ( uint8_t ) ( offset >> 8 ),
-        ( uint8_t ) ( offset >> 0 ),
+        ( uint8_t ) ( offset_in_byte >> 24 ),
+        ( uint8_t ) ( offset_in_byte >> 16 ),
+        ( uint8_t ) ( offset_in_byte >> 8 ),
+        ( uint8_t ) ( offset_in_byte >> 0 ),
     };
 
-    uint8_t cdata[256] = { 0 };
-    for( uint8_t index = 0; index < length; index++ )
+    uint8_t cdata[LR11XX_FLASH_DATA_MAX_LENGTH_UINT8] = { 0 };
+    for( uint8_t index = 0; index < length_in_word; index++ )
     {
         uint8_t* cdata_local = &cdata[index * sizeof( uint32_t )];
 
@@ -198,14 +198,14 @@ lr11xx_status_t lr11xx_bootloader_write_flash_encrypted( const void* context, co
     }
 
     return ( lr11xx_status_t ) lr11xx_hal_write( context, cbuffer, LR11XX_BL_WRITE_FLASH_ENCRYPTED_CMD_LENGTH, cdata,
-                                                 length * sizeof( uint32_t ) );
+                                                 length_in_word * sizeof( uint32_t ) );
 }
 
-lr11xx_status_t lr11xx_bootloader_write_flash_encrypted_full( const void* context, const uint32_t offset,
-                                                              const uint32_t* buffer, const uint32_t length )
+lr11xx_status_t lr11xx_bootloader_write_flash_encrypted_full( const void* context, const uint32_t offset_in_byte,
+                                                              const uint32_t* buffer, const uint32_t length_in_word )
 {
-    uint32_t remaining_length = length;
-    uint32_t local_offset     = offset;
+    uint32_t remaining_length = length_in_word;
+    uint32_t local_offset     = offset_in_byte;
     uint32_t loop             = 0;
 
     while( remaining_length != 0 )
