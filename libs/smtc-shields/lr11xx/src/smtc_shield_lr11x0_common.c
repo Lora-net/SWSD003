@@ -93,7 +93,7 @@ bool smtc_shield_lr11x0_common_rttof_recommended_rx_tx_delay_indicator( lr11xx_r
                                                                         lr11xx_radio_lora_sf_t sf,
                                                                         uint32_t*              delay_indicator )
 {
-    bool found = false;
+    bool found = true;
 
     *delay_indicator = 0u;
 
@@ -133,7 +133,7 @@ bool smtc_shield_lr11x0_common_rttof_recommended_rx_tx_delay_indicator( lr11xx_r
         }
         else
         {
-            found = LR11XX_STATUS_ERROR;
+            found = false;
         }
     }
     else if( bw == LR11XX_RADIO_LORA_BW_250 )
@@ -172,7 +172,7 @@ bool smtc_shield_lr11x0_common_rttof_recommended_rx_tx_delay_indicator( lr11xx_r
         }
         else
         {
-            found = LR11XX_STATUS_ERROR;
+            found = false;
         }
     }
     else if( bw == LR11XX_RADIO_LORA_BW_125 )
@@ -211,14 +211,32 @@ bool smtc_shield_lr11x0_common_rttof_recommended_rx_tx_delay_indicator( lr11xx_r
         }
         else
         {
-            found = LR11XX_STATUS_ERROR;
+            found = false;
         }
     }
     else
     {
-        found = LR11XX_STATUS_ERROR;
+        found = false;
     }
     return found;
+}
+
+void smtc_shield_lr11x0_common_gnss_consumption_instantaneous_value(
+    lr11xx_gnss_instantaneous_power_consumption_ua_t* instantaneous_power_consumption_ua )
+{
+    /* These value are for EVK board in DC DC mode with Xtal 32KHz and a TCXO 32MHz*/
+    instantaneous_power_consumption_ua->board_voltage_mv            = 3300;
+    instantaneous_power_consumption_ua->init_ua                     = 3150;
+    instantaneous_power_consumption_ua->phase1_gps_capture_ua       = 11900;
+    instantaneous_power_consumption_ua->phase1_gps_process_ua       = 3340;
+    instantaneous_power_consumption_ua->multiscan_gps_capture_ua    = 10700;
+    instantaneous_power_consumption_ua->multiscan_gps_process_ua    = 4180;
+    instantaneous_power_consumption_ua->phase1_beidou_capture_ua    = 13500;
+    instantaneous_power_consumption_ua->phase1_beidou_process_ua    = 3190;
+    instantaneous_power_consumption_ua->multiscan_beidou_capture_ua = 12600;
+    instantaneous_power_consumption_ua->multiscan_beidou_process_ua = 3430;
+    instantaneous_power_consumption_ua->sleep_32k_ua                = 1210;
+    instantaneous_power_consumption_ua->demod_sleep_32m_ua          = 2530;
 }
 
 /*

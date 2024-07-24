@@ -108,7 +108,7 @@ uint32_t smtc_board_led_get( uint32_t led_mask );
 int main( void )
 {
     smtc_hal_mcu_init( );
-    uart_init();
+    uart_init( );
 
     HAL_DBG_TRACE_INFO( "===== SX126x PER example - %s =====\n\n", mode );
     apps_common_sx126x_print_version_info( );

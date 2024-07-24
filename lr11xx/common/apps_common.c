@@ -565,14 +565,17 @@ void apps_common_lr11xx_radio_rttof_init( const void* context )
     ASSERT_LR11XX_RC( lr11xx_radio_set_lora_pkt_params( context, &lora_pkt_params ) );
     ASSERT_LR11XX_RC( lr11xx_radio_set_lora_sync_word( context, LORA_SYNCWORD ) );
 
-    uint32_t   rttof_rx_tx_delay       = 0u;
-    const bool get_rttof_delay_success = smtc_shield_lr11xx_get_rttof_recommended_rx_tx_delay_indicator(
-        &shield, lora_mod_params.bw, lora_mod_params.sf, &rttof_rx_tx_delay );
-    if( get_rttof_delay_success == false )
+    uint32_t rttof_rx_tx_delay = 0u;
+    if( smtc_shield_lr11xx_get_rttof_recommended_rx_tx_delay_indicator( &shield, lora_mod_params.bw, lora_mod_params.sf,
+                                                                        &rttof_rx_tx_delay ) )
+    {
+        ASSERT_LR11XX_RC( lr11xx_rttof_set_rx_tx_delay_indicator( context, rttof_rx_tx_delay ) );
+        HAL_DBG_TRACE_INFO( "RTTof delay : %d\n", rttof_rx_tx_delay );
+    }
+    else
     {
         HAL_DBG_TRACE_ERROR( "Failed to get RTToF delay indicator\n" );
     }
-    ASSERT_LR11XX_RC( lr11xx_rttof_set_rx_tx_delay_indicator( context, rttof_rx_tx_delay ) );
 }
 
 void apps_common_lr11xx_receive( const void* context, uint8_t* buffer, uint8_t buffer_length, uint8_t* size )

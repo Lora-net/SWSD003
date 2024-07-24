@@ -1,7 +1,7 @@
 /*!
  * @file      smtc_shield_sx1268mb1gas.c
  *
- * @brief     Interface specific to SX1262MB2CAS shield
+ * @brief     Interface specific to SX1268MB1GAS shield
  *
  * The Clear BSD License
  * Copyright Semtech Corporation 2022. All rights reserved.

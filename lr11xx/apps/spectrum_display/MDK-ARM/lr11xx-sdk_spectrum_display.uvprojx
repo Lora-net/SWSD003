@@ -433,6 +433,7 @@
  	            <FileType>1</FileType>
  	            <FilePath>..\curve_plot\curve_plot.c</FilePath>
  	          </File>
+
           </Files>
         </Group>
         <Group>
@@ -1557,6 +1558,7 @@
  	            <FileType>1</FileType>
  	            <FilePath>..\curve_plot\curve_plot.c</FilePath>
  	          </File>
+
           </Files>
         </Group>
         <Group>

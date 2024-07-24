@@ -48,6 +48,7 @@ extern "C" {
 #include "smtc_shield_pinout.h"
 #include "lr11xx_system.h"
 #include "lr11xx_radio.h"
+#include "lr11xx_gnss_types.h"
 
 /*
  * -----------------------------------------------------------------------------

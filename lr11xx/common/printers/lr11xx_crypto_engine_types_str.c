@@ -32,7 +32,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
- 
+
 #include "lr11xx_crypto_engine_types_str.h"
 
 const char* lr11xx_crypto_element_to_str( const lr11xx_crypto_element_t value )

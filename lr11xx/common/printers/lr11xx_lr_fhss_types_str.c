@@ -32,7 +32,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
- 
+
 #include "lr11xx_lr_fhss_types_str.h"
 
 const char* lr_fhss_v1_modulation_type_to_str( const lr_fhss_v1_modulation_type_t value )

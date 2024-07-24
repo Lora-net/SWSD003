@@ -40,6 +40,14 @@ The power amplifier configuration that comply with FCC and ETSI regulations have
 
 Therefore the power amplifier configuration given in this code base returns the established FCC or ETSI compliant configuration if available, and fallback to common configuration if not found.
 
+## Note concerning RTToF calibration delay indicator values
+
+This repository provides RTToF calibration values that has been established in a laboratory environment.
+Therefore a final user should determine the calibration value to use so that it is adapted to its hardware and environment.
+
+The process to establish calibration value is explained in *AN1200-78 Introduction to LR1110 & LR1120
+Ranging* available on the [LR1110 product page](https://www.semtech.com/products/wireless-rf/lora-edge/lr1110#documentation) or [LR1120 product page](https://www.semtech.com/products/wireless-rf/lora-edge/lr1120#documentation).
+
 ## Note concerning LR11x0MB1PIS shields
 
 The power amplifier configuration provided in this repository for `LR1110MB1PIS` and `LR1120MB1PIS` shields is so that:

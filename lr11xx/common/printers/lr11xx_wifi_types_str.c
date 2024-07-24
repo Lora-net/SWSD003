@@ -32,7 +32,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
- 
+
 #include "lr11xx_wifi_types_str.h"
 
 const char* lr11xx_wifi_channel_to_str( const lr11xx_wifi_channel_t value )

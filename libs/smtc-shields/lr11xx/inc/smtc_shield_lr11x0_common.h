@@ -76,6 +76,9 @@ bool smtc_shield_lr11x0_common_rttof_recommended_rx_tx_delay_indicator( lr11xx_r
                                                                         lr11xx_radio_lora_sf_t sf,
                                                                         uint32_t*              delay_indicator );
 
+void smtc_shield_lr11x0_common_gnss_consumption_instantaneous_value(
+    lr11xx_gnss_instantaneous_power_consumption_ua_t* instantaneous_power_consumption_ua );
+
 #ifdef __cplusplus
 }
 #endif
