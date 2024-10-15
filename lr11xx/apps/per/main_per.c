@@ -172,9 +172,10 @@ int main( void )
     HAL_DBG_TRACE_PRINTF( "Valid reception amount: %d \n", nb_ok );
     HAL_DBG_TRACE_PRINTF( "Timeout reception amount: %d \n", nb_rx_timeout );
     HAL_DBG_TRACE_PRINTF( "CRC Error reception amount: %d \n", nb_rx_error );
-#if( PACKET_TYPE == LR11XX_RADIO_PKT_TYPE_GFSK )
-    HAL_DBG_TRACE_PRINTF( "FSK Length Error reception amount: %d \n", nb_fsk_len_error );
-#endif
+    if( PACKET_TYPE == LR11XX_RADIO_PKT_TYPE_GFSK )
+    {
+        HAL_DBG_TRACE_PRINTF( "FSK Length Error reception amount: %d \n", nb_fsk_len_error );
+    }
 
     while( 1 )
     {

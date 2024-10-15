@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## [v2.3.0] - 2024-09-13
+
+### Changed
+
+- Default LR11xx LoRa IQ configuration set to *standard* instead of *inverted*
+- Add frequency argument to RTTOF function `get_recommended_rx_tx_delay_indicator`
+
+### Fixed
+
+- RTToF example just runs once and then stops if it is compiled by Keil. 
+
 ## [v2.2.1] - 2024-07-24
 
 ### Changed

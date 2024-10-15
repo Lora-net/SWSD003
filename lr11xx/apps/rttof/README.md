@@ -24,3 +24,11 @@ Furthermore, the application defines the following parameters in the [`main_rtto
 | `RESPONSE_SYMBOLS_COUNT`     | Number of symbols contained in the subordinate's RTToF response packet |
 | `MANAGER_TX_RX_TIMEOUT_MS`   | Manager-side RTToF timeout (waiting for subordinate response)          |
 | `MANAGER_RTTOF_SLEEP_PERIOD` | Manager-side sleep period between two RTToF executions                 |
+
+## Notes
+
+Some of the points that need attention as followings.
+
+- Spreading factors from SF5 to SF10 are recommended values.
+- Bandwidth shall be chosen among `LR11XX_RADIO_LORA_BW_125`, `LR11XX_RADIO_LORA_BW_250` and `LR11XX_RADIO_LORA_BW_500` for both sub-GHz and 2.4G bands.
+- Please set the IQ value - `LORA_IQ`, as the standard mode - `LR11XX_RADIO_LORA_IQ_STANDARD`. Because all the calibration values are based on the standard mode. It might reduce the ranging accuracy if used the inverted mode.

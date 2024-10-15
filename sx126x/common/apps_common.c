@@ -342,8 +342,8 @@ void apps_common_sx126x_init( const sx126x_hal_context_t* context )
     if( xosc_cfg->tcxo_is_radio_controlled == true )
     {
         ASSERT_SX126X_RC(
-            sx126x_set_dio3_as_tcxo_ctrl( context, xosc_cfg->supply_voltage, xosc_cfg->startup_time_in_tick ); )
-        ASSERT_SX126X_RC( sx126x_cal( context, SX126X_CAL_ALL ); )
+            sx126x_set_dio3_as_tcxo_ctrl( context, xosc_cfg->supply_voltage, xosc_cfg->startup_time_in_tick ) );
+        ASSERT_SX126X_RC( sx126x_cal( context, SX126X_CAL_ALL ) );
     }
 }
 
@@ -491,7 +491,7 @@ void apps_common_sx126x_receive( const void* context, uint8_t* buffer, uint8_t* 
     }
     else
     {
-        sx126x_read_buffer( context, 0, buffer, rx_buffer_status.pld_len_in_bytes );
+        sx126x_read_buffer( context, rx_buffer_status.buffer_start_pointer, buffer, rx_buffer_status.pld_len_in_bytes );
         *size = rx_buffer_status.pld_len_in_bytes;
     }
 

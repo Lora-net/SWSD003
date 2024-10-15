@@ -48,6 +48,36 @@
  * --- PRIVATE MACROS-----------------------------------------------------------
  */
 
+/*!
+ * @brief Recommanded for frequency from 430MHz to 510MHz
+ */
+static const uint32_t rttof_delay_indicator_table_below_600mhz[3][8] = {
+    /* SF5,  SF6,   SF7,   SF8,   SF9,   SF10,  SF11,  SF12 */
+    { 19107, 19122, 19113, 19114, 19113, 19114, 19036, 19024 },  // BW125
+    { 20265, 20279, 20278, 20273, 20270, 20272, 20236, 20232 },  // BW250
+    { 20166, 20249, 20288, 20309, 20318, 20312, 20295, 20298 },  // BW500
+};
+
+/*!
+ * @brief Recommanded for frequency from 860MHz to 928MHz
+ */
+static const uint32_t rttof_delay_indicator_table_from_600mhz_to_2ghz[3][8] = {
+    /* SF5,  SF6,   SF7,   SF8,   SF9,   SF10,  SF11,  SF12 */
+    { 19115, 19113, 19121, 19127, 19141, 19178, 19036, 19024 },  // BW125
+    { 20265, 20266, 20279, 20292, 20236, 20305, 20236, 20232 },  // BW250
+    { 20154, 20268, 20298, 20319, 20323, 20314, 20295, 20298 },  // BW500
+};
+
+/*!
+ * @brief Recommanded for 2.4G frequency
+ */
+static const uint32_t rttof_delay_indicator_table_above_2ghz[3][8] = {
+    /* SF5,  SF6,   SF7,   SF8,   SF9,   SF10,  SF11,  SF12 */
+    { 19118, 19123, 19120, 19124, 19121, 19119, 19036, 19024 },  // BW125
+    { 20221, 20230, 20226, 20231, 20236, 20223, 20236, 20232 },  // BW250
+    { 20143, 20230, 20252, 20284, 20305, 20288, 20295, 20298 },  // BW500
+};
+
 /*
  * -----------------------------------------------------------------------------
  * --- PRIVATE CONSTANTS -------------------------------------------------------
@@ -89,136 +119,75 @@ const smtc_shield_lr11xx_xosc_cfg_t* smtc_shield_lr11x0_common_get_xosc_cfg( voi
     return &smtc_shield_lr11x0_common_xosc_cfg;
 }
 
-bool smtc_shield_lr11x0_common_rttof_recommended_rx_tx_delay_indicator( lr11xx_radio_lora_bw_t bw,
+bool smtc_shield_lr11x0_common_rttof_recommended_rx_tx_delay_indicator( uint32_t               rf_freq_in_hz,
+                                                                        lr11xx_radio_lora_bw_t bw,
                                                                         lr11xx_radio_lora_sf_t sf,
                                                                         uint32_t*              delay_indicator )
 {
-    bool found = true;
+    uint8_t row_index;
+    uint8_t column_index;
 
     *delay_indicator = 0u;
 
-    if( bw == LR11XX_RADIO_LORA_BW_500 )
+    switch( bw )
     {
-        if( sf == LR11XX_RADIO_LORA_SF5 )
-        {
-            *delay_indicator = 20149u;
-        }
-        else if( sf == LR11XX_RADIO_LORA_SF6 )
-        {
-            *delay_indicator = 20227u;
-        }
-        else if( sf == LR11XX_RADIO_LORA_SF7 )
-        {
-            *delay_indicator = 20258u;
-        }
-        else if( sf == LR11XX_RADIO_LORA_SF8 )
-        {
-            *delay_indicator = 20277u;
-        }
-        else if( sf == LR11XX_RADIO_LORA_SF9 )
-        {
-            *delay_indicator = 20286u;
-        }
-        else if( sf == LR11XX_RADIO_LORA_SF10 )
-        {
-            *delay_indicator = 20292u;
-        }
-        else if( sf == LR11XX_RADIO_LORA_SF11 )
-        {
-            *delay_indicator = 20295u;
-        }
-        else if( sf == LR11XX_RADIO_LORA_SF12 )
-        {
-            *delay_indicator = 20298u;
-        }
-        else
-        {
-            found = false;
-        }
+    case LR11XX_RADIO_LORA_BW_125:
+        row_index = 0;
+        break;
+    case LR11XX_RADIO_LORA_BW_250:
+        row_index = 1;
+        break;
+    case LR11XX_RADIO_LORA_BW_500:
+        row_index = 2;
+        break;
+    default:
+        return false;
     }
-    else if( bw == LR11XX_RADIO_LORA_BW_250 )
+
+    switch( sf )
     {
-        if( sf == LR11XX_RADIO_LORA_SF5 )
-        {
-            *delay_indicator = 20235u;
-        }
-        else if( sf == LR11XX_RADIO_LORA_SF6 )
-        {
-            *delay_indicator = 20239u;
-        }
-        else if( sf == LR11XX_RADIO_LORA_SF7 )
-        {
-            *delay_indicator = 20238u;
-        }
-        else if( sf == LR11XX_RADIO_LORA_SF8 )
-        {
-            *delay_indicator = 20237u;
-        }
-        else if( sf == LR11XX_RADIO_LORA_SF9 )
-        {
-            *delay_indicator = 20236u;
-        }
-        else if( sf == LR11XX_RADIO_LORA_SF10 )
-        {
-            *delay_indicator = 20235u;
-        }
-        else if( sf == LR11XX_RADIO_LORA_SF11 )
-        {
-            *delay_indicator = 20236u;
-        }
-        else if( sf == LR11XX_RADIO_LORA_SF12 )
-        {
-            *delay_indicator = 20232u;
-        }
-        else
-        {
-            found = false;
-        }
+    case LR11XX_RADIO_LORA_SF5:
+        column_index = 0;
+        break;
+    case LR11XX_RADIO_LORA_SF6:
+        column_index = 1;
+        break;
+    case LR11XX_RADIO_LORA_SF7:
+        column_index = 2;
+        break;
+    case LR11XX_RADIO_LORA_SF8:
+        column_index = 3;
+        break;
+    case LR11XX_RADIO_LORA_SF9:
+        column_index = 4;
+        break;
+    case LR11XX_RADIO_LORA_SF10:
+        column_index = 5;
+        break;
+    case LR11XX_RADIO_LORA_SF11:
+        column_index = 6;
+        break;
+    case LR11XX_RADIO_LORA_SF12:
+        column_index = 7;
+        break;
+    default:
+        return false;
     }
-    else if( bw == LR11XX_RADIO_LORA_BW_125 )
+
+    if( rf_freq_in_hz < 600000000 )
     {
-        if( sf == LR11XX_RADIO_LORA_SF5 )
-        {
-            *delay_indicator = 19035u;
-        }
-        else if( sf == LR11XX_RADIO_LORA_SF6 )
-        {
-            *delay_indicator = 19040u;
-        }
-        else if( sf == LR11XX_RADIO_LORA_SF7 )
-        {
-            *delay_indicator = 19040u;
-        }
-        else if( sf == LR11XX_RADIO_LORA_SF8 )
-        {
-            *delay_indicator = 19039u;
-        }
-        else if( sf == LR11XX_RADIO_LORA_SF9 )
-        {
-            *delay_indicator = 19036u;
-        }
-        else if( sf == LR11XX_RADIO_LORA_SF10 )
-        {
-            *delay_indicator = 19038u;
-        }
-        else if( sf == LR11XX_RADIO_LORA_SF11 )
-        {
-            *delay_indicator = 19036u;
-        }
-        else if( sf == LR11XX_RADIO_LORA_SF12 )
-        {
-            *delay_indicator = 19024u;
-        }
-        else
-        {
-            found = false;
-        }
+        *delay_indicator = rttof_delay_indicator_table_below_600mhz[row_index][column_index];
+    }
+    else if( ( 600000000 <= rf_freq_in_hz ) && ( rf_freq_in_hz < 2000000000 ) )
+    {
+        *delay_indicator = rttof_delay_indicator_table_from_600mhz_to_2ghz[row_index][column_index];
     }
     else
     {
-        found = false;
+        *delay_indicator = rttof_delay_indicator_table_above_2ghz[row_index][column_index];
     }
-    return found;
+
+    return true;
 }
 
 void smtc_shield_lr11x0_common_gnss_consumption_instantaneous_value(

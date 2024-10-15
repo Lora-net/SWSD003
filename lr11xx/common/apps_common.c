@@ -566,8 +566,8 @@ void apps_common_lr11xx_radio_rttof_init( const void* context )
     ASSERT_LR11XX_RC( lr11xx_radio_set_lora_sync_word( context, LORA_SYNCWORD ) );
 
     uint32_t rttof_rx_tx_delay = 0u;
-    if( smtc_shield_lr11xx_get_rttof_recommended_rx_tx_delay_indicator( &shield, lora_mod_params.bw, lora_mod_params.sf,
-                                                                        &rttof_rx_tx_delay ) )
+    if( smtc_shield_lr11xx_get_rttof_recommended_rx_tx_delay_indicator( &shield, RF_FREQ_IN_HZ, lora_mod_params.bw,
+                                                                        lora_mod_params.sf, &rttof_rx_tx_delay ) )
     {
         ASSERT_LR11XX_RC( lr11xx_rttof_set_rx_tx_delay_indicator( context, rttof_rx_tx_delay ) );
         HAL_DBG_TRACE_INFO( "RTTof delay : %d\n", rttof_rx_tx_delay );
@@ -971,6 +971,26 @@ void on_wifi_scan_done( void )
     HAL_DBG_TRACE_INFO( "No IRQ routine defined\n" );
 }
 void on_gnss_scan_done( void )
+{
+    HAL_DBG_TRACE_INFO( "No IRQ routine defined\n" );
+}
+void on_rttof_request_valid( void )
+{
+    HAL_DBG_TRACE_INFO( "No IRQ routine defined\n" );
+}
+void on_rttof_request_discarded( void )
+{
+    HAL_DBG_TRACE_INFO( "No IRQ routine defined\n" );
+}
+void on_rttof_response_done( void )
+{
+    HAL_DBG_TRACE_INFO( "No IRQ routine defined\n" );
+}
+void on_rttof_exchange_valid( void )
+{
+    HAL_DBG_TRACE_INFO( "No IRQ routine defined\n" );
+}
+void on_rttof_timeout( void )
 {
     HAL_DBG_TRACE_INFO( "No IRQ routine defined\n" );
 }

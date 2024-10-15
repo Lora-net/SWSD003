@@ -72,7 +72,8 @@ extern "C" {
  */
 const smtc_shield_lr11xx_xosc_cfg_t* smtc_shield_lr11x0_common_get_xosc_cfg( void );
 
-bool smtc_shield_lr11x0_common_rttof_recommended_rx_tx_delay_indicator( lr11xx_radio_lora_bw_t bw,
+bool smtc_shield_lr11x0_common_rttof_recommended_rx_tx_delay_indicator( uint32_t               rf_freq_in_hz,
+                                                                        lr11xx_radio_lora_bw_t bw,
                                                                         lr11xx_radio_lora_sf_t sf,
                                                                         uint32_t*              delay_indicator );
 

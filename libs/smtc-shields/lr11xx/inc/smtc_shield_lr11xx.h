@@ -103,7 +103,8 @@ typedef const smtc_shield_lr11xx_pinout_t* ( *smtc_shield_lr11xx_get_pinout_f )(
 /**
  * @brief Function pointer to abstract RTToF recommented Tx/Rx delay indicator getter
  */
-typedef bool ( *smtc_shield_lr11xx_get_rttof_recommended_rx_tx_delay_indicator_f )( lr11xx_radio_lora_bw_t bw,
+typedef bool ( *smtc_shield_lr11xx_get_rttof_recommended_rx_tx_delay_indicator_f )( uint32_t rf_freq_in_hz,
+                                                                                    lr11xx_radio_lora_bw_t bw,
                                                                                     lr11xx_radio_lora_sf_t sf,
                                                                                     uint32_t* delay_indicator );
 
@@ -219,6 +220,7 @@ static inline const smtc_shield_lr11xx_pinout_t* smtc_shield_lr11xx_get_pinout( 
  * @brief Return the RTToF recommended Rx/Tx delay indicator
  *
  * @param [in] shield  Pointer to a shield data structure
+ * @param [in] rf_freq_in_hz Frequency to get the recommended delay indicator for
  * @param [in] bw Bandwidth to get the recommended delay indicator for
  * @param [in] sf Spreading factor to get the recommended delay indicator for
  * @param [out] delay_indicator Recommended delay indicator corresponding to sf/bw. Only valid if the call returned
@@ -228,11 +230,12 @@ static inline const smtc_shield_lr11xx_pinout_t* smtc_shield_lr11xx_get_pinout( 
  * @retval false The RTToF recommanded Rx/Tx delay indicator has not been found and must not be used
  */
 static inline bool smtc_shield_lr11xx_get_rttof_recommended_rx_tx_delay_indicator( const smtc_shield_lr11xx_t* shield,
-                                                                                   lr11xx_radio_lora_bw_t      bw,
-                                                                                   lr11xx_radio_lora_sf_t      sf,
+                                                                                   uint32_t               rf_freq_in_hz,
+                                                                                   lr11xx_radio_lora_bw_t bw,
+                                                                                   lr11xx_radio_lora_sf_t sf,
                                                                                    uint32_t* delay_indicator )
 {
-    return shield->get_rttof_recommended_rx_tx_delay_indicator( bw, sf, delay_indicator );
+    return shield->get_rttof_recommended_rx_tx_delay_indicator( rf_freq_in_hz, bw, sf, delay_indicator );
 }
 
 #ifdef __cplusplus

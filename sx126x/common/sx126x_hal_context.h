@@ -49,6 +49,7 @@ extern "C" {
 #include "smtc_hal_mcu_gpio_stm32l4.h"
 #include "stm32l4xx_ll_gpio.h"
 #include "stm32l4xx_ll_spi.h"
+#include "stm32l4xx_ll_utils.h"
 
 /*
  * -----------------------------------------------------------------------------
