@@ -263,6 +263,11 @@ static void optimize_cad_parameters( sx126x_lora_sf_t sf, sx126x_cad_params_t* c
         cad_params->cad_detect_peak = 25;
         cad_params->cad_symb_nb     = 4;
         break;
+    case SX126X_LORA_SF12:
+        cad_params->cad_detect_min  = 10;
+        cad_params->cad_detect_peak = 28;
+        cad_params->cad_symb_nb     = 4;
+        break;
     default:
         HAL_DBG_TRACE_WARNING( "CAD may not function properly while using these radio parameters\n" );
         break;
