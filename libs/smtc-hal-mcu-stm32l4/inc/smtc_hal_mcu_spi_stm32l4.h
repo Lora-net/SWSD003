@@ -69,6 +69,11 @@ struct smtc_hal_mcu_spi_cfg_s
     SPI_TypeDef* spi;
 };
 
+struct smtc_hal_mcu_spi_dma_cfg_s
+{
+    SPI_TypeDef* spi;
+};
+
 /*
  * -----------------------------------------------------------------------------
  * --- PUBLIC FUNCTIONS PROTOTYPES ---------------------------------------------

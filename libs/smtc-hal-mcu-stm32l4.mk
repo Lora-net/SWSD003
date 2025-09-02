@@ -27,32 +27,32 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 C_SOURCES += \
-$(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/third_party/STM32CubeL4/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_spi.c \
-$(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/third_party/STM32CubeL4/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_tim.c \
-$(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/third_party/STM32CubeL4/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_lptim.c \
-$(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/third_party/STM32CubeL4/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_usart.c \
-$(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/third_party/STM32CubeL4/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_rcc.c \
-$(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/third_party/STM32CubeL4/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_gpio.c \
-$(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/third_party/STM32CubeL4/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_pwr.c \
-$(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/third_party/STM32CubeL4/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_exti.c \
-$(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/third_party/STM32CubeL4/Drivers/STM32L4xx_HAL_Driver/Src/stm32l4xx_ll_utils.c \
+$(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/third_party/stm32l4xx-hal-driver/Src/stm32l4xx_ll_spi.c \
+$(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/third_party/stm32l4xx-hal-driver/Src/stm32l4xx_ll_i2c.c \
+$(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/third_party/stm32l4xx-hal-driver/Src/stm32l4xx_ll_tim.c \
+$(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/third_party/stm32l4xx-hal-driver/Src/stm32l4xx_ll_lptim.c \
+$(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/third_party/stm32l4xx-hal-driver/Src/stm32l4xx_ll_usart.c \
+$(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/third_party/stm32l4xx-hal-driver/Src/stm32l4xx_ll_rcc.c \
+$(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/third_party/stm32l4xx-hal-driver/Src/stm32l4xx_ll_gpio.c \
+$(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/third_party/stm32l4xx-hal-driver/Src/stm32l4xx_ll_pwr.c \
+$(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/third_party/stm32l4xx-hal-driver/Src/stm32l4xx_ll_exti.c \
+$(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/third_party/stm32l4xx-hal-driver/Src/stm32l4xx_ll_utils.c \
 $(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/src/smtc_hal_mcu_spi_stm32l4.c \
 $(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/src/smtc_hal_mcu_gpio_stm32l4.c \
-$(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/src/smtc_hal_mcu_rng_stm32l4.c \
 $(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/src/smtc_hal_mcu_uart_stm32l4.c \
-$(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/src/smtc_hal_mcu_timer_stm32l4.c \
 $(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/src/smtc_hal_mcu_stm32l4.c \
-$(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/third_party/STM32CubeL4/Drivers/CMSIS/Device/ST/STM32L4xx/Source/Templates/system_stm32l4xx.c
+$(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/src/smtc_hal_mcu_i2c_stm32l4.c \
+$(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/third_party/cmsis-device-l4/Source/Templates/system_stm32l4xx.c
 
 ASM_SOURCES +=  \
-$(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/third_party/STM32CubeL4/Drivers/CMSIS/Device/ST/STM32L4xx/Source/Templates/gcc/startup_stm32l476xx.s
+$(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/third_party/cmsis-device-l4/Source/Templates/gcc/startup_stm32l476xx.s
 
 C_INCLUDES +=  \
 -I$(TOP_DIR)/libs/smtc-hal-mcu/inc \
 -I$(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/inc \
--I$(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/third_party/STM32CubeL4/Drivers/CMSIS/Device/ST/STM32L4xx/Include \
--I$(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/third_party/STM32CubeL4/Drivers/CMSIS/Core/Include \
--I$(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/third_party/STM32CubeL4/Drivers/STM32L4xx_HAL_Driver/Inc \
+-I$(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/third_party/cmsis-device-l4/Include \
+-I$(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/third_party/cmsis-core/Include \
+-I$(TOP_DIR)/libs/smtc-hal-mcu-stm32l4/third_party/stm32l4xx-hal-driver/Inc
 
 CPU = -mcpu=cortex-m4
 
@@ -65,5 +65,6 @@ MCU = $(CPU) -mthumb $(FPU) $(FLOAT-ABI)
 C_DEFS +=  \
 -DUSE_FULL_LL_DRIVER \
 -DSTM32L476xx \
+-DSMTC_HAL_MCU_STM32L4
 
 LDSCRIPT = $(TOP_DIR)/toolchain/gcc/stm32l476rgtx_flash.ld

@@ -48,6 +48,7 @@
 #include "curve_plot.h"
 #include "smtc_hal_dbg_trace.h"
 #include "uart_init.h"
+#include "smtc_hal_mcu.h"
 
 /*
  * -----------------------------------------------------------------------------
@@ -107,7 +108,7 @@ int main( void )
 {
     smtc_hal_mcu_init( );
     apps_common_shield_init( );
-    uart_init();
+    uart_init( );
 
     HAL_DBG_TRACE_INFO( "===== LR11xx Spectrum Display example =====\n\n" );
     apps_common_print_sdk_driver_version( );
@@ -131,7 +132,7 @@ int main( void )
         /* Start Spectral scan */
         spectrum_display_start( freq_hz );
 
-        LL_mDelay( DELAY_BETWEEN_EACH_INST_RSSI_FETCH_US );
+        smtc_hal_mcu_wait_ms( ( const uint32_t ) DELAY_BETWEEN_EACH_INST_RSSI_FETCH_US );
         ASSERT_LR11XX_RC( lr11xx_radio_get_rssi_inst( context, &result ) );
         plot_curve( ( freq_chan_index + 1 ), ( abs( result ) / RSSI_SCALE ) );
 
@@ -147,7 +148,7 @@ int main( void )
             /* Pace the scan speed (1 sec min) */
             for( uint16_t i = 0; i < ( int ) ( PACE_S ? PACE_S : 1 ); i++ )
             {
-                LL_mDelay( 1000 );
+                smtc_hal_mcu_wait_ms( ( const uint32_t ) 1000U );
             }
         }
     }
@@ -162,7 +163,7 @@ void spectrum_display_start( uint32_t freq_hz )
     apps_common_lr11xx_handle_pre_rx( );
     ASSERT_LR11XX_RC( lr11xx_radio_set_rx_with_timeout_in_rtc_step( context, RX_CONTINUOUS ) );
 
-    LL_mDelay( DELAY_BETWEEN_SET_RX_AND_VALID_RSSI_MS );
+    smtc_hal_mcu_wait_ms( ( const uint32_t ) DELAY_BETWEEN_SET_RX_AND_VALID_RSSI_MS );
 }
 
 void print_configuration( void )

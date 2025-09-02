@@ -52,6 +52,7 @@
 #include "smtc_hal_dbg_trace.h"
 #include "uart_init.h"
 #include "main_tx_lr_fhss.h"
+#include "smtc_hal_mcu.h"
 
 /*
  * -----------------------------------------------------------------------------
@@ -151,14 +152,14 @@ void on_tx_done( void )
 {
     apps_common_lr11xx_handle_post_tx( );
 
-    LL_mDelay( TX_TO_TX_DELAY_IN_MS );
+    smtc_hal_mcu_wait_ms( ( const uint32_t ) TX_TO_TX_DELAY_IN_MS );
 
     build_frame_and_send( &lr_fhss_params, buffer, PAYLOAD_LENGTH );
 }
 
 void build_frame_and_send( const lr11xx_lr_fhss_params_t* params, uint8_t* payload, uint16_t length )
 {
-    const uint16_t hop_seq_id = ( uint16_t )( rand( ) % lr11xx_lr_fhss_get_hop_sequence_count( params ) );
+    const uint16_t hop_seq_id = ( uint16_t ) ( rand( ) % lr11xx_lr_fhss_get_hop_sequence_count( params ) );
 
     lr11xx_lr_fhss_build_frame( ( void* ) context, &lr_fhss_params, hop_seq_id, payload, length );
 

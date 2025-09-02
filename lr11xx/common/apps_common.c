@@ -51,7 +51,6 @@
 #include "lr11xx_rttof.h"
 #include "smtc_hal_dbg_trace.h"
 #include "smtc_shield_pinout_mapping.h"
-#include "smtc_shield_lr11xx.h"
 
 #include "smtc_shield_lr1110mb1dis.h"
 #include "smtc_shield_lr1110mb1ipddis.h"
@@ -268,6 +267,11 @@ void on_gnss_scan_done( void ) __attribute__( ( weak ) );
  * --- PUBLIC FUNCTIONS DEFINITION ---------------------------------------------
  */
 
+smtc_shield_lr11xx_t* apps_common_lr11xx_get_shield( void )
+{
+    return &shield;
+}
+
 lr11xx_hal_context_t* apps_common_lr11xx_get_context( )
 {
     context.busy.cfg                 = smtc_shield_pinout_mapping_get_gpio_cfg( SMTC_SHIELD_PINOUT_D3 );
@@ -298,7 +302,9 @@ lr11xx_hal_context_t* apps_common_lr11xx_get_context( )
 
     smtc_hal_mcu_gpio_enable_irq( context.irq.inst );
 
-    smtc_hal_mcu_spi_init( &( context.spi.cfg ), &( context.spi.inst ) );
+    const smtc_hal_mcu_spi_cfg_app_t cfg = { .is_master = true };
+
+    smtc_hal_mcu_spi_init( &( context.spi.cfg ), &cfg, &( context.spi.inst ) );
 
     return &context;
 }

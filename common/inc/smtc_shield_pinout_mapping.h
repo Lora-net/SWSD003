@@ -43,8 +43,10 @@ extern "C" {
  * -----------------------------------------------------------------------------
  * --- DEPENDENCIES ------------------------------------------------------------
  */
+#include <stdint.h>
 
 #include "smtc_shield_pinout.h"
+#include "smtc_hal_mcu_gpio.h"
 
 /*
  * -----------------------------------------------------------------------------
@@ -73,7 +75,16 @@ extern "C" {
  *
  * @return A pointer to the MCU-related GPIO configuration
  */
-const smtc_hal_mcu_gpio_cfg_t smtc_shield_pinout_mapping_get_gpio_cfg( smtc_shield_pinout_t gpio );
+smtc_hal_mcu_gpio_cfg_t smtc_shield_pinout_mapping_get_gpio_cfg( smtc_shield_pinout_t gpio );
+
+/**
+ * @brief Get the GPIO Pin configuration
+ *
+ * @param [in] gpio GPIO definition
+ *
+ * @return Pin related to the MCU-related GPIO configuration
+ */
+uint32_t smtc_shield_pinout_mapping_get_gpio_cfg_pin( smtc_shield_pinout_t gpio );
 
 #ifdef __cplusplus
 }

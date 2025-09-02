@@ -81,7 +81,8 @@ typedef struct smtc_hal_mcu_timer_cfg_s* smtc_hal_mcu_timer_cfg_t;
  */
 typedef struct smtc_hal_mcu_timer_cfg_app_s
 {
-    void ( *expiry_func )( void );
+    void ( *expiry_func )( void* context );
+    void* context;
 } smtc_hal_mcu_timer_cfg_app_t;
 
 /*
@@ -170,6 +171,30 @@ smtc_hal_mcu_status_t smtc_hal_mcu_timer_get_remaining_time( smtc_hal_mcu_timer_
  * @retval SMTC_HAL_MCU_STATUS_ERROR The operation failed because another error occurred
  */
 smtc_hal_mcu_status_t smtc_hal_mcu_timer_get_max_value( smtc_hal_mcu_timer_inst_t inst, uint32_t* value_in_ms );
+
+/**
+ * @brief Enable the timer irq
+ *
+ * @param [in] inst Timer instance
+ *
+ * @retval SMTC_HAL_MCU_STATUS_OK The timer IRQ has been successfully enabled
+ * @retval SMTC_HAL_MCU_STATUS_NOT_INIT The operation failed as the timer is not initialised
+ * @retval SMTC_HAL_MCU_STATUS_BAD_PARAMETERS At least one parameter has an incorrect value
+ * @retval SMTC_HAL_MCU_STATUS_ERROR The operation failed because another error occurred
+ */
+smtc_hal_mcu_status_t smtc_hal_mcu_timer_irq_enable( smtc_hal_mcu_timer_inst_t inst );
+
+/**
+ * @brief Disable the timer irq
+ *
+ * @param [in] inst Timer instance
+ *
+ * @retval SMTC_HAL_MCU_STATUS_OK The timer IRQ has been successfully disabled
+ * @retval SMTC_HAL_MCU_STATUS_NOT_INIT The operation failed as the timer is not initialised
+ * @retval SMTC_HAL_MCU_STATUS_BAD_PARAMETERS At least one parameter has an incorrect value
+ * @retval SMTC_HAL_MCU_STATUS_ERROR The operation failed because another error occurred
+ */
+smtc_hal_mcu_status_t smtc_hal_mcu_timer_irq_disable( smtc_hal_mcu_timer_inst_t inst );
 
 #ifdef __cplusplus
 }

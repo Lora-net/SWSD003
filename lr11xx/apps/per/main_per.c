@@ -49,6 +49,7 @@
 #include "smtc_hal_mcu.h"
 #include "smtc_hal_dbg_trace.h"
 #include "uart_init.h"
+#include "smtc_hal_mcu.h"
 
 /*
  * -----------------------------------------------------------------------------
@@ -68,7 +69,7 @@
  * --- PRIVATE CONSTANTS -------------------------------------------------------
  */
 
-#if( RECEIVER == 1 )
+#if ( RECEIVER == 1 )
 const char* mode = "Receiver";
 #else
 const char* mode = "Transmitter";
@@ -125,7 +126,7 @@ int main( void )
 {
     smtc_hal_mcu_init( );
     apps_common_shield_init( );
-    uart_init();
+    uart_init( );
 
     HAL_DBG_TRACE_INFO( "===== LR11xx PER example - %s =====\n\n", mode );
     apps_common_print_sdk_driver_version( );
@@ -186,7 +187,7 @@ void on_tx_done( void )
 {
     apps_common_lr11xx_handle_post_tx( );
 
-    LL_mDelay( TX_TO_TX_DELAY_IN_MS );
+    smtc_hal_mcu_wait_ms( ( const uint32_t ) TX_TO_TX_DELAY_IN_MS );
 
     buffer[0]++;
     HAL_DBG_TRACE_INFO( "Counter value: %d\n", buffer[0] );

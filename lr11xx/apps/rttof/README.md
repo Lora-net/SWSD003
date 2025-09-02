@@ -2,7 +2,7 @@
 
 ## Description
 
-The sample code is used to perform a sub-GHz band LoRa based Round-Trip Time of Flight (ranging) measurement between two devices : a RTToF manager and a RTToF subordinate.
+The sample code is used to perform a sub-GHz band for the LR1110 and both sub-GHz and 2.4GHz ISM bands for the LR1120 LoRa based Round-Trip Time of Flight (ranging) measurement between two devices : a RTToF manager and a RTToF subordinate.
 Define the macro `RTTOF_DEVICE_MODE` in file [`main_rttof.h`](main_rttof.h) to determine whether the device operates as a RTToF manager (sends RTToF requests) or as a RTToF subordinate (processes RTToF requests and answers by sending RTToF responses).
 
 This example can only be used with LR1110 and LR1120.
@@ -30,5 +30,5 @@ Furthermore, the application defines the following parameters in the [`main_rtto
 Some of the points that need attention as followings.
 
 - Spreading factors from SF5 to SF10 are recommended values.
-- Bandwidth shall be chosen among `LR11XX_RADIO_LORA_BW_125`, `LR11XX_RADIO_LORA_BW_250` and `LR11XX_RADIO_LORA_BW_500` for both sub-GHz and 2.4G bands.
+- Bandwidth shall be chosen among `LR11XX_RADIO_LORA_BW_125`, `LR11XX_RADIO_LORA_BW_250` and `LR11XX_RADIO_LORA_BW_500` for sub-GHz band for the LR1110 and for both the sub-GHz and 2.4GHz ISM bands for the LR1120.
 - Please set the IQ value - `LORA_IQ`, as the standard mode - `LR11XX_RADIO_LORA_IQ_STANDARD`. Because all the calibration values are based on the standard mode. It might reduce the ranging accuracy if used the inverted mode.

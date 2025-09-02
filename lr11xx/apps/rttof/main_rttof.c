@@ -234,7 +234,7 @@ void on_rttof_exchange_valid( void )
     HAL_DBG_TRACE_INFO( "RTToF result: Distance: %dm, RSSI: %d \n", result.distance_m, result.rssi );
 
     /* start new rttof transmission */
-    LL_mDelay( MANAGER_RTTOF_SLEEP_PERIOD );
+    smtc_hal_mcu_wait_ms( ( const uint32_t ) MANAGER_RTTOF_SLEEP_PERIOD );
     ASSERT_LR11XX_RC( lr11xx_radio_set_tx( ( void* ) context, MANAGER_TX_RX_TIMEOUT_MS ) );
 }
 
@@ -242,7 +242,7 @@ void on_rttof_timeout( void )
 {
     HAL_DBG_TRACE_WARNING( "RTTOF request timeout\n\n" );
     /* start new rttof transmission */
-    LL_mDelay( MANAGER_RTTOF_SLEEP_PERIOD );
+    smtc_hal_mcu_wait_ms( ( const uint32_t ) MANAGER_RTTOF_SLEEP_PERIOD );
     ASSERT_LR11XX_RC( lr11xx_radio_set_tx( ( void* ) context, MANAGER_TX_RX_TIMEOUT_MS ) );
 }
 

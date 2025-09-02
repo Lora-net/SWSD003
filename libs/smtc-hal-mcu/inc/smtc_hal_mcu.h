@@ -68,12 +68,86 @@ extern "C" {
  */
 
 /**
- * @brief Perform the initialization sequence of the MCU
+ * @brief Perform the initialisation sequence of the MCU
  *
- * @retval SMTC_HAL_MCU_STATUS_OK The initialisation completed successfully and the watchdog is started
- * @retval SMTC_HAL_MCU_STATUS_ERROR Another error occurred and the watchdog is not initialised or not started
+ * @retval SMTC_HAL_MCU_STATUS_OK The initialisation completed successfully
+ * @retval SMTC_HAL_MCU_STATUS_ERROR An error occurred and the initialisation failed
  */
-smtc_hal_mcu_status_t smtc_hal_mcu_init( );
+smtc_hal_mcu_status_t smtc_hal_mcu_init( void );
+
+/*!
+ * @brief Reset MCU
+ */
+void smtc_hal_mcu_reset( void );
+
+/*!
+ * @brief Panic function to trap MCU issues
+ */
+void smtc_hal_mcu_panic( void );
+
+/*!
+ * @brief Disable all interrupts on MCU side
+ *
+ * @retval SMTC_HAL_MCU_STATUS_OK The interrupt disabling completed successfully
+ * @retval SMTC_HAL_MCU_STATUS_ERROR An error occurred and the interrupt disabling failed
+ */
+smtc_hal_mcu_status_t smtc_hal_mcu_disable_irq( void );
+
+/*!
+ * @brief Enable all interrupts on MCU side
+ *
+ * @retval SMTC_HAL_MCU_STATUS_OK The interrupt enabling completed successfully
+ * @retval SMTC_HAL_MCU_STATUS_ERROR An error occurred and the interrupt enabling failed
+ */
+smtc_hal_mcu_status_t smtc_hal_mcu_enable_irq( void );
+
+/*!
+ * @brief Sets the MCU in sleep mode with RAM retention.
+ *
+ * @retval SMTC_HAL_MCU_STATUS_OK The initialisation completed successfully
+ * @retval SMTC_HAL_MCU_STATUS_ERROR An error occurred and the initialisation failed
+ */
+smtc_hal_mcu_status_t smtc_hal_mcu_set_sleep_with_retention( void );
+
+/*!
+ * @brief Blocking wait for delay microseconds
+ *
+ * @param [in] microseconds Delay to wait in microseconds
+ *
+ * @retval SMTC_HAL_MCU_STATUS_OK The blocking wait terminated successfully
+ * @retval SMTC_HAL_MCU_STATUS_BAD_PARAMETERS The input parameter is incorrect
+ */
+smtc_hal_mcu_status_t smtc_hal_mcu_wait_us( const uint32_t microseconds );
+
+/*!
+ * @brief Blocking wait for delay milliseconds
+ *
+ * @param [in] milliseconds Delay to wait in milliseconds
+ *
+ * @retval SMTC_HAL_MCU_STATUS_OK The blocking wait terminated successfully
+ * @retval SMTC_HAL_MCU_STATUS_BAD_PARAMETERS The input parameter is incorrect
+ */
+smtc_hal_mcu_status_t smtc_hal_mcu_wait_ms( const uint32_t milliseconds );
+
+/**
+ * @brief Get junction temperature in tenth of °C from MCU
+ *
+ * @param [out] temperature Pointer to the temperature value
+ *
+ * @retval SMTC_HAL_MCU_STATUS_OK The tempature has been read and returned sucessfully
+ * @retval SMTC_HAL_MCU_STATUS_ERROR The operation failed because another error occurred
+ */
+smtc_hal_mcu_status_t smtc_hal_mcu_get_junction_temperature( int16_t* temperature );
+
+/**
+ * @brief Get MCU internal voltage
+ *
+ * @param [out] internal_vref Pointer to the internal voltage in mV value
+ *
+ * @retval SMTC_HAL_MCU_STATUS_OK The internal voltage has been read and returned sucessfully
+ * @retval SMTC_HAL_MCU_STATUS_ERROR The operation failed because another error occurred
+ */
+smtc_hal_mcu_status_t smtc_hal_mcu_get_internal_vref( int16_t* internal_vref );
 
 #ifdef __cplusplus
 }

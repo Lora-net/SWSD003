@@ -5,7 +5,7 @@
  *
  * @copyright
  * The Clear BSD License
- * Copyright Semtech Corporation 2022. All rights reserved.
+ * Copyright Semtech Corporation 2025. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted (subject to the limitations in the disclaimer
@@ -47,7 +47,6 @@
 #include "sx126x_str.h"
 #include "smtc_hal_dbg_trace.h"
 #include "smtc_shield_pinout_mapping.h"
-#include "smtc_shield_sx126x.h"
 
 #include "smtc_shield_sx1261mb1bas.h"
 #include "smtc_shield_sx1261mb1cas.h"
@@ -209,6 +208,11 @@ void on_fhss_hop_done( void ) __attribute__( ( weak ) );
  * --- PUBLIC FUNCTIONS DEFINITION ---------------------------------------------
  */
 
+smtc_shield_sx126x_t* apps_common_sx126x_get_shield( void )
+{
+    return &shield;
+}
+
 sx126x_hal_context_t* apps_common_sx126x_get_context( )
 {
     context.busy.cfg                 = smtc_shield_pinout_mapping_get_gpio_cfg( SMTC_SHIELD_PINOUT_D3 );
@@ -239,7 +243,9 @@ sx126x_hal_context_t* apps_common_sx126x_get_context( )
 
     smtc_hal_mcu_gpio_enable_irq( context.irq.inst );
 
-    smtc_hal_mcu_spi_init( &( context.spi.cfg ), &( context.spi.inst ) );
+    const smtc_hal_mcu_spi_cfg_app_t cfg = { .is_master = true };
+
+    smtc_hal_mcu_spi_init( &( context.spi.cfg ), &cfg, &( context.spi.inst ) );
 
     return &context;
 }

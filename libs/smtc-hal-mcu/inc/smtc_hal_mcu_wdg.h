@@ -65,14 +65,14 @@ extern "C" {
 /**
  * @brief Watchdog instance structure definition
  *
- * @remark smtc_hal_mcu_spi_inst_s has to be defined in the implementation
+ * @remark smtc_hal_mcu_wdg_inst_s has to be defined in the implementation
  */
 typedef struct smtc_hal_mcu_wdg_inst_s* smtc_hal_mcu_wdg_inst_t;
 
 /**
  * @brief Implementation-level watchdog configuration structure definition
  *
- * @remark smtc_hal_mcu_spi_cfg_s has to be defined in the implementation
+ * @remark smtc_hal_mcu_wdg_cfg_s has to be defined in the implementation
  */
 typedef struct smtc_hal_mcu_wdg_cfg_s* smtc_hal_mcu_wdg_cfg_t;
 
@@ -125,6 +125,18 @@ smtc_hal_mcu_status_t smtc_hal_mcu_wdg_stop( smtc_hal_mcu_wdg_inst_t inst );
  * @retval SMTC_HAL_MCU_STATUS_ERROR The operation failed because another error occurred
  */
 smtc_hal_mcu_status_t smtc_hal_mcu_wdg_reload( smtc_hal_mcu_wdg_inst_t inst );
+
+/**
+ * @brief Get the reload value of the watchdog timer
+ *
+ * @param [in] inst Watchdog instance
+ * @param [out] value_in_ms Value in millisecond of the reload value
+ *
+ * @retval SMTC_HAL_MCU_STATUS_OK The reload value of the watchdog has been read successfully
+ * @retval SMTC_HAL_MCU_STATUS_NOT_INIT The operation failed as the watchdog is not initialised
+ * @retval SMTC_HAL_MCU_STATUS_ERROR The operation failed because another error occurred
+ */
+smtc_hal_mcu_status_t smtc_hal_mcu_wdg_get_reload_value( smtc_hal_mcu_wdg_inst_t inst, uint32_t* value_in_ms );
 
 #ifdef __cplusplus
 }

@@ -48,6 +48,7 @@
 #include "main_bluetooth_low_energy_beaconing_compatibility.h"
 #include "smtc_hal_dbg_trace.h"
 #include "uart_init.h"
+#include "smtc_hal_mcu.h"
 
 /*
  * -----------------------------------------------------------------------------
@@ -182,7 +183,7 @@ void on_tx_done( void )
 
 static void send_bluetooth_low_energy_beacon( )
 {
-    LL_mDelay( BLUETOOTH_LOW_ENERGY_BEACON_PERIOD_MS );
+    smtc_hal_mcu_wait_ms( ( const uint32_t ) BLUETOOTH_LOW_ENERGY_BEACON_PERIOD_MS );
     lr11xx_radio_set_tx( ( void* ) context, 0 );
 }
 

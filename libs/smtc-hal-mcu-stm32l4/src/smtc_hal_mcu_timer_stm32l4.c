@@ -74,10 +74,10 @@
  */
 struct smtc_hal_mcu_timer_inst_s
 {
-    bool           is_cfged;
-    LPTIM_TypeDef* tim;
-    uint32_t       max_value;
-    void ( *callback_expiry )( void );
+    bool                         is_cfged;
+    LPTIM_TypeDef*               tim;
+    uint32_t                     max_value;
+    smtc_hal_mcu_timer_cfg_app_t cfg_app;
 };
 
 /*
@@ -143,10 +143,10 @@ smtc_hal_mcu_status_t smtc_hal_mcu_timer_init( const smtc_hal_mcu_timer_cfg_t   
         return SMTC_HAL_MCU_STATUS_ERROR;
     }
 
-    tim_cfg_slot->is_cfged        = false;
-    tim_cfg_slot->tim             = cfg->tim;
-    tim_cfg_slot->max_value       = 0xFFFF;
-    tim_cfg_slot->callback_expiry = cfg_app->expiry_func;
+    tim_cfg_slot->is_cfged  = false;
+    tim_cfg_slot->tim       = cfg->tim;
+    tim_cfg_slot->max_value = 0xFFFF;
+    tim_cfg_slot->cfg_app   = *cfg_app;
 
     const LL_LPTIM_InitTypeDef LPTIM_InitStruct = {
         .ClockSource = LL_LPTIM_CLK_SOURCE_INTERNAL,
@@ -164,6 +164,18 @@ smtc_hal_mcu_status_t smtc_hal_mcu_timer_init( const smtc_hal_mcu_timer_cfg_t   
 
         LL_APB1_GRP1_EnableClock( LL_APB1_GRP1_PERIPH_LPTIM1 );
         while( LL_APB1_GRP1_IsEnabledClock( LL_APB1_GRP1_PERIPH_LPTIM1 ) != 1 )
+        {
+        }
+    }
+    else if( tim_cfg_slot->tim == LPTIM2 )
+    {
+        LL_RCC_SetLPTIMClockSource( LL_RCC_LPTIM2_CLKSOURCE_LSI );
+
+        NVIC_SetPriority( LPTIM2_IRQn, 0 );
+        NVIC_EnableIRQ( LPTIM2_IRQn );
+
+        LL_APB1_GRP2_EnableClock( LL_APB1_GRP2_PERIPH_LPTIM2 );
+        while( LL_APB1_GRP2_IsEnabledClock( LL_APB1_GRP2_PERIPH_LPTIM2 ) != 1 )
         {
         }
     }
@@ -371,9 +383,34 @@ void LPTIM1_IRQHandler( void )
         {
             if( tim_inst_array[i].tim == LPTIM1 )
             {
-                if( tim_inst_array[i].callback_expiry != NULL )
+                if( tim_inst_array[i].cfg_app.expiry_func != NULL )
                 {
-                    tim_inst_array[i].callback_expiry( );
+                    tim_inst_array[i].cfg_app.expiry_func( tim_inst_array[i].cfg_app.context );
+                    return;
+                }
+            }
+        }
+    }
+}
+
+/**
+ * @brief  This function handles LPTIM2 interrupts.
+ */
+void LPTIM2_IRQHandler( void )
+{
+    /* Check whether Autoreload match interrupt is pending */
+    if( LL_LPTIM_IsActiveFlag_ARRM( LPTIM2 ) == 1 )
+    {
+        /* Clear the Autoreload match interrupt flag */
+        LL_LPTIM_ClearFLAG_ARRM( LPTIM2 );
+
+        for( int i = 0; i < SMTC_HAL_MCU_TIMER_STM32L4_N_INSTANCES_MAX; i++ )
+        {
+            if( tim_inst_array[i].tim == LPTIM2 )
+            {
+                if( tim_inst_array[i].cfg_app.expiry_func != NULL )
+                {
+                    tim_inst_array[i].cfg_app.expiry_func( tim_inst_array[i].cfg_app.context );
                     return;
                 }
             }

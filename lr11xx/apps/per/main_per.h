@@ -54,7 +54,7 @@ extern "C" {
 #endif
 #define TRANSMITTER !RECEIVER
 
-#if( TRANSMITTER == RECEIVER )
+#if ( TRANSMITTER == RECEIVER )
 #error "Please define only Transmitter or Receiver."
 #endif
 

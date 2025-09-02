@@ -45,6 +45,7 @@
 #include "sx126x_hal.h"
 #include "smtc_hal_mcu_spi.h"
 #include "smtc_hal_mcu_gpio.h"
+#include "smtc_hal_mcu.h"
 
 /*
  * -----------------------------------------------------------------------------
@@ -81,7 +82,7 @@ sx126x_hal_status_t sx126x_hal_reset( const void* context )
     const sx126x_hal_context_t* sx126x_context = ( const sx126x_hal_context_t* ) context;
 
     smtc_hal_mcu_gpio_set_state( sx126x_context->reset.inst, SMTC_HAL_MCU_GPIO_STATE_LOW );
-    LL_mDelay( 1 );
+    smtc_hal_mcu_wait_ms( ( const uint32_t ) 1U );
     smtc_hal_mcu_gpio_set_state( sx126x_context->reset.inst, SMTC_HAL_MCU_GPIO_STATE_HIGH );
 
     return SX126X_HAL_STATUS_OK;
@@ -92,7 +93,7 @@ sx126x_hal_status_t sx126x_hal_wakeup( const void* context )
     const sx126x_hal_context_t* sx126x_context = ( const sx126x_hal_context_t* ) context;
 
     smtc_hal_mcu_gpio_set_state( sx126x_context->nss.inst, SMTC_HAL_MCU_GPIO_STATE_LOW );
-    LL_mDelay( 1 );
+    smtc_hal_mcu_wait_ms( ( const uint32_t ) 1U );
     smtc_hal_mcu_gpio_set_state( sx126x_context->nss.inst, SMTC_HAL_MCU_GPIO_STATE_HIGH );
 
     return SX126X_HAL_STATUS_OK;

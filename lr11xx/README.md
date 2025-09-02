@@ -12,12 +12,14 @@ The LR11xx SDK contains several simple examples for LR11xx transceivers.
 | Ping pong                                       | Launch an exchange between two devices                                                      | [README](apps/ping_pong/README.md)                                    |
 | RTToF (Ranging)                                 | Perform Round-Trip Time of Flight (ranging) exchanges. Only valid for LR1110 and LR1120     | [README](apps/rttof/README.md)                                        |
 | Sigfox                                          | Send a Sigfox-compliant uplink                                                              | [README](apps/sigfox/README.md)                                       |
+| LR FHSS                                         | Send LR FHSS modulated packets                              | [README](apps/lrfhss/README.md)                                          |
 | Spectral scan                                   | Get inst-RSSI values in RX mode to form a heat map                                          | [README](apps/spectral_scan/README.md)                                |
 | Spectrum display                                | Get inst-RSSI values in RX mode to form a dyamic spectrum curve                             | [README](apps/spectrum_display/README.md)                             |
 | Tx continuous wave                              | Configure the chip to transmit a single tone                                                | [README](apps/tx_cw/README.md)                                        |
 | Tx infinite preamble                            | Configure the chip to transmit an infinite preamble                                         | [README](apps/tx_infinite_preamble/README.md)                         |
+| RF certification  | RF certification example  | [README](apps/rf_certification/README.md) |
 
-A demonstration of the LR-FHSS capability of the chip can be found [here](https://github.com/Lora-net/SWDM001).
+A further demonstration of the LR-FHSS capability of the chip can be found [here](https://github.com/Lora-net/SWDM001).
 
 ## Configuration
 

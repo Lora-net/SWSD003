@@ -57,7 +57,7 @@
  * --- PRIVATE CONSTANTS -------------------------------------------------------
  */
 
-#if( RECEIVER == 1 )
+#if ( RECEIVER == 1 )
 const char* mode = "Receiver";
 #else
 const char* mode = "Transmitter";
@@ -133,7 +133,7 @@ int main( void )
     // Adjust RX_TIMEOUT regarding to time on air value
     rx_timeout += get_time_on_air_in_ms( );
 
-#if( RECEIVER == 1 )
+#if ( RECEIVER == 1 )
     sx126x_set_rx( context, rx_timeout );
     memcpy( per_msg, &buffer[1], PAYLOAD_LENGTH - 1 );
 #else
@@ -167,7 +167,7 @@ int main( void )
 void on_tx_done( void )
 {
     apps_common_sx126x_handle_post_tx( );
-    LL_mDelay( TX_TO_TX_DELAY_IN_MS );
+    smtc_hal_mcu_wait_ms( ( const uint32_t ) TX_TO_TX_DELAY_IN_MS );
 
     buffer[0]++;
     HAL_DBG_TRACE_INFO( "Counter value: %d\n", buffer[0] );

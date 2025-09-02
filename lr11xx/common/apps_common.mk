@@ -147,3 +147,5 @@ $(TOP_DIR)/lr11xx/lr11xx_driver/src/lr11xx_driver_version.c \
 C_INCLUDES +=  \
 -I$(TOP_DIR)/lr11xx/lr11xx_driver/src \
 -I$(TOP_DIR)/libs/smtc_dbpsk_driver/src/ \
+
+rebuild: clean all

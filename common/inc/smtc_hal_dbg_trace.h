@@ -121,6 +121,15 @@ extern "C" {
         HAL_DBG_TRACE_PRINTF( HAL_DBG_TRACE_COLOR_DEFAULT ); \
     } while( 0 );
 
+#define HAL_DBG_TRACE_DEBUG( ... )                           \
+    do                                                       \
+    {                                                        \
+        HAL_DBG_TRACE_PRINTF( HAL_DBG_TRACE_COLOR_BLUE );     \
+        HAL_DBG_TRACE_PRINTF( "DEBUG: " );                   \
+        HAL_DBG_TRACE_PRINTF( __VA_ARGS__ );                 \
+        HAL_DBG_TRACE_PRINTF( HAL_DBG_TRACE_COLOR_DEFAULT ); \
+    } while( 0 );
+
 #define HAL_DBG_TRACE_ARRAY( msg, array, len )                                \
     do                                                                        \
     {                                                                         \
@@ -152,6 +161,7 @@ extern "C" {
 #define HAL_DBG_TRACE_INFO( ... )
 #define HAL_DBG_TRACE_WARNING( ... )
 #define HAL_DBG_TRACE_ERROR( ... )
+#define HAL_DBG_TRACE_DEBUG( ... )
 #define HAL_DBG_TRACE_ARRAY( msg, array, len )
 #define HAL_DBG_TRACE_PACKARRAY( ... )
 

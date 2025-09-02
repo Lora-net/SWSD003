@@ -45,6 +45,7 @@ extern "C" {
  */
 
 #include <stdint.h>
+#include <stdbool.h>
 #include "smtc_hal_mcu_status.h"
 
 /*
@@ -76,6 +77,30 @@ typedef struct smtc_hal_mcu_spi_inst_s* smtc_hal_mcu_spi_inst_t;
  */
 typedef struct smtc_hal_mcu_spi_cfg_s* smtc_hal_mcu_spi_cfg_t;
 
+/**
+ * @brief SPI DMA configuration structure definition
+ *
+ * @remark smtc_hal_mcu_spi_dma_cfg_s has to be defined in the implementation
+ */
+typedef struct smtc_hal_mcu_spi_dma_cfg_s* smtc_hal_mcu_spi_dma_cfg_t;
+
+typedef struct smtc_hal_mcu_spi_cfg_app_s
+{
+    bool is_master;
+} smtc_hal_mcu_spi_cfg_app_t;
+
+/**
+ * @brief SPI DMA application configuration structure
+ */
+typedef struct smtc_hal_mcu_spi_dma_cfg_app_s
+{
+    bool is_master;
+    void ( *callback_tx )( void );
+    void ( *callback_rx )( void );
+    void ( *callback_error_tx )( void );
+    void ( *callback_error_rx )( void );
+} smtc_hal_mcu_spi_dma_cfg_app_t;
+
 /*
  * -----------------------------------------------------------------------------
  * --- PUBLIC FUNCTIONS PROTOTYPES ---------------------------------------------
@@ -85,13 +110,15 @@ typedef struct smtc_hal_mcu_spi_cfg_s* smtc_hal_mcu_spi_cfg_t;
  * @brief Initialize SPI peripheral
  *
  * @param [in] cfg SPI instance configuration
+ * @param [in] cfg_app Application-level configuration structure
  * @param [out] inst Pointer to a SPI instance
  *
  * @retval SMTC_HAL_MCU_STATUS_OK The initialisation completed successfully
- * @retval SMTC_HAL_MCU_STATUS_BAD_PARAMETERS \p cfg has incorrect value
+ * @retval SMTC_HAL_MCU_STATUS_BAD_PARAMETERS @p cfg has incorrect value
  * @retval SMTC_HAL_MCU_STATUS_ERROR Another error occurred and the SPI is not initialised
  */
-smtc_hal_mcu_status_t smtc_hal_mcu_spi_init( smtc_hal_mcu_spi_cfg_t cfg, smtc_hal_mcu_spi_inst_t* inst );
+smtc_hal_mcu_status_t smtc_hal_mcu_spi_init( smtc_hal_mcu_spi_cfg_t cfg, const smtc_hal_mcu_spi_cfg_app_t* cfg_app,
+                                             smtc_hal_mcu_spi_inst_t* inst );
 
 /**
  * @brief Deinitialize SPI peripheral
@@ -121,6 +148,40 @@ smtc_hal_mcu_status_t smtc_hal_mcu_spi_deinit( smtc_hal_mcu_spi_inst_t* inst );
  */
 smtc_hal_mcu_status_t smtc_hal_mcu_spi_rw_buffer( smtc_hal_mcu_spi_inst_t inst, const uint8_t* data_out,
                                                   uint8_t* data_in, uint16_t data_length );
+
+/**
+ * @brief Initialize a SPI peripheral with DMA
+ *
+ * @param [in] cfg Implementation-level configuration structure
+ * @param [in] cfg_app Application-level configuration structure
+ * @param [out] inst Pointer to a SPI instance
+ *
+ * @retval SMTC_HAL_MCU_STATUS_OK The initialisation completed successfully
+ * @retval SMTC_HAL_MCU_STATUS_BAD_PARAMETERS At least one parameter has incorrect value
+ * @retval SMTC_HAL_MCU_STATUS_ERROR Another error occurred and the @p inst is not initialised
+ */
+smtc_hal_mcu_status_t smtc_hal_mcu_spi_dma_init( const smtc_hal_mcu_spi_dma_cfg_t      cfg,
+                                                 const smtc_hal_mcu_spi_dma_cfg_app_t* cfg_app,
+                                                 smtc_hal_mcu_spi_inst_t*              inst );
+
+/**
+ * @brief Send and receive bytes over a SPI peripheral using DMA
+ *
+ * @param [in] inst SPI instance
+ * @param [in] data_out Buffer containing bytes to be sent. It is up to the caller to ensure this buffer is at least @p
+ * length byte long, and that it stays valid until the end of DMA operation - can be NULL, send \p data_length "0x00"
+ * bytes in this case
+ * @param [out] data_in Buffer to be filled with received bytes. It is up to the caller to ensure this buffer is at
+ * least @p length byte long, and that it stays valid until the end of DMA operation. Can be NULL
+ * @param [in] length Number of bytes to send and receive
+ *
+ * @retval SMTC_HAL_MCU_STATUS_OK The SPI receive operation terminated successfully
+ * @retval SMTC_HAL_MCU_STATUS_BAD_PARAMETERS The operation failed because at least one parameter is incorrect
+ * @retval SMTC_HAL_MCU_STATUS_NOT_INIT The operation failed as the @p inst is not initialised
+ * @retval SMTC_HAL_MCU_STATUS_ERROR The operation failed because another error occurred
+ */
+smtc_hal_mcu_status_t smtc_hal_mcu_spi_dma_send_receive( smtc_hal_mcu_spi_inst_t inst, const uint8_t* data_out,
+                                                         uint8_t* data_in, unsigned int length );
 
 #ifdef __cplusplus
 }

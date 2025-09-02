@@ -56,34 +56,31 @@ extern "C" {
  * --- PUBLIC CONSTANTS --------------------------------------------------------
  */
 
-#define HAL_FEATURE_OFF                             0
-#define HAL_FEATURE_ON                              !HAL_FEATURE_OFF
+#define HAL_FEATURE_OFF 0
+#define HAL_FEATURE_ON !HAL_FEATURE_OFF
 
 #ifndef HAL_DBG_TRACE
-#define HAL_DBG_TRACE                               HAL_FEATURE_ON
-#endif // HAL_DBG_TRACE
-#define HAL_DBG_TRACE_COLOR                         HAL_FEATURE_ON
+#define HAL_DBG_TRACE HAL_FEATURE_ON
+#endif  // HAL_DBG_TRACE
+#define HAL_DBG_TRACE_COLOR HAL_FEATURE_ON
 
 /* HAL_FEATURE_ON to activate sleep mode */
 
 /* HAL_FEATURE_OFF to deactivate sleep mode */
-#define HAL_LOW_POWER_MODE                          HAL_FEATURE_ON
+#define HAL_LOW_POWER_MODE HAL_FEATURE_ON
 
 /* HAL_FEATURE_ON to enable debug probe, not disallocating corresponding pins */
-#define HAL_HW_DEBUG_PROBE                          HAL_FEATURE_OFF
+#define HAL_HW_DEBUG_PROBE HAL_FEATURE_OFF
 
-#define HAL_USE_PRINTF_UART                         HAL_FEATURE_ON
-#define HAL_PRINT_BUFFER_SIZE                       255
-
-/* HAL_FEATURE_OFF to not use watchdog */
-#define HAL_USE_WATCHDOG                            HAL_FEATURE_ON
+#define HAL_USE_PRINTF_UART HAL_FEATURE_ON
+#define HAL_PRINT_BUFFER_SIZE 255
 
 /*!
  * Watchdog counter reload value
  *
  * @remark The period must be lower than MCU watchdog period
  */
-#define HAL_WATCHDOG_RELOAD_PERIOD_SECONDS          20
+#define HAL_WATCHDOG_RELOAD_PERIOD_SECONDS 20
 
 /*
  * -----------------------------------------------------------------------------

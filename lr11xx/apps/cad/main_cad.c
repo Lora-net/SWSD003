@@ -49,6 +49,7 @@
 #include "main_cad.h"
 #include "smtc_hal_dbg_trace.h"
 #include "uart_init.h"
+#include "smtc_hal_mcu.h"
 
 /*
  * -----------------------------------------------------------------------------
@@ -179,7 +180,7 @@ int main( void )
 {
     smtc_hal_mcu_init( );
     apps_common_shield_init( );
-    uart_init();
+    uart_init( );
 
     HAL_DBG_TRACE_INFO( "===== LR11xx CAD example =====\n\n" );
     apps_common_print_sdk_driver_version( );
@@ -296,7 +297,7 @@ void on_rx_crc_error( void )
 static void start_cad_after_delay( uint16_t delay_ms )
 {
     HAL_DBG_TRACE_PRINTF( "\nStart CAD, iteration %d\n", iteration_number++ );
-    LL_mDelay( delay_ms );
+    smtc_hal_mcu_wait_ms( ( const uint32_t ) delay_ms );
     ASSERT_LR11XX_RC( lr11xx_radio_set_cad( context ) );
 }
 
@@ -337,16 +338,18 @@ static void optimize_cad_detection_peak_parameter( lr11xx_radio_lora_sf_t sf, lr
         }
         default:
         {
-            HAL_DBG_TRACE_WARNING( "CAD may not function properly, detection peak optimization not supported for SymbolNum = %d\n",
-                                   cad_params->cad_symb_nb );
+            HAL_DBG_TRACE_WARNING(
+                "CAD may not function properly, detection peak optimization not supported for SymbolNum = %d\n",
+                cad_params->cad_symb_nb );
             break;
         }
         }
     }
     else
     {
-        HAL_DBG_TRACE_WARNING( "CAD may not function properly, unsupported bandwidth for CAD parameter optimization: %s\n",
-                               lr11xx_radio_lora_bw_to_str( bw ) );
+        HAL_DBG_TRACE_WARNING(
+            "CAD may not function properly, unsupported bandwidth for CAD parameter optimization: %s\n",
+            lr11xx_radio_lora_bw_to_str( bw ) );
     }
 }
 #else

@@ -75,6 +75,6 @@ CFLAGS += $(EXTRAFLAGS)
 # libraries
 LIBS = -lc -lm -lnosys 
 LIBDIR = 
-LDFLAGS = $(MCU) --specs=nosys.specs  --specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(APP).map,--cref -Wl,--gc-sections
+LDFLAGS = $(MCU) $(LD_ADDITIONAL_FLAGS) --specs=nosys.specs  --specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(APP).map,--cref -Wl,--gc-sections
 
 # *** EOF ***

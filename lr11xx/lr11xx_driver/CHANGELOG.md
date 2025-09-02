@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.5.2] - v2.5.2
+
+### Fixed
+
+- Fix Wi-Fi math computation warnings
+
+## [v2.5.1] 2024-10-31
+
+### Fixed
+
+- In-code driver version
+- Fix RTToF and GNSS math computation warnings
+
 ## [v2.5.0] 2024-07-24
 
 ### Added

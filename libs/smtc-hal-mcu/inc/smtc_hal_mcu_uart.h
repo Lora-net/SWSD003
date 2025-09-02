@@ -78,14 +78,32 @@ typedef struct smtc_hal_mcu_uart_inst_s* smtc_hal_mcu_uart_inst_t;
 typedef struct smtc_hal_mcu_uart_cfg_s* smtc_hal_mcu_uart_cfg_t;
 
 /**
+ * @brief UART DMA configuration structure definition
+ *
+ * @remark smtc_hal_mcu_uart_dma_cfg_s has to be defined in the implementation
+ */
+typedef struct smtc_hal_mcu_uart_dma_cfg_s* smtc_hal_mcu_uart_dma_cfg_t;
+
+/**
  * @brief UART application configuration structure
  */
 typedef struct smtc_hal_mcu_uart_cfg_app_s
 {
     uint32_t baudrate;
-    void ( *callback_rx )( uint8_t data );
+    void     ( *callback_rx )( uint8_t data );
 } smtc_hal_mcu_uart_cfg_app_t;
 
+/**
+ * @brief UART DMA application configuration structure
+ */
+typedef struct smtc_hal_mcu_uart_dma_cfg_app_s
+{
+    uint32_t baudrate;
+    void     ( *callback_rx )( void );
+    void     ( *callback_tx )( void );
+    void     ( *callback_error_rx )( void );
+    void     ( *callback_error_tx )( void );
+} smtc_hal_mcu_uart_dma_cfg_app_t;
 /*
  * -----------------------------------------------------------------------------
  * --- PUBLIC FUNCTIONS PROTOTYPES ---------------------------------------------
@@ -152,6 +170,52 @@ smtc_hal_mcu_status_t smtc_hal_mcu_uart_send( smtc_hal_mcu_uart_inst_t uart, con
  */
 smtc_hal_mcu_status_t smtc_hal_mcu_uart_receive( smtc_hal_mcu_uart_inst_t uart, uint8_t* buffer, unsigned int length );
 
+/**
+ * @brief Initialize a UART peripheral with DMA
+ *
+ * @param [in] cfg Implementation-level configuration structure
+ * @param [in] cfg_app Application-level configuration structure
+ * @param [out] inst Pointer to a UART instance
+ *
+ * @retval SMTC_HAL_MCU_STATUS_OK The initialisation completed successfully
+ * @retval SMTC_HAL_MCU_STATUS_BAD_PARAMETERS At least one parameter has incorrect value
+ * @retval SMTC_HAL_MCU_STATUS_ERROR Another error occurred and the @p uart is not initialised
+ */
+smtc_hal_mcu_status_t smtc_hal_mcu_uart_dma_init( const smtc_hal_mcu_uart_dma_cfg_t      cfg,
+                                                  const smtc_hal_mcu_uart_dma_cfg_app_t* cfg_app,
+                                                  smtc_hal_mcu_uart_inst_t*              inst );
+
+/**
+ * @brief Send bytes over a UART peripheral using DMA
+ *
+ * @param [in] uart UART instance
+ * @param [in] buffer Pointer to input buffer. It is up to the caller to ensure @p buffer is at least @p length byte
+ * long
+ * @param [in] length Number of bytes to send
+ *
+ * @retval SMTC_HAL_MCU_STATUS_OK The UART send operation terminated successfully
+ * @retval SMTC_HAL_MCU_STATUS_BAD_PARAMETERS The operation failed because at least one parameter is incorrect
+ * @retval SMTC_HAL_MCU_STATUS_NOT_INIT The operation failed as the @p uart is not initialised
+ * @retval SMTC_HAL_MCU_STATUS_ERROR The operation failed because another error occurred
+ */
+smtc_hal_mcu_status_t smtc_hal_mcu_uart_dma_send( smtc_hal_mcu_uart_inst_t uart, const uint8_t* buffer,
+                                                  unsigned int length );
+
+/**
+ * @brief Receive bytes over a UART peripheral using DMA
+ *
+ * @param [in] uart UART instance
+ * @param [out] buffer Pointer to a buffer to be filled with received bytes. It is up to the caller to ensure this
+ * buffer is at least @p length byte long
+ * @param [in] length Number of bytes to receive
+ *
+ * @retval SMTC_HAL_MCU_STATUS_OK The UART receive operation terminated successfully
+ * @retval SMTC_HAL_MCU_STATUS_BAD_PARAMETERS The operation failed because at least one parameter is incorrect
+ * @retval SMTC_HAL_MCU_STATUS_NOT_INIT The operation failed as the @p uart is not initialised
+ * @retval SMTC_HAL_MCU_STATUS_ERROR The operation failed because another error occurred
+ */
+smtc_hal_mcu_status_t smtc_hal_mcu_uart_dma_receive( smtc_hal_mcu_uart_inst_t uart, uint8_t* buffer,
+                                                     unsigned int length );
 #ifdef __cplusplus
 }
 #endif

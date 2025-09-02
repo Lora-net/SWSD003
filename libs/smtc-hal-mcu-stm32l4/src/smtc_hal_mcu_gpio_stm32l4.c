@@ -156,16 +156,6 @@ static smtc_hal_mcu_status_t smtc_hal_mcu_gpio_stm32l4_enable_clock( GPIO_TypeDe
 static smtc_hal_mcu_status_t smtc_hal_mcu_gpio_stm32l4_disable_clock( GPIO_TypeDef* port );
 
 /**
- * @brief Enable peripheral clock for a given GPIO port
- *
- * @param [in] port GPIO port
- *
- * @retval SMTC_HAL_MCU_STATUS_OK Clock successfully enabled
- * @retval SMTC_HAL_MCU_STATUS_BAD_PARAMETERS At least one parameter has an incorrect value
- */
-static bool smtc_hal_mcu_gpio_stm32l4_is_clock_enabled( GPIO_TypeDef* port );
-
-/**
  * @brief Get the EXTI configuration for the given instance
  *
  * @param [in] inst GPIO instance
@@ -357,10 +347,6 @@ smtc_hal_mcu_status_t smtc_hal_mcu_gpio_deinit( smtc_hal_mcu_gpio_inst_t* inst )
         return SMTC_HAL_MCU_STATUS_NOT_INIT;
     }
 
-    const bool is_clock_enabled = smtc_hal_mcu_gpio_stm32l4_is_clock_enabled( inst_local->port );
-
-    smtc_hal_mcu_gpio_stm32l4_enable_clock( inst_local->port );
-
     LL_GPIO_InitTypeDef GPIO_InitStruct = {
         .Pin        = inst_local->pin,
         .Mode       = LL_GPIO_MODE_ANALOG,
@@ -394,12 +380,26 @@ smtc_hal_mcu_status_t smtc_hal_mcu_gpio_deinit( smtc_hal_mcu_gpio_inst_t* inst )
         inst_local->is_irq_cfged = false;
     }
 
-    *inst = NULL;
+    bool can_disable_clock = true;
 
-    if( is_clock_enabled == false )
+    for( int i = 0; i < SMTC_HAL_MCU_GPIO_STM32L4_ARRAY_SIZE; i++ )
+    {
+        if( gpio_inst_array[i].port == inst_local->port )
+        {
+            if( gpio_inst_array[i].is_cfged == true )
+            {
+                can_disable_clock = false;
+                break;
+            }
+        }
+    }
+
+    if( can_disable_clock == true )
     {
         smtc_hal_mcu_gpio_stm32l4_disable_clock( inst_local->port );
     }
+
+    *inst = NULL;
 
     return SMTC_HAL_MCU_STATUS_OK;
 }
@@ -503,6 +503,27 @@ smtc_hal_mcu_status_t smtc_hal_mcu_gpio_disable_irq( smtc_hal_mcu_gpio_inst_t in
     }
 
     return SMTC_HAL_MCU_STATUS_BAD_PARAMETERS;
+}
+
+smtc_hal_mcu_status_t smtc_hal_mcu_gpio_update_callback( smtc_hal_mcu_gpio_inst_t inst, void ( *callback )( void* ),
+                                                         void*                    context )
+{
+    // Return bad parameter status if inst is not a real instance
+    if( smtc_hal_mcu_gpio_stm32l4_is_real_inst( inst ) == false )
+    {
+        return SMTC_HAL_MCU_STATUS_BAD_PARAMETERS;
+    }
+
+    // Return not init status if the instance is not configured as input with interrupt
+    if( ( inst->is_cfged == false ) || ( inst->is_irq_cfged == false ) )
+    {
+        return SMTC_HAL_MCU_STATUS_NOT_INIT;
+    }
+
+    // Set the callback and context; then return status Ok
+    inst->irq_cfg.input_cfg.callback = callback;
+    inst->irq_cfg.input_cfg.context  = context;
+    return SMTC_HAL_MCU_STATUS_OK;
 }
 
 /*
@@ -662,64 +683,6 @@ static smtc_hal_mcu_status_t smtc_hal_mcu_gpio_stm32l4_disable_clock( GPIO_TypeD
     }
 
     return SMTC_HAL_MCU_STATUS_OK;
-}
-
-static bool smtc_hal_mcu_gpio_stm32l4_is_clock_enabled( GPIO_TypeDef* port )
-{
-    uint32_t is_enabled_int;
-
-    if( port == GPIOA )
-    {
-        is_enabled_int = LL_AHB2_GRP1_IsEnabledClock( LL_AHB2_GRP1_PERIPH_GPIOA );
-    }
-    else if( port == GPIOB )
-    {
-        is_enabled_int = LL_AHB2_GRP1_IsEnabledClock( LL_AHB2_GRP1_PERIPH_GPIOB );
-    }
-    else if( port == GPIOC )
-    {
-        is_enabled_int = LL_AHB2_GRP1_IsEnabledClock( LL_AHB2_GRP1_PERIPH_GPIOC );
-    }
-    else if( port == GPIOD )
-    {
-        is_enabled_int = LL_AHB2_GRP1_IsEnabledClock( LL_AHB2_GRP1_PERIPH_GPIOD );
-    }
-#if defined( GPIOE )
-    else if( port == GPIOE )
-    {
-        is_enabled_int = LL_AHB2_GRP1_IsEnabledClock( LL_AHB2_GRP1_PERIPH_GPIOE );
-    }
-#endif
-#if defined( GPIOF )
-    else if( port == GPIOF )
-    {
-        is_enabled_int = LL_AHB2_GRP1_IsEnabledClock( LL_AHB2_GRP1_PERIPH_GPIOF );
-    }
-#endif
-#if defined( GPIOG )
-    else if( port == GPIOG )
-    {
-        is_enabled_int = LL_AHB2_GRP1_IsEnabledClock( LL_AHB2_GRP1_PERIPH_GPIOG );
-    }
-#endif
-#if defined( GPIOH )
-    else if( port == GPIOH )
-    {
-        is_enabled_int = LL_AHB2_GRP1_IsEnabledClock( LL_AHB2_GRP1_PERIPH_GPIOH );
-    }
-#endif
-#if defined( GPIOI )
-    else if( port == GPIOI )
-    {
-        is_enabled_int = LL_AHB2_GRP1_IsEnabledClock( LL_AHB2_GRP1_PERIPH_GPIOI );
-    }
-#endif
-    else
-    {
-        return false;
-    }
-
-    return ( is_enabled_int != 0 ) ? true : false;
 }
 
 static smtc_hal_mcu_status_t smtc_hal_mcu_gpio_stm32l4_get_exti_cfg( smtc_hal_mcu_gpio_inst_t          inst,

@@ -45,7 +45,6 @@ extern "C" {
  */
 
 #include "stm32l4xx.h"
-
 /*
  * -----------------------------------------------------------------------------
  * --- PUBLIC MACROS -----------------------------------------------------------
@@ -67,6 +66,11 @@ extern "C" {
 struct smtc_hal_mcu_uart_cfg_s
 {
     USART_TypeDef* usart;
+};
+
+struct smtc_hal_mcu_uart_dma_cfg_s
+{
+    DMA_TypeDef* dma;
 };
 
 /*

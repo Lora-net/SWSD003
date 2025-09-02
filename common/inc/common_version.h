@@ -50,7 +50,7 @@ extern "C" {
  * --- PUBLIC MACROS -----------------------------------------------------------
  */
 
-#define COMMON_SDK_VERSION "v2.3.0"
+#define COMMON_SDK_VERSION "dev"
 
 /*
  * -----------------------------------------------------------------------------
@@ -67,7 +67,7 @@ extern "C" {
  * --- PUBLIC FUNCTIONS PROTOTYPES ---------------------------------------------
  */
 
- /**
+/**
  * @brief Print SDK version
  *
  */

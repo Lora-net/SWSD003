@@ -113,7 +113,7 @@ static void print_configuration( void );
 int main( void )
 {
     smtc_hal_mcu_init( );
-    uart_init();
+    uart_init( );
 
     HAL_DBG_TRACE_INFO( "===== SX126x Spectral Scan example =====\n\n" );
     apps_common_sx126x_print_version_info( );
@@ -140,7 +140,7 @@ int main( void )
         HAL_DBG_TRACE_INFO( "%.3f MHz: ", ( freq_hz / 1E6 ) );
         for( uint16_t i = 0; i < NB_SCAN; i++ )
         {
-            LL_mDelay( DELAY_BETWEEN_EACH_INST_RSSI_FETCH_US );
+            smtc_hal_mcu_wait_ms( ( const uint32_t ) DELAY_BETWEEN_EACH_INST_RSSI_FETCH_US );
             ASSERT_SX126X_RC( sx126x_get_rssi_inst( context, &result ) );
             levels[abs( result ) / RSSI_SCALE]++;
         }
@@ -167,7 +167,7 @@ int main( void )
         /* Pace the scan speed (1 sec min) */
         for( uint16_t i = 0; i < ( int ) ( PACE_S ? PACE_S : 1 ); i++ )
         {
-            LL_mDelay( 1000 );
+            smtc_hal_mcu_wait_ms( ( const uint32_t ) 1000U );
         }
     }
 }
@@ -181,7 +181,7 @@ void spectral_scan_start( uint32_t freq_hz )
     apps_common_sx126x_handle_pre_rx( );
     ASSERT_SX126X_RC( sx126x_set_rx_with_timeout_in_rtc_step( context, RX_CONTINUOUS ) );
 
-    LL_mDelay( DELAY_BETWEEN_SET_RX_AND_VALID_RSSI_MS );
+    smtc_hal_mcu_wait_ms( ( const uint32_t ) DELAY_BETWEEN_SET_RX_AND_VALID_RSSI_MS );
 }
 
 void print_configuration( void )

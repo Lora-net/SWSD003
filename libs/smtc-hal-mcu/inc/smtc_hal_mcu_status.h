@@ -74,6 +74,9 @@ typedef enum smtc_hal_mcu_status_e
     SMTC_HAL_MCU_STATUS_BAD_PARAMETERS,  //!< At least one of the provided argument is incorrect
     SMTC_HAL_MCU_STATUS_NOT_INIT,  //!< The related action is expected to act on an initialized resource, but this is
                                    //!< not initialized
+    SMTC_HAL_MCU_STATUS_NOT_SUPPORTED,   //!< The related action could not be executed because the underneath layer
+                                         //!< cannot provide hardware to do so.
+    SMTC_HAL_MCU_STATUS_NOT_IMPLEMENTED  // !< The related action could not be executed because                                  // the underneath layer implementation for that action is missing 
 } smtc_hal_mcu_status_t;
 
 /*

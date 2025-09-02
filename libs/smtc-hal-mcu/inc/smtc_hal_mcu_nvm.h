@@ -69,32 +69,26 @@ extern "C" {
  */
 typedef struct smtc_hal_mcu_nvm_inst_s* smtc_hal_mcu_nvm_inst_t;
 
-/**
- * @brief NVM configuration structure definition
- *
- * @remark smtc_hal_mcu_nvm_cfg_s has to be defined in the application
- */
-typedef struct smtc_hal_mcu_nvm_cfg_s* smtc_hal_mcu_nvm_cfg_t;
-
 /*
  * -----------------------------------------------------------------------------
  * --- PUBLIC FUNCTIONS PROTOTYPES ---------------------------------------------
  */
 
 /**
- * @brief Initialize the NVM peripheral
+ * @brief Initialize the NVM instance
  *
- * @param [in] cfg Configuration structure
- * @param [out] inst NVM instance
+ * @param [in] start_address Address in NVM where to start the allocated instance
+ * @param [in] end_address Address in NVM where the allocated memory finishes
+ * @param [out] inst Pointer to pointer to NVM instance
  *
  * @retval SMTC_HAL_MCU_STATUS_OK The initialisation completed successfully
  * @retval SMTC_HAL_MCU_STATUS_BAD_PARAMETERS At least one parameter has an incorrect value
  * @retval SMTC_HAL_MCU_STATUS_ERROR Another error occurred and the NVM peripheral is not initialised
  */
-smtc_hal_mcu_status_t smtc_hal_mcu_nvm_init( const smtc_hal_mcu_nvm_cfg_s cfg, smtc_hal_mcu_nvm_inst_s* inst );
+smtc_hal_mcu_status_t smtc_hal_mcu_nvm_init( uint32_t start_addr, uint32_t end_addr, smtc_hal_mcu_nvm_inst_t* inst );
 
 /**
- * @brief Deinitialize the NVM peripheral
+ * @brief Deinitialize the NVM instance
  *
  * @param [in, out] inst NVM instance
  *
@@ -108,47 +102,47 @@ smtc_hal_mcu_status_t smtc_hal_mcu_nvm_deinit( smtc_hal_mcu_nvm_inst_t* inst );
  * @brief Write data to the NVM
  *
  * @param [in] inst NVM instance
- * @param [in] offset Offset in NVM
+ * @param [in] offset Offset in NVM - in byte
  * @param [out] buffer Buffer storing data to be written to the NVM
- * @param [in] length Length of data to be written
+ * @param [in] length Length of data to be written - in byte
  *
  * @retval SMTC_HAL_MCU_STATUS_OK Data succesfully written on the NVM
  * @retval SMTC_HAL_MCU_STATUS_NOT_INIT The operation failed as the NVM peripheral is not initialised
  * @retval SMTC_HAL_MCU_STATUS_BAD_PARAMETERS At least one parameter has an incorrect value
  * @retval SMTC_HAL_MCU_STATUS_ERROR The operation failed because another error occurred
  */
-smtc_hal_mcu_status_t smtc_hal_mcu_nvm_write( smtc_hal_mcu_nvm_inst_s inst, unsigned int offset, const uint8_t* buffer,
-                                              unsigned int length );
+smtc_hal_mcu_status_t smtc_hal_mcu_nvm_write( smtc_hal_mcu_nvm_inst_t inst, uint32_t offset, const uint8_t* buffer,
+                                              uint32_t length );
 
 /**
  * @brief Read data from the NVM
  *
  * @param [in] inst NVM instance
- * @param [in] offset Offset in NVM
+ * @param [in] offset Offset in NVM - in byte
  * @param [in] buffer Buffer to store data read from the NVM
- * @param [in] length Length of data to be read
+ * @param [in] length Length of data to be read - in byte
  *
  * @retval SMTC_HAL_MCU_STATUS_OK Data succesfully read from the NVM
  * @retval SMTC_HAL_MCU_STATUS_NOT_INIT The operation failed as the NVM peripheral is not initialised
  * @retval SMTC_HAL_MCU_STATUS_BAD_PARAMETERS At least one parameter has an incorrect value
  * @retval SMTC_HAL_MCU_STATUS_ERROR The operation failed because another error occurred
  */
-smtc_hal_mcu_status_t smtc_hal_mcu_nvm_read( smtc_hal_mcu_nvm_inst_s inst, unsigned int offset, uint8_t* buffer,
-                                             unsigned int length );
+smtc_hal_mcu_status_t smtc_hal_mcu_nvm_read( smtc_hal_mcu_nvm_inst_t inst, uint32_t offset, uint8_t* buffer,
+                                             uint32_t length );
 
 /**
  * @brief Erase a section of the NVM
  *
  * @param [in] inst NVM instance
- * @param [in] offset Offset in NVM
- * @param [in] length Length of data to be erased
+ * @param [in] offset Offset in NVM - in byte
+ * @param [in] length Length of data to be erased - in byte
  *
  * @retval SMTC_HAL_MCU_STATUS_OK Data successfully erased from the NVM
  * @retval SMTC_HAL_MCU_STATUS_NOT_INIT The operation failed as the NVM peripheral is not initialised
  * @retval SMTC_HAL_MCU_STATUS_BAD_PARAMETERS At least one parameter has an incorrect value
  * @retval SMTC_HAL_MCU_STATUS_ERROR The operation failed because another error occurred
  */
-smtc_hal_mcu_status_t smtc_hal_mcu_nvm_erase( smtc_hal_mcu_nvm_inst_s inst, unsigned int offset, unsigned int length );
+smtc_hal_mcu_status_t smtc_hal_mcu_nvm_erase( smtc_hal_mcu_nvm_inst_t inst, uint32_t offset, uint32_t length );
 
 /**
  * @brief Get the total size of the NVM
@@ -156,12 +150,12 @@ smtc_hal_mcu_status_t smtc_hal_mcu_nvm_erase( smtc_hal_mcu_nvm_inst_s inst, unsi
  * @param [in] inst NVM instance
  * @param [out] size Size read from the NVM instance
  *
- * @retval SMTC_HAL_MCU_STATUS_OK The NVM peripheral successfully produced the random data
+ * @retval SMTC_HAL_MCU_STATUS_OK The NVM peripheral successfully produced the requested data
  * @retval SMTC_HAL_MCU_STATUS_NOT_INIT The operation failed as the NVM peripheral is not initialised
  * @retval SMTC_HAL_MCU_STATUS_BAD_PARAMETERS At least one parameter has an incorrect value
  * @retval SMTC_HAL_MCU_STATUS_ERROR The operation failed because another error occurred
  */
-smtc_hal_mcu_status_t smtc_hal_mcu_nvm_get_total_size( smtc_hal_mcu_nvm_inst_s inst, unsigned int* size );
+smtc_hal_mcu_status_t smtc_hal_mcu_nvm_get_total_size( smtc_hal_mcu_nvm_inst_t inst, uint32_t* size );
 
 #ifdef __cplusplus
 }

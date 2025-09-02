@@ -110,3 +110,5 @@ C_INCLUDES +=  \
 -I$(TOP_DIR)/sx126x/sx126x_driver/src \
 -I$(TOP_DIR)/sx126x/sx126x_driver/src/lr_fhss_driver/src \
 -I$(TOP_DIR)/libs/smtc_dbpsk_driver/src/ \
+
+rebuild: clean all

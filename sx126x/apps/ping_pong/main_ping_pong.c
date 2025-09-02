@@ -178,7 +178,7 @@ void on_tx_done( void )
     apps_common_sx126x_handle_post_tx( );
     HAL_DBG_TRACE_INFO( "Sent message %s, iteration %d\n", buffer_tx, iteration );
 
-    LL_mDelay( DELAY_PING_PONG_PACE_MS );
+    smtc_hal_mcu_wait_ms( ( const uint32_t ) DELAY_PING_PONG_PACE_MS );
 
     apps_common_sx126x_handle_pre_rx( );
     sx126x_set_rx( context, get_time_on_air_in_ms( ) + RX_TIMEOUT_VALUE +
@@ -223,7 +223,7 @@ void on_rx_done( void )
         }
     }
 
-    LL_mDelay( DELAY_PING_PONG_PACE_MS + DELAY_BEFORE_TX_MS );
+    smtc_hal_mcu_wait_ms( ( const uint32_t ) ( DELAY_PING_PONG_PACE_MS + DELAY_BEFORE_TX_MS ) );
     buffer_tx[ITERATION_INDEX] = ( uint8_t ) ( iteration );
 
     sx126x_write_buffer( context, 0, buffer_tx, PAYLOAD_LENGTH );

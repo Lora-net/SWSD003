@@ -152,7 +152,7 @@ void on_tx_done( void )
 {
     apps_common_sx126x_handle_post_tx( );
 
-    LL_mDelay( TX_TO_TX_DELAY_IN_MS );
+    smtc_hal_mcu_wait_ms( ( const uint32_t ) TX_TO_TX_DELAY_IN_MS );
 
     build_frame_and_send( &lr_fhss_params, buffer, PAYLOAD_LENGTH );
 }

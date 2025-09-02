@@ -50,6 +50,7 @@
 #include "main_ping_pong.h"
 #include "smtc_hal_dbg_trace.h"
 #include "uart_init.h"
+#include "smtc_hal_mcu.h"
 
 /*
  * -----------------------------------------------------------------------------
@@ -150,7 +151,7 @@ int main( void )
 {
     smtc_hal_mcu_init( );
     apps_common_shield_init( );
-    uart_init();
+    uart_init( );
 
     HAL_DBG_TRACE_INFO( "===== LR11xx Ping-Pong example =====\n\n" );
     apps_common_print_sdk_driver_version( );
@@ -191,7 +192,7 @@ void on_tx_done( void )
     apps_common_lr11xx_handle_post_tx( );
     HAL_DBG_TRACE_INFO( "Sent message %s, iteration %d\n", buffer_tx, iteration );
 
-    LL_mDelay( DELAY_PING_PONG_PACE_MS );
+    smtc_hal_mcu_wait_ms( ( const uint32_t ) DELAY_PING_PONG_PACE_MS );
 
     apps_common_lr11xx_handle_pre_rx( );
     ASSERT_LR11XX_RC( lr11xx_radio_set_rx(
@@ -207,7 +208,6 @@ void on_rx_done( void )
 
     packets_to_sync = 0;
     apps_common_lr11xx_handle_post_rx( );
-
 
     apps_common_lr11xx_receive( context, buffer_rx, PAYLOAD_LENGTH, &size );
     iteration = buffer_rx[ITERATION_INDEX];
@@ -238,7 +238,7 @@ void on_rx_done( void )
         }
     }
 
-    LL_mDelay( DELAY_PING_PONG_PACE_MS + DELAY_BEFORE_TX_MS );
+    smtc_hal_mcu_wait_ms( ( const uint32_t ) ( DELAY_PING_PONG_PACE_MS + DELAY_BEFORE_TX_MS ) );
     buffer_tx[ITERATION_INDEX] = iteration;
 
     ASSERT_LR11XX_RC( lr11xx_regmem_write_buffer8( context, buffer_tx, PAYLOAD_LENGTH ) );

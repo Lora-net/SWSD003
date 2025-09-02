@@ -5,7 +5,7 @@
  *
  * @copyright
  * The Clear BSD License
- * Copyright Semtech Corporation 2022. All rights reserved.
+ * Copyright Semtech Corporation 2025. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted (subject to the limitations in the disclaimer
@@ -49,6 +49,7 @@ extern "C" {
 #include "apps_configuration.h"
 #include "sx126x_hal_context.h"
 #include "sx126x.h"
+#include "smtc_shield_sx126x.h"
 
 /*
  * -----------------------------------------------------------------------------
@@ -79,7 +80,14 @@ extern "C" {
  *
  * @returns Pointer to the sx126x_hal_context_t object of the board
  */
-sx126x_hal_context_t* apps_common_sx126x_get_context( );
+sx126x_hal_context_t* apps_common_sx126x_get_context( void );
+
+/*!
+ * @brief Returns the currently-used shield
+ *
+ * @returns Pointer to the sx126x shields in use
+ */
+smtc_shield_sx126x_t* apps_common_sx126x_get_shield( void );
 
 /*!
  * @brief Initialize the system configuration of the transceiver

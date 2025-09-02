@@ -40,6 +40,7 @@
 #include <string.h>
 #include <stdio.h>
 #include "uart_init.h"
+
 #include "stm32l4xx.h"
 #include "smtc_hal_mcu_uart_stm32l4.h"
 
@@ -108,12 +109,10 @@ void vprint( const char* fmt, va_list argp )
 
 void uart_init_base( void ( *callback_rx )( uint8_t data ) )
 {
-    const struct smtc_hal_mcu_uart_cfg_s cfg_uart = {
-        .usart = USART2,
-    };
-    const smtc_hal_mcu_uart_cfg_app_t uart_cfg_app = {
-        .baudrate    = 921600,
-        .callback_rx = callback_rx,
+    const struct smtc_hal_mcu_uart_cfg_s cfg_uart     = { .usart = USART2 };
+    const smtc_hal_mcu_uart_cfg_app_t    uart_cfg_app = {
+           .baudrate    = 921600,
+           .callback_rx = callback_rx,
     };
     smtc_hal_mcu_uart_init( ( const smtc_hal_mcu_uart_cfg_t ) &cfg_uart, &uart_cfg_app, &inst_uart );
 }

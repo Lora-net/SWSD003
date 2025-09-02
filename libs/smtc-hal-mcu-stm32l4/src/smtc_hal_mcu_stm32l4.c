@@ -131,6 +131,13 @@ smtc_hal_mcu_status_t smtc_hal_mcu_init( )
     return SMTC_HAL_MCU_STATUS_OK;
 }
 
+smtc_hal_mcu_status_t smtc_hal_mcu_wait_ms( const uint32_t milliseconds )
+{
+    LL_mDelay( milliseconds );
+
+    return SMTC_HAL_MCU_STATUS_OK;
+}
+
 /*
  * -----------------------------------------------------------------------------
  * --- PRIVATE FUNCTIONS DEFINITION --------------------------------------------

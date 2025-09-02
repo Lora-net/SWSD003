@@ -87,9 +87,15 @@ const struct smtc_hal_mcu_gpio_cfg_s arduino_mapping[22] = {
  * --- PUBLIC FUNCTIONS DEFINITION ---------------------------------------------
  */
 
-const smtc_hal_mcu_gpio_cfg_t smtc_shield_pinout_mapping_get_gpio_cfg( smtc_shield_pinout_t gpio )
+smtc_hal_mcu_gpio_cfg_t smtc_shield_pinout_mapping_get_gpio_cfg( smtc_shield_pinout_t gpio )
 {
     return ( const smtc_hal_mcu_gpio_cfg_t ) &arduino_mapping[( int ) gpio];
+}
+
+uint32_t smtc_shield_pinout_mapping_get_gpio_cfg_pin( smtc_shield_pinout_t gpio )
+{
+    smtc_hal_mcu_gpio_cfg_t cfg = ( smtc_hal_mcu_gpio_cfg_t ) &arduino_mapping[( int ) gpio];
+    return cfg->pin;
 }
 
 /*

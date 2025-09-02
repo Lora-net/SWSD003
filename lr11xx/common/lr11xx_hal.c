@@ -46,6 +46,7 @@
 #include "smtc_hal_mcu_gpio.h"
 
 #include "lr11xx_hal_context.h"
+#include "smtc_hal_mcu.h"
 
 /*
  * -----------------------------------------------------------------------------
@@ -87,7 +88,7 @@ lr11xx_hal_status_t lr11xx_hal_reset( const void* context )
     const lr11xx_hal_context_t* lr11xx_context = ( const lr11xx_hal_context_t* ) context;
 
     smtc_hal_mcu_gpio_set_state( lr11xx_context->reset.inst, SMTC_HAL_MCU_GPIO_STATE_LOW );
-    LL_mDelay( 1 );
+    smtc_hal_mcu_wait_ms( ( const uint32_t ) 1U );
     smtc_hal_mcu_gpio_set_state( lr11xx_context->reset.inst, SMTC_HAL_MCU_GPIO_STATE_HIGH );
 
     return LR11XX_HAL_STATUS_OK;
@@ -98,7 +99,7 @@ lr11xx_hal_status_t lr11xx_hal_wakeup( const void* context )
     const lr11xx_hal_context_t* lr11xx_context = ( const lr11xx_hal_context_t* ) context;
 
     smtc_hal_mcu_gpio_set_state( lr11xx_context->nss.inst, SMTC_HAL_MCU_GPIO_STATE_LOW );
-    LL_mDelay( 1 );
+    smtc_hal_mcu_wait_ms( ( const uint32_t ) 1U );
     smtc_hal_mcu_gpio_set_state( lr11xx_context->nss.inst, SMTC_HAL_MCU_GPIO_STATE_HIGH );
 
     return LR11XX_HAL_STATUS_OK;
@@ -117,7 +118,6 @@ lr11xx_hal_status_t lr11xx_hal_abort_blocking_cmd( const void* context )
 
     return LR11XX_HAL_STATUS_OK;
 }
-
 
 lr11xx_hal_status_t lr11xx_hal_write( const void* context, const uint8_t* command, const uint16_t command_length,
                                       const uint8_t* data, const uint16_t data_length )

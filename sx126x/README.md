@@ -14,8 +14,10 @@ The SX126x SDK contains several simple examples for SX126x transceivers.
 | Tx continuous wave   | Configure the chip to transmit a single tone                    | [README](apps/tx_cw/README.md)                |
 | Tx infinite preamble | Configure the chip to transmit an infinite preamble             | [README](apps/tx_infinite_preamble/README.md) |
 | Sigfox               | Send a Sigfox-compliant uplink                                  | [README](apps/sigfox/README.md)               |
+| RF certification     | RF certification example                                        | [README](apps/rf_certification/README.md)     |
+| LR FHSS              | Send LR FHSS modulated packets                                  | [README](apps/lrfhss/README.md)               |
 
-A demonstration of the LR-FHSS capability of the chip can be found [here](https://github.com/Lora-net/SWDM001).
+A further demonstration of the LR-FHSS capability of the chip can be found [here](https://github.com/Lora-net/SWDM001).
 
 ## Configuration
 

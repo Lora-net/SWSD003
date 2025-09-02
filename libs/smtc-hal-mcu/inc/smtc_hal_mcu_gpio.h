@@ -158,6 +158,9 @@ smtc_hal_mcu_status_t smtc_hal_mcu_gpio_init_output( smtc_hal_mcu_gpio_cfg_t    
 /**
  * @brief Initialize a GPIO as input
  *
+ * @remark If an interrupt is configured for a GPIO, the application has to call @ref smtc_hal_mcu_gpio_enable_irq to
+ * enable it
+ *
  * @param [in] cfg Implementation-level configuration structure
  * @param [in] input_cfg Application-level configuration structure
  * @param [out] inst Pointer to a GPIO instance
@@ -222,6 +225,8 @@ smtc_hal_mcu_status_t smtc_hal_mcu_gpio_enable_irq( smtc_hal_mcu_gpio_inst_t ins
 /**
  * @brief Disable an interrupt on a GPIO
  *
+ * @remark Calling this function does not deinit the corresponding GPIO which stays in input mode
+ *
  * @param [in] inst GPIO instance
  *
  * @retval SMTC_HAL_MCU_STATUS_OK Operation completed successfully
@@ -230,6 +235,25 @@ smtc_hal_mcu_status_t smtc_hal_mcu_gpio_enable_irq( smtc_hal_mcu_gpio_inst_t ins
  * @retval SMTC_HAL_MCU_STATUS_ERROR Another error occurred and the interrupt cannot be disabled
  */
 smtc_hal_mcu_status_t smtc_hal_mcu_gpio_disable_irq( smtc_hal_mcu_gpio_inst_t inst );
+
+/**
+ * @brief Update Callback on a GPIO that is already set with interrupt
+ *
+ * @remark Calling this function updates the callback function to call upon interrupt on GPIO.
+ *         It does not change any other part of the GPIO configuration
+ *
+ * @param [in] inst GPIO instance
+ * @param [in] callback Function to call upon GPIO interrupt
+ * @param [in] context Parameter to give to the callback
+ *
+ * @retval SMTC_HAL_MCU_STATUS_OK Operation completed successfully
+ * @retval SMTC_HAL_MCU_STATUS_BAD_PARAMETERS At least one parameter has an incorrect value
+ * @retval SMTC_HAL_MCU_STATUS_NOT_INIT \p inst is not initialized as input with interrupt
+ * @retval SMTC_HAL_MCU_STATUS_ERROR Another error occurred and the callback could not be updated
+ *
+ */
+smtc_hal_mcu_status_t smtc_hal_mcu_gpio_update_callback( smtc_hal_mcu_gpio_inst_t inst, void ( *callback )( void* ),
+                                                         void*                    context );
 
 #ifdef __cplusplus
 }

@@ -51,6 +51,7 @@
 #include "uart_init.h"
 #include "smtc_dbpsk.h"
 #include "smtc_shield_lr11xx.h"
+#include "smtc_hal_mcu.h"
 
 /*
  * -----------------------------------------------------------------------------
@@ -124,7 +125,7 @@ void on_tx_done( void )
 {
     apps_common_lr11xx_handle_post_tx( );
 
-    LL_mDelay( TX_TO_TX_DELAY_IN_MS );
+    smtc_hal_mcu_wait_ms( ( const uint32_t ) TX_TO_TX_DELAY_IN_MS );
 
     send_frame( );
 }

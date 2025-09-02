@@ -49,6 +49,7 @@
 #include "smtc_hal_mcu.h"
 #include "smtc_hal_dbg_trace.h"
 #include "uart_init.h"
+#include "smtc_hal_mcu.h"
 
 /*
  * -----------------------------------------------------------------------------
@@ -229,7 +230,7 @@ void on_rx_error( void )
 static void start_cad_after_delay( uint16_t delay_ms )
 {
     HAL_DBG_TRACE_PRINTF( "\nStart CAD, iteration %d\n", iteration_number++ );
-    LL_mDelay( delay_ms );
+    smtc_hal_mcu_wait_ms( ( const uint32_t ) delay_ms );
     ASSERT_SX126X_RC( sx126x_set_cad( context ) );
 }
 

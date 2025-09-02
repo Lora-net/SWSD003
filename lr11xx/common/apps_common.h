@@ -52,6 +52,7 @@ extern "C" {
 #include "lr11xx_system_types.h"
 #include "lr11xx_radio_types.h"
 #include "lr11xx_radio.h"
+#include "smtc_shield_lr11xx.h"
 
 /*
  * -----------------------------------------------------------------------------
@@ -77,6 +78,13 @@ extern "C" {
  * -----------------------------------------------------------------------------
  * --- PUBLIC FUNCTIONS PROTOTYPES ---------------------------------------------
  */
+
+/*!
+ * @brief Returns the currently-used shield
+ *
+ * @returns Pointer to the sx126x shields in use
+ */
+smtc_shield_lr11xx_t* apps_common_lr11xx_get_shield( void );
 
 /*!
  * @brief Interface to initialise and return the lr11xx_hal_context_t object corresponding to the board
