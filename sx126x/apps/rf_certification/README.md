@@ -9,8 +9,16 @@ This demo is not officially endorsed or certified by the ETSI or FCC or ARIB com
 The software is provided "as is", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and noninfringement. In no event shall Semtech be liable for any claim, damages, or other liability, whether in an action of contract, tort, or otherwise, arising from, out of, or in connection with the software or the use or other dealings in the software.
 
 # Getting started
-NOTE: if experiencing stack overflows, please set the stack size in startup file stm32l476xx.s to be at least 16kb (0x4000 hex), line 31 of this file. Default one provided by ST is not sufficient because it is only 1KB (0x400 hex). 
-[`startup_file`](../../libs/smtc-hal-mcu-stm32l4/third_party/STM32CubeL4/Drivers/CMSIS/Device/ST/STM32L4xx/Source/Templates/arm/startup_stm32l476xx.s`)
+NOTE: if experiencing stack overflows, please increase the stack size in the linker file.
+
+# Software flow
+The software operates the radio on different frequencies. It keeps operating with one frequency until the user button is pressed.
+
+Button description:
+
+| Board                     | User button                                                               |
+| ---------------------------- | ---------------------------------------------------------------------- |
+| Nucleo L476RG | Blue button next to the black reset button                                   |
 
 # Radio settings
 Radio settings are automatically assigned to the radio for the specified test. There are different radio settings for each certification and each sub-tests.
@@ -22,8 +30,8 @@ The following defines can be set/unset to configure the software behaviour, in f
 | Constant              | Comment                                  |
 | --------------------- | ----------------------------------------- |
 | `REGION_ETSI` | Define region ETSI as certification region |
-| `REGION_FCC` | Time delay between 2 transmitting packets |
-| `REGION_ARIB` | Amount of packets will be tested for PER |
+| `REGION_FCC` | Define region FCC as certification region |
+| `REGION_ARIB` | Define region ARIB as certification region |
 | `ENABLE_NOTIFICATIONS` | Enable sending notifications to inform receivers about the current step |
 | `MODE_TX_RX` | Software is set in TX/RX mode, used for certification |
 | `MODE_RX_ONLY` | Software is set in RX only mode, used for listening to notifications and perform PER measurement |
